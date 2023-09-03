@@ -1,0 +1,7 @@
+{
+  "name": "apartment-management",
+  "type": "angular",
+  "integrations": {
+    "capacitor": {}
+  }
+}
