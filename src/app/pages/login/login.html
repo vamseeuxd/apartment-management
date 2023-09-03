@@ -9,8 +9,8 @@
 </ion-header>
 
 <ion-content>
-  <div class="login-logo">
-    <img src="assets/img/appicon.svg" alt="Ionic logo">
+  <!-- <div class="login-logo">
+    <img src="assets/img/appicon.svg" alt="Ionic logo" />
   </div>
 
   <div class="login-form">
@@ -26,7 +26,8 @@
         spellcheck="false"
         autocapitalize="off"
         errorText="Username is required"
-        required>
+        required
+      >
       </ion-input>
 
       <ion-input
@@ -38,18 +39,98 @@
         type="password"
         #password="ngModel"
         errorText="Password is required"
-        required>
+        required
+      >
       </ion-input>
 
       <ion-row>
         <ion-col>
-          <ion-button (click)="onLogin(loginForm)" type="submit" expand="block">Login</ion-button>
+          <ion-button (click)="onLogin(loginForm)" type="submit" expand="block"
+            >Login</ion-button
+          >
         </ion-col>
         <ion-col>
-          <ion-button (click)="onSignup()" color="light" expand="block">Signup</ion-button>
+          <ion-button (click)="onSignup()" color="light" expand="block"
+            >Signup</ion-button
+          >
         </ion-col>
       </ion-row>
     </form>
-  </div>
+  </div> -->
 
+  <div
+    style="
+      display: flex;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      flex-wrap: nowrap;
+      padding: 0 1.5rem;
+    "
+  >
+    <ng-container *ngIf="user$ | async as user; else googleLoginTempRef">
+      <ion-list>
+        <ion-item lines="full">
+          <ion-avatar slot="start">
+            <img alt="Silhouette of a person's head" [src]="user.photoURL" />
+          </ion-avatar> 
+          <ion-label> <h1>{{user.displayName|titlecase}}</h1> </ion-label>
+        </ion-item>
+        <ion-item lines="full"><ion-icon name="mail-outline" slot="start"></ion-icon><ion-label><h2>{{user.email}}</h2></ion-label></ion-item>
+        <ion-item lines="full"><ion-icon name="search-outline" slot="start"></ion-icon><ion-label>Email Verified : {{user.emailVerified ? 'Yes' : 'No'}}</ion-label></ion-item>
+      </ion-list>
+      <br>
+      <!-- {
+        "uid": "KdNte7RxlyWtwjD1OlI34G5rddj1",
+        "email": "vamsi.flex@gmail.com",
+        "emailVerified": true,
+        "displayName": "vamsi kalyan",
+        "isAnonymous": false,
+        "photoURL": "https://lh3.googleusercontent.com/a/AAcHTtcKxpKuPFiFQjiB1JRFeTaoZw2qzwbGpLXwZTP4Fez4eg=s96-c",
+        "providerData": [
+          {
+            "providerId": "google.com",
+            "uid": "100105445848125370945",
+            "displayName": "vamsi kalyan",
+            "email": "vamsi.flex@gmail.com",
+            "phoneNumber": null,
+            "photoURL": "https://lh3.googleusercontent.com/a/AAcHTtcKxpKuPFiFQjiB1JRFeTaoZw2qzwbGpLXwZTP4Fez4eg=s96-c"
+          }
+        ],
+        "stsTokenManager": {
+          "refreshToken": "AMf-vBz8-lDJ1dQ9pL2-ezem0_ccq4UKeTYpHUTUPwCcTu0w73RykGBC4_xtXU3KOb-8Z5Ye8yD6apGDbrA625kTT2IPq4GIGfEPpleY39O3uGHLIHjUgx086x0w939sjOJagMApd7kfUrfDvLk83LVwM0rvDfgWfVddileKbLNlEtR05Qr7MM3ayP23_N15Sb-Eh8pWzGDrYeqa3Igftzn3zbCWuUVpeZBH1pdwL80JnJT8NnPswuI3_hs8CFHWzEvXT10AD1a4qFUxJxhMvxEV6spT0FKvAccHE5_UcTHt2Zck0V76XplhyOiWovWek0CCUlUyG6E3tEhit-iTN6j2i57yzY9OAsq9UcYY8nLrnIkcVi363iQHuv0Zh_2QoOgD85Rtb0sShH2lNdjfc1pub_AoAtlqLojtfkmWTJ7XmS7OHLe3QIb5tgY31Jmu59NWL3FWFmokpi_SElerUZ2t4jn5nhGIZw",
+          "accessToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE5MGFkMTE4YTk0MGFkYzlmMmY1Mzc2YjM1MjkyZmVkZThjMmQwZWUiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidmFtc2kga2FseWFuIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FBY0hUdGNLeHBLdVBGaUZRamlCMUpSRmVUYW9adzJxendiR3BMWHdaVFA0RmV6NGVnPXM5Ni1jIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2FwYXJ0bWVudC1tYW5hZ2VtZW50LTZmOTFlIiwiYXVkIjoiYXBhcnRtZW50LW1hbmFnZW1lbnQtNmY5MWUiLCJhdXRoX3RpbWUiOjE2OTM3NTk3NzQsInVzZXJfaWQiOiJLZE50ZTdSeGx5V3R3akQxT2xJMzRHNXJkZGoxIiwic3ViIjoiS2ROdGU3UnhseVd0d2pEMU9sSTM0RzVyZGRqMSIsImlhdCI6MTY5Mzc1OTc3NCwiZXhwIjoxNjkzNzYzMzc0LCJlbWFpbCI6InZhbXNpLmZsZXhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMDAxMDU0NDU4NDgxMjUzNzA5NDUiXSwiZW1haWwiOlsidmFtc2kuZmxleEBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJnb29nbGUuY29tIn19.VER567TB2VJBrXvbhCRS_DkyJejGxLGdxzIGjAi6dSblQyuf2hKHNfuHz0rnioD3RhEP1JOngJrMl2YMwZ3LP0Dbm41cravG2IuGeofpOVLCtD83Ta9bUfxuaa4AgL4NEng8fmMxFIC4Y-87mk3Ap60vzOKTg6VaFzNTr2UUUS7MxxDwqwYfqNbbYM4nH3OtKd-ZtbR-P3vjZQ9nv42_Hsl08unayMX8cZE1Gp_BPEkST2tGulaQS098bNgHU55kozJZ2eutrCDamHjD6Xwzh1OZbfSw4m32J1ejFBF3QEjKKTdUHZN_KYaKudCJk0mhgVVcMstHzvlA4IVeSWyD2g",
+          "expirationTime": 1693763374343
+        },
+        "createdAt": "1693757396302",
+        "lastLoginAt": "1693759754871",
+        "apiKey": "AIzaSyCKXnbSpOGDDh-xOd_5turvXuD-NIJfH60",
+        "appName": "[DEFAULT]"
+      } -->
+
+      <ion-button
+        (click)="logout()"
+        color="dark"
+        expand="block"
+        style="height: 50px"
+      >
+        <ion-icon name="log-out-outline" class="ion-margin-end"></ion-icon>
+        Logout
+      </ion-button>
+    </ng-container>
+  </div>
 </ion-content>
+
+<ng-template #googleLoginTempRef>
+  <ion-button
+    (click)="loginWithGoogle()"
+    color="danger"
+    expand="block"
+    style="height: 50px"
+  >
+    <ion-icon name="logo-google" class="ion-margin-end"></ion-icon> Login with
+    Google
+  </ion-button>
+</ng-template>
