@@ -83,6 +83,16 @@ const routes: Routes = [
         ],
       },
       {
+        path: "apartments",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../apartments/page.module").then((m) => m.ApartmentsModule),
+          },
+        ],
+      },
+      {
         path: "",
         redirectTo: "/app/tabs/schedule",
         pathMatch: "full",

@@ -17,6 +17,17 @@
           </ion-menu-toggle>
           <ion-menu-toggle autoHide="false">
             <ion-item
+              [routerLink]="'/app/tabs/apartments'"
+              routerLinkActive="selected"
+              routerDirection="root"
+              detail="false"
+            >
+              <ion-icon slot="start" [name]="'business-outline'"> </ion-icon>
+              <ion-label>Apartments</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle autoHide="false">
+            <ion-item
               [routerLink]="'/app/tabs/owners'"
               routerLinkActive="selected"
               routerDirection="root"
@@ -92,7 +103,7 @@
               routerDirection="root"
               detail="false"
             >
-              <ion-icon slot="start" [name]="'business-outline'"> </ion-icon>
+              <ion-icon slot="start" [name]="'grid-outline'"> </ion-icon>
               <ion-label>Wings</ion-label>
             </ion-item>
           </ion-menu-toggle>
@@ -105,7 +116,7 @@
             >
               <ion-icon
                 slot="start"
-                [name]="'extension-puzzle-outline'"
+                [name]="'scan-circle-outline'"
               ></ion-icon>
               <ion-label>Flat</ion-label>
             </ion-item>
@@ -162,6 +173,12 @@
               <ion-label> Logout </ion-label>
             </ion-item>
           </ion-menu-toggle>
+
+          <ion-item>
+            <ion-icon slot="start" name="moon-outline"></ion-icon>
+            <ion-toggle [(ngModel)]="dark"> Dark Mode </ion-toggle>
+          </ion-item>
+          
         </ion-list>
 
         <ion-list *ngIf="!loggedIn" lines="none">
