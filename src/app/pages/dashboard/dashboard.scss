@@ -1,3 +1,36 @@
+.dashboard-grid {
+  width: calc(100% - 5px);
+  height: calc(100% - 5px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 10px;
+  .dashboard-grid-item {
+    border: 1px solid #ccc;
+    width: 120px;
+    height: 120px;
+    margin: 10px 3px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    position: relative;
+    ion-icon {
+      width: 40px;
+      height: 40px;
+    }
+    h4 {
+      padding: 0;
+      margin: 0;
+    }
+  }
+}
+
 .dashboard-card {
   display: flex;
 

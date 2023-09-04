@@ -14,9 +14,24 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-grid fixed>
+  <div class="dashboard-grid">
+    <div class="ion-activatable dashboard-grid-item" *ngFor="let module of modules">
+      <ion-icon slot="start" [name]="module.icon"> </ion-icon>
+      <!-- <img [src]="module.profilePic" [alt]="module.name + ' profile picture'"> -->
+      <h4>{{module.name}}</h4>
+      <ion-ripple-effect></ion-ripple-effect>
+    </div>
+    <div class="ion-activatable dashboard-grid-item" *ngFor="let module of modules">
+      <ion-icon slot="start" [name]="module.icon"> </ion-icon>
+      <!-- <img [src]="module.profilePic" [alt]="module.name + ' profile picture'"> -->
+      <h4>{{module.name}}</h4>
+      <ion-ripple-effect></ion-ripple-effect>
+    </div>
+  </div>
+
+  <!-- <ion-grid fixed>
     <ion-row>
-      <ion-col size="6" size-md="6" *ngFor="let module of modules">
+      <ion-col size="12" size-md="6" *ngFor="let module of modules">
         <ion-card class="dashboard-card">
           <ion-card-header>
             <ion-item detail="false" lines="none" class="dashboard-item" routerLink="/app/tabs/dashboard/dashboard-details/{{module.id}}">
@@ -27,7 +42,7 @@
             </ion-item>
           </ion-card-header>
 
-          <!-- <ion-card-content>
+          <ion-card-content>
             <ion-list lines="none">
               <ion-item *ngFor="let session of module.sessions" detail="false" routerLink="/app/tabs/dashboard/session/{{session.id}}">
                 <ion-label>
@@ -41,9 +56,9 @@
                 </ion-label>
               </ion-item>
             </ion-list>
-          </ion-card-content> -->
+          </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
 </ion-content>
