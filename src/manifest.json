@@ -1,6 +1,6 @@
 {
-  "name": "Ionic Conference",
-  "short_name": "Ionic Conference",
+  "name": "Apartment Management",
+  "short_name": "Apartment Management",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [
