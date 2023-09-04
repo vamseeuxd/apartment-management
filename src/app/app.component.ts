@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { SwUpdate } from "@angular/service-worker";
+import { SwUpdate, VersionReadyEvent } from "@angular/service-worker";
 
 import {
   AlertController,
@@ -17,6 +17,7 @@ import { Storage } from "@ionic/storage-angular";
 import { UserData } from "./providers/user-data";
 import { LoaderService } from "./services/loader/loader.service";
 import { Auth, signOut } from "@angular/fire/auth";
+import { filter } from "rxjs/operators";
 
 @Component({
   selector: "app-root",
@@ -70,25 +71,27 @@ export class AppComponent implements OnInit {
     this.checkLoginStatus();
     this.listenForLoginEvents();
 
-    this.swUpdate.available.subscribe(async (res) => {
-      const toast = await this.toastCtrl.create({
-        message: "Update available!",
-        position: "bottom",
-        buttons: [
-          {
-            role: "cancel",
-            text: "Reload",
-          },
-        ],
+    this.swUpdate.versionUpdates
+      .pipe(
+        filter((evt): evt is VersionReadyEvent => evt.type === "VERSION_READY")
+      )
+      .subscribe(async () => {
+        const toast = await this.toastCtrl.create({
+          message: "Update available!",
+          position: "bottom",
+          buttons: [
+            {
+              role: "cancel",
+              text: "Reload",
+            },
+          ],
+        });
+        await toast.present();
+        toast
+          .onDidDismiss()
+          .then(() => this.swUpdate.activateUpdate())
+          .then(() => window.location.reload());
       });
-
-      await toast.present();
-
-      toast
-        .onDidDismiss()
-        .then(() => this.swUpdate.activateUpdate())
-        .then(() => window.location.reload());
-    });
   }
 
   initializeApp() {
