@@ -21,14 +21,14 @@ export class TutorialPage {
 
   startApp() {
     this.router
-      .navigateByUrl('/app/tabs/schedule', { replaceUrl: true })
+      .navigateByUrl('/app/tabs/dashboard', { replaceUrl: true })
       .then(() => this.storage.set('ion_did_tutorial', true));
   }
 
   ionViewWillEnter() {
     this.storage.get('ion_did_tutorial').then(res => {
       if (res === true) {
-        this.router.navigateByUrl('/app/tabs/schedule', { replaceUrl: true });
+        this.router.navigateByUrl('/app/tabs/dashboard', { replaceUrl: true });
       }
     });
 

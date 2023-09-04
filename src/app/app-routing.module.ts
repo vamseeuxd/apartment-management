@@ -1,42 +1,54 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { checkTutorialGuard } from './providers/check-tutorial.guard';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { checkTutorialGuard } from "./providers/check-tutorial.guard";
+import { canActivate, redirectUnauthorizedTo } from "@angular/fire/auth-guard";
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(["login"]);
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: '/tutorial',
-    pathMatch: 'full'
+    path: "",
+    redirectTo: "/tutorial",
+    pathMatch: "full",
   },
   {
-    path: 'account',
-    loadChildren: () => import('./pages/account/account.module').then(m => m.AccountModule)
+    path: "account",
+    ...canActivate(redirectUnauthorizedToLogin),
+    loadChildren: () =>
+      import("./pages/account/account.module").then((m) => m.AccountModule),
   },
   {
-    path: 'support',
-    loadChildren: () => import('./pages/support/support.module').then(m => m.SupportModule)
+    path: "support",
+    ...canActivate(redirectUnauthorizedToLogin),
+    loadChildren: () =>
+      import("./pages/support/support.module").then((m) => m.SupportModule),
   },
   {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
+    path: "login",
+    loadChildren: () =>
+      import("./pages/login/login.module").then((m) => m.LoginModule),
   },
   {
-    path: 'signup',
-    loadChildren: () => import('./pages/signup/signup.module').then(m => m.SignUpModule)
+    path: "signup",
+    loadChildren: () =>
+      import("./pages/signup/signup.module").then((m) => m.SignUpModule),
   },
   {
-    path: 'app',
-    loadChildren: () => import('./pages/tabs-page/tabs-page.module').then(m => m.TabsModule)
+    path: "app",
+    ...canActivate(redirectUnauthorizedToLogin),
+    loadChildren: () =>
+      import("./pages/tabs-page/tabs-page.module").then((m) => m.TabsModule),
   },
   {
-    path: 'tutorial',
-    loadChildren: () => import('./pages/tutorial/tutorial.module').then(m => m.TutorialModule),
-    canMatch: [checkTutorialGuard]
-  }
+    path: "tutorial",
+    loadChildren: () =>
+      import("./pages/tutorial/tutorial.module").then((m) => m.TutorialModule),
+    canMatch: [checkTutorialGuard],
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
