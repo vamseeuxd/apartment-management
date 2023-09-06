@@ -18,6 +18,7 @@ import { UserData } from "./providers/user-data";
 import { LoaderService } from "./services/loader/loader.service";
 import { Auth, signOut } from "@angular/fire/auth";
 import { filter } from "rxjs/operators";
+import { AppModules } from "./utilities/app-modules";
 
 @Component({
   selector: "app-root",
@@ -26,6 +27,7 @@ import { filter } from "rxjs/operators";
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit {
+  modules = AppModules;
   private auth: Auth = inject(Auth);
   appPages = [
     {

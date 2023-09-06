@@ -3,170 +3,22 @@
     <ion-menu contentId="main-content">
       <ion-content>
         <ion-list lines="none">
-          <ion-list-header> Apartment Management </ion-list-header>
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/dashboard'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon slot="start" [name]="'apps-outline'"> </ion-icon>
-              <ion-label>Dashboard</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/apartments'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon slot="start" [name]="'business-outline'"> </ion-icon>
-              <ion-label>Apartments</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/owners'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon slot="start" [name]="'people-outline'"> </ion-icon>
-              <ion-label>Owners</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/accounts'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon slot="start" [name]="'newspaper-outline'"> </ion-icon>
-              <ion-label>Accounts</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/visitors'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon slot="start" [name]="'people-circle-outline'">
-              </ion-icon>
-              <ion-label>Visitors</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/notices'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon slot="start" [name]="'alert-circle-outline'">
-              </ion-icon>
-              <ion-label>Notices</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/events'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon slot="start" [name]="'calendar-number-outline'">
-              </ion-icon>
-              <ion-label>Events</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/rules'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon slot="start" [name]="'checkmark-done-outline'">
-              </ion-icon>
-              <ion-label>Rules</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/wings'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon slot="start" [name]="'grid-outline'"> </ion-icon>
-              <ion-label>Wings</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
+          <!-- <ion-list-header> Apartment Management </ion-list-header> -->
+          <ng-container *ngFor="let module of modules">
+            <ion-menu-toggle autoHide="false">
+              <ion-item
+                [routerLink]="module.route"
+                routerLinkActive="selected"
+                routerDirection="root"
+                detail="false"
+              >
+                <ion-icon slot="start" [name]="module.icon"> </ion-icon>
+                <ion-label>{{module.title}}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ng-container>
+          
 
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/flat'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon
-                slot="start"
-                [name]="'scan-circle-outline'"
-              ></ion-icon>
-              <ion-label>Flat</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-          
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/vehicles'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon
-                slot="start"
-                [name]="'car-sport-outline'"
-              ></ion-icon>
-              <ion-label>Vehicles</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-          
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/members'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon
-                slot="start"
-                [name]="'person-add-outline'"
-              ></ion-icon>
-              <ion-label>Members</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-          
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              [routerLink]="'/app/tabs/staff'"
-              routerLinkActive="selected"
-              routerDirection="root"
-              detail="false"
-            >
-              <ion-icon
-                slot="start"
-                [name]="'person-circle-outline'"
-              ></ion-icon>
-              <ion-label>Staff</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
           <ion-list-header> For Demo Only </ion-list-header>
           <ion-menu-toggle
             autoHide="false"
