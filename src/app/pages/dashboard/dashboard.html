@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Apartment Management</ion-title>
+    <ion-title>Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,6 +11,7 @@
   <div class="dashboard-grid">
     <div
       class="ion-activatable dashboard-grid-item"
+      [routerLink]="module.route"
       *ngFor="let module of modules"
     >
       <ion-icon [color]="module.color" slot="start" [name]="module.icon">

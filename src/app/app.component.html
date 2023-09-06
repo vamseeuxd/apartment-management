@@ -17,6 +17,17 @@
           </ion-menu-toggle>
           <ion-menu-toggle autoHide="false">
             <ion-item
+              [routerLink]="'/app/tabs/apartments'"
+              routerLinkActive="selected"
+              routerDirection="root"
+              detail="false"
+            >
+              <ion-icon slot="start" [name]="'business-outline'"> </ion-icon>
+              <ion-label>Apartments</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle autoHide="false">
+            <ion-item
               [routerLink]="'/app/tabs/owners'"
               routerLinkActive="selected"
               routerDirection="root"
@@ -92,10 +103,11 @@
               routerDirection="root"
               detail="false"
             >
-              <ion-icon slot="start" [name]="'business-outline'"> </ion-icon>
+              <ion-icon slot="start" [name]="'grid-outline'"> </ion-icon>
               <ion-label>Wings</ion-label>
             </ion-item>
           </ion-menu-toggle>
+
           <ion-menu-toggle autoHide="false">
             <ion-item
               [routerLink]="'/app/tabs/flat'"
@@ -105,12 +117,57 @@
             >
               <ion-icon
                 slot="start"
-                [name]="'extension-puzzle-outline'"
+                [name]="'scan-circle-outline'"
               ></ion-icon>
               <ion-label>Flat</ion-label>
             </ion-item>
           </ion-menu-toggle>
-
+          
+          <ion-menu-toggle autoHide="false">
+            <ion-item
+              [routerLink]="'/app/tabs/vehicles'"
+              routerLinkActive="selected"
+              routerDirection="root"
+              detail="false"
+            >
+              <ion-icon
+                slot="start"
+                [name]="'car-sport-outline'"
+              ></ion-icon>
+              <ion-label>Vehicles</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          
+          <ion-menu-toggle autoHide="false">
+            <ion-item
+              [routerLink]="'/app/tabs/members'"
+              routerLinkActive="selected"
+              routerDirection="root"
+              detail="false"
+            >
+              <ion-icon
+                slot="start"
+                [name]="'person-add-outline'"
+              ></ion-icon>
+              <ion-label>Members</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          
+          <ion-menu-toggle autoHide="false">
+            <ion-item
+              [routerLink]="'/app/tabs/staff'"
+              routerLinkActive="selected"
+              routerDirection="root"
+              detail="false"
+            >
+              <ion-icon
+                slot="start"
+                [name]="'person-circle-outline'"
+              ></ion-icon>
+              <ion-label>Staff</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-list-header> For Demo Only </ion-list-header>
           <ion-menu-toggle
             autoHide="false"
             *ngFor="let p of appPages; let i = index"
@@ -162,6 +219,12 @@
               <ion-label> Logout </ion-label>
             </ion-item>
           </ion-menu-toggle>
+
+          <ion-item>
+            <ion-icon slot="start" name="moon-outline"></ion-icon>
+            <ion-toggle [(ngModel)]="dark"> Dark Mode </ion-toggle>
+          </ion-item>
+          
         </ion-list>
 
         <ion-list *ngIf="!loggedIn" lines="none">
