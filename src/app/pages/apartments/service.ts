@@ -8,6 +8,8 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  orderBy,
+  query,
   serverTimestamp,
   updateDoc,
 } from "@angular/fire/firestore";
@@ -21,8 +23,9 @@ export class ApartmentsService {
   toastController: ToastController = inject(ToastController);
   firestore: Firestore = inject(Firestore);
   apartmentsCollection = collection(this.firestore, "apartments");
+  apartmentsCollectionWithQuery = query(this.apartmentsCollection, orderBy("name", "asc"));
   // prettier-ignore
-  apartments$: Observable<any[]> = collectionData(this.apartmentsCollection, { idField: "id" }) as Observable<any[]>;
+  apartments$: Observable<any[]> = collectionData(this.apartmentsCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
   auth: Auth = inject(Auth);
   user$ = user(this.auth);
 

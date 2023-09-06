@@ -8,6 +8,8 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  orderBy,
+  query,
   serverTimestamp,
   updateDoc,
 } from "@angular/fire/firestore";
@@ -21,10 +23,13 @@ export class WingsService {
   toastController: ToastController = inject(ToastController);
   firestore: Firestore = inject(Firestore);
   wingsCollection = collection(this.firestore, "wings");
+  wingsCollectionWithQuery = query(this.wingsCollection, orderBy("name", "asc"));
   // prettier-ignore
-  wings$: Observable<any[]> = collectionData(this.wingsCollection, { idField: "id" }) as Observable<any[]>;
+  wings$: Observable<any[]> = collectionData(this.wingsCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
   auth: Auth = inject(Auth);
   user$ = user(this.auth);
+
+  constructor() {}
 
   async addWing(wing, userUid: string) {
     try {
