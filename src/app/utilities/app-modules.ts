@@ -18,7 +18,7 @@ export const AppModules = [
     title: "Apartments",
   },
   {
-    route: "../wings",
+    route: "/app/tabs/wings",
     color: "dark",
     icon: "grid-outline",
     id: "Wings",
@@ -27,7 +27,7 @@ export const AppModules = [
     title: "Wings",
   },
   {
-    route: "../flat",
+    route: "/app/tabs/flat",
     color: "primary",
     icon: "scan-circle-outline",
     id: "Flat",
@@ -36,7 +36,7 @@ export const AppModules = [
     title: "Flat",
   },
   {
-    route: "../owners",
+    route: "/app/tabs/owners",
     color: "primary",
     icon: "people-outline",
     id: "Owners",
@@ -45,7 +45,7 @@ export const AppModules = [
     title: "Owners",
   },
   {
-    route: "../accounts",
+    route: "/app/tabs/accounts",
     color: "secondary",
     icon: "newspaper-outline",
     id: "Accounts",
@@ -54,7 +54,7 @@ export const AppModules = [
     title: "Accounts",
   },
   {
-    route: "../visitors",
+    route: "/app/tabs/visitors",
     color: "tertiary",
     icon: "people-circle-outline",
     id: "Visitors",
@@ -63,7 +63,7 @@ export const AppModules = [
     title: "Visitors",
   },
   {
-    route: "../notices",
+    route: "/app/tabs/notices",
     color: "success",
     icon: "alert-circle-outline",
     id: "Notices",
@@ -72,7 +72,7 @@ export const AppModules = [
     title: "Notices",
   },
   {
-    route: "../events",
+    route: "/app/tabs/events",
     color: "warning",
     icon: "calendar-number-outline",
     id: "Events",
@@ -81,7 +81,7 @@ export const AppModules = [
     title: "Events",
   },
   {
-    route: "../rules",
+    route: "/app/tabs/rules",
     color: "danger",
     icon: "checkmark-done-outline",
     id: "Rules",
@@ -90,7 +90,7 @@ export const AppModules = [
     title: "Rules",
   },
   {
-    route: "../vehicles",
+    route: "/app/tabs/vehicles",
     color: "secondary",
     icon: "car-sport-outline",
     id: "Vehicles",
@@ -99,7 +99,7 @@ export const AppModules = [
     title: "Vehicles",
   },
   {
-    route: "../members",
+    route: "/app/tabs/members",
     color: "tertiary",
     icon: "person-add-outline",
     id: "Members",
@@ -108,7 +108,7 @@ export const AppModules = [
     title: "Members",
   },
   {
-    route: "../staff",
+    route: "/app/tabs/staff",
     color: "success",
     icon: "person-circle-outline",
     id: "Staff",
@@ -117,7 +117,7 @@ export const AppModules = [
     title: "Staff",
   },
   {
-    route: "../notifications",
+    route: "/app/tabs/notifications",
     color: "warning",
     icon: "checkbox-outline",
     id: "My Notifications",
@@ -126,7 +126,7 @@ export const AppModules = [
     title: "My Notifications",
   },
   {
-    route: "../inventory",
+    route: "/app/tabs/inventory",
     color: "danger",
     icon: "list-outline",
     id: "Inventory",
@@ -135,7 +135,7 @@ export const AppModules = [
     title: "Inventory",
   },
   {
-    route: "../tenants",
+    route: "/app/tabs/tenants",
     color: "medium",
     icon: "accessibility-outline",
     id: "Tenants",

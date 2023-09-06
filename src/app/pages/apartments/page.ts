@@ -1,15 +1,8 @@
 import { Observable } from "rxjs";
-import { Component, OnInit, inject } from "@angular/core";
+import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
-import {
-  CollectionReference,
-  Firestore,
-  collection,
-  collectionData,
-  deleteDoc,
-  doc,
-} from "@angular/fire/firestore";
 import { LoaderService } from "../../services/loader/loader.service";
+import { ApartmentsService } from "./service";
 
 @Component({
   selector: "page-apartments",
@@ -18,44 +11,35 @@ import { LoaderService } from "../../services/loader/loader.service";
 })
 export class ApartmentsPage {
   apartments$: Observable<any[]>;
-  firestore: Firestore = inject(Firestore);
-  apartmentsCollection: CollectionReference;
   constructor(
     private alertController: AlertController,
-    public loader: LoaderService
+    public loader: LoaderService,
+    private service: ApartmentsService
   ) {
-    this.apartmentsCollection = collection(this.firestore, "apartments");
-    this.apartments$ = collectionData(this.apartmentsCollection, {
-      idField: "id",
-    }) as Observable<any[]>;
+    this.apartments$ = this.service.apartments$;
   }
-  async deleteItem(
-    slidingItem: HTMLIonItemSlidingElement,
-    apartmentId: string
-  ) {
+
+  // prettier-ignore
+  async deleteItem( slidingItem: HTMLIonItemSlidingElement, apartmentId: string ) {
     await slidingItem.close();
-    const alert = await this.alertController.create({
-      header: "Delete Confirmation",
-      subHeader: "Are you sure! Do you want to delete?",
-      buttons: [
-        {
-          text: "Yes",
-          handler: async () => {
-            const id = this.loader.show();
-            const documentReference = doc(
-              this.apartmentsCollection,
-              apartmentId
-            );
-            this.loader.hide(id);
-            try {
-              await deleteDoc(documentReference);
-            } catch (error) {
-              this.loader.hide(id);
-            }
+    const alert = await this.alertController.create(
+      { 
+        header: "Delete Confirmation", subHeader: "Are you sure! Do you want to delete?",
+        buttons: [
+          {
+            text: "Yes",
+            handler: async () => {
+              const id = this.loader.show();
+              try {
+                await this.service.deleteApartment(apartmentId);
+                this.loader.hide(id);
+              } catch (error) {
+                this.loader.hide(id);
+              }
+            },
           },
-        },
-        "No",
-      ],
+          "No",
+        ],
     });
     await alert.present();
   }
