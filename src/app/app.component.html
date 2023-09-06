@@ -107,6 +107,7 @@
               <ion-label>Wings</ion-label>
             </ion-item>
           </ion-menu-toggle>
+
           <ion-menu-toggle autoHide="false">
             <ion-item
               [routerLink]="'/app/tabs/flat'"
@@ -121,7 +122,52 @@
               <ion-label>Flat</ion-label>
             </ion-item>
           </ion-menu-toggle>
-
+          
+          <ion-menu-toggle autoHide="false">
+            <ion-item
+              [routerLink]="'/app/tabs/vehicles'"
+              routerLinkActive="selected"
+              routerDirection="root"
+              detail="false"
+            >
+              <ion-icon
+                slot="start"
+                [name]="'car-sport-outline'"
+              ></ion-icon>
+              <ion-label>Vehicles</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          
+          <ion-menu-toggle autoHide="false">
+            <ion-item
+              [routerLink]="'/app/tabs/members'"
+              routerLinkActive="selected"
+              routerDirection="root"
+              detail="false"
+            >
+              <ion-icon
+                slot="start"
+                [name]="'person-add-outline'"
+              ></ion-icon>
+              <ion-label>Members</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          
+          <ion-menu-toggle autoHide="false">
+            <ion-item
+              [routerLink]="'/app/tabs/staff'"
+              routerLinkActive="selected"
+              routerDirection="root"
+              detail="false"
+            >
+              <ion-icon
+                slot="start"
+                [name]="'person-circle-outline'"
+              ></ion-icon>
+              <ion-label>Staff</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-list-header> For Demo Only </ion-list-header>
           <ion-menu-toggle
             autoHide="false"
             *ngFor="let p of appPages; let i = index"
