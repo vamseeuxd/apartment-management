@@ -93,6 +93,16 @@ const routes: Routes = [
         ],
       },
       {
+        path: "wings",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../wings/page.module").then((m) => m.WingsModule),
+          },
+        ],
+      },
+      {
         path: "",
         redirectTo: "/app/tabs/schedule",
         pathMatch: "full",

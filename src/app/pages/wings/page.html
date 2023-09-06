@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Wings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+
+  <ng-container *ngIf="apartmentsWithWings$ | async as apartments">
+    <ion-list>
+      <ion-item-group *ngFor="let apartment of apartments">
+        <ion-item-divider sticky>
+          <ion-label>
+            {{apartment.name}}
+          </ion-label>
+        </ion-item-divider>
+    
+        <ion-item-sliding *ngFor="let wing of apartment.wings" #slidingItem>
+          <ion-item>
+            <ion-label style="padding-left: 10px;border-left: 2px solid #3bc7c4;">
+              <h3>{{wing.name|titlecase}}</h3>
+              <p style="text-wrap: balance" [innerHTML]="wing.description | titlecase"></p>
+            </ion-label>
+          </ion-item>
+          <ion-item-options>
+            <ion-item-option
+              color="warning"
+              (click)="slidingItem.close();"
+              routerLink="/app/tabs/wings/update/{{wing.id}}"
+            >
+              &nbsp;&nbsp;Edit&nbsp;&nbsp;
+            </ion-item-option>
+            <ion-item-option
+              color="danger"
+              (click)="deleteItem(slidingItem,wing.id);"
+            >
+              Delete
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-item-group>
+  
+    </ion-list>
+  </ng-container>
+  
+
+  
+  <!-- <ion-list *ngIf="wings$ | async as wings">
+    <ion-item-sliding *ngFor="let wing of wings" #slidingItem>
+      <ion-item>
+        <ion-label>
+          <h1>{{wing.name|titlecase}}</h1>
+          <h2 style="text-wrap: balance" [innerHTML]="wing.description | titlecase"></h2>
+          <h2 style="text-wrap: balance" [innerHTML]="wing.apartment | titlecase"></h2>
+        </ion-label>
+      </ion-item>
+      <ion-item-options>
+        <ion-item-option
+          color="warning"
+          (click)="slidingItem.close();"
+          routerLink="/app/tabs/wings/update/{{wing.id}}"
+        >
+          &nbsp;&nbsp;Edit&nbsp;&nbsp;
+        </ion-item-option>
+        <ion-item-option
+          color="danger"
+          (click)="deleteItem(slidingItem,wing.id);"
+        >
+          Delete
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list> -->
+
+  <ion-fab
+    slot="fixed"
+    routerLink="/app/tabs/wings/add"
+    vertical="bottom"
+    horizontal="end"
+    #fab
+  >
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

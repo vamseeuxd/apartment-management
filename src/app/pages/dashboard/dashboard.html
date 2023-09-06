@@ -11,6 +11,8 @@
   <div class="dashboard-grid">
     <div
       class="ion-activatable dashboard-grid-item"
+      [style.width.px]="titleWidth"
+      [style.height.px]="titleWidth"
       [routerLink]="module.route"
       *ngFor="let module of modules"
     >
