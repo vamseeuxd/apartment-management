@@ -32,6 +32,7 @@ export class AddOrUpdateApartmentsPage {
     registrationNumber: "",
     pincode: "",
     addressLine1: "",
+    addressLine2: "",
     country: "",
     state: "",
     createdBy: "",
