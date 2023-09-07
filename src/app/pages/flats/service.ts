@@ -8,51 +8,47 @@ import {
   deleteDoc,
   doc,
   getDoc,
-  getDocs,
   orderBy,
   query,
   serverTimestamp,
   updateDoc,
-  where,
 } from "@angular/fire/firestore";
 import { ToastController } from "@ionic/angular";
 import { Observable } from "rxjs";
 import { IFirestoreTime } from "../../utilities/firestoreTime";
-import { IFlat } from "../flats/service";
 
-export interface IWing {
-  id: string;
-  apartment: string;
+export interface IFlat {
   name: string;
-  createdBy: string;
-  noOfFloors: number;
   description: string;
+  apartment: string;
+  floor: number;
+  wing: string;
+  createdBy: string;
   createdOn: IFirestoreTime;
-  flats?: IFlat[];
 }
 
 @Injectable({
   providedIn: "root",
 })
-export class WingsService {
+export class FlatsService {
   toastController: ToastController = inject(ToastController);
   firestore: Firestore = inject(Firestore);
-  wingsCollection = collection(this.firestore, "wings");
-  wingsCollectionWithQuery = query(
-    this.wingsCollection,
+  flatsCollection = collection(this.firestore, "flats");
+  flatsCollectionWithQuery = query(
+    this.flatsCollection,
     orderBy("name", "asc")
   );
   // prettier-ignore
-  wings$: Observable<any[]> = collectionData(this.wingsCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
+  flats$: Observable<any[]> = collectionData(this.flatsCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
   auth: Auth = inject(Auth);
   user$ = user(this.auth);
 
   constructor() {}
 
-  async addWing(wing, userUid: string) {
+  async addFlat(flat, userUid: string) {
     try {
-      await addDoc(this.wingsCollection, {
-        ...wing,
+      await addDoc(this.flatsCollection, {
+        ...flat,
         createdOn: serverTimestamp(),
         createdBy: userUid,
       });
@@ -61,37 +57,23 @@ export class WingsService {
     }
   }
 
-  async getWingsByApartmentId(apartmentId: string) {
-    const q = query(
-      this.wingsCollection,
-      where("apartment", "==", apartmentId),
-      orderBy("name", "asc")
-    );
-    const wings = await getDocs(q);
-    const returnData = [];
-    wings.forEach((wing) => {
-      returnData.push({ ...wing.data(), id: wing.id });
-    });
-    return returnData;
-  }
-
-  async getWing(wingId: string) {
-    const documentReference = doc(this.wingsCollection, wingId);
+  async getFlat(flatId: string) {
+    const documentReference = doc(this.flatsCollection, flatId);
     return getDoc(documentReference);
   }
 
-  async updateWing(wing: any, wingId: string, userUid: string) {
+  async updateFlat(flat: any, flatId: string, userUid: string) {
     try {
-      const documentReference = doc(this.wingsCollection, wingId);
+      const documentReference = doc(this.flatsCollection, flatId);
       // prettier-ignore
-      updateDoc(documentReference, { ...wing, lastUpdatedOn: serverTimestamp(), lastUpdatedBy: userUid });
+      updateDoc(documentReference, { ...flat, lastUpdatedOn: serverTimestamp(), lastUpdatedBy: userUid });
     } catch (error) {
       this.showError(error);
     }
   }
 
-  async deleteWing(wingId: string) {
-    const documentReference = doc(this.wingsCollection, wingId);
+  async deleteFlat(flatId: string) {
+    const documentReference = doc(this.flatsCollection, flatId);
     try {
       await deleteDoc(documentReference);
     } catch (error) {

@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Flats</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- prettier-ignore -->
+<ion-content fullscreen="true">
+  <ng-container *ngIf="apartmentsWithFlats$ | async as apartments">
+    <ion-accordion-group [multiple]="true">
+      <ion-accordion *ngFor="let apartment of apartments" [value]="apartment.id">
+        <ion-item  slot="header" style="border: 1px solid #d5d5d5;margin: 5px;">
+          <ion-label>
+            {{apartment.name}}
+          </ion-label>
+        </ion-item>
+
+        <div slot="content" style="margin-top: -7px;">
+          <ion-label *ngIf="apartment.wings.length === 0" class="ion-text-center">
+            <p style="margin-top: 10px;">No Wings to show</p>
+          </ion-label>
+          <ion-accordion-group *ngIf="apartment.wings.length > 0" [multiple]="true" style="border: 1px solid #d5d5d5;margin: 5px;">
+            <ion-accordion *ngFor="let wing of apartment.wings" [value]="wing.id" toggleIcon="caret-down-circle">
+              <ion-item  slot="header">
+                <ion-label>
+                  {{wing.name}}
+                </ion-label>
+              </ion-item>
+              <div slot="content">
+                <ion-label *ngIf="wing.flats.length === 0" class="ion-text-center">
+                  <p>No Floats to show</p>
+                </ion-label>
+                <ion-item-sliding *ngFor="let flat of wing.flats" #slidingItem>
+                  <ion-item-options side="start">
+                    <ion-item-option color="warning" (click)="slidingItem.close();" routerLink="/app/tabs/flats/update/{{flat.id}}" > &nbsp;&nbsp;Edit&nbsp;&nbsp; </ion-item-option>
+                    <ion-item-option color="danger" (click)="deleteItem(slidingItem,flat.id);" > Delete </ion-item-option>
+                  </ion-item-options>
+                  <ion-item>
+                    <ion-label style="padding-left: 10px;border-left: 2px solid #3bc7c4;">
+                      <h3>{{flat.name|titlecase}}</h3>
+                      <p style="text-wrap: balance" [innerHTML]="flat.description | titlecase"></p>
+                    </ion-label>
+                  </ion-item>
+                </ion-item-sliding>
+              </div>
+    
+            </ion-accordion>
+          </ion-accordion-group>
+        </div>
+      </ion-accordion>
+  
+    </ion-accordion-group>
+  </ng-container>
+
+
+  <ion-fab
+    slot="fixed"
+    routerLink="/app/tabs/flats/add"
+    vertical="bottom"
+    horizontal="end"
+    #fab
+  >
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

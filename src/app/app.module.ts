@@ -20,7 +20,7 @@ import { provideFirestore, getFirestore } from "@angular/fire/firestore";
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({ mode: "md" }),
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production,
@@ -28,11 +28,11 @@ import { provideFirestore, getFirestore } from "@angular/fire/firestore";
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    ServiceWorkerModule.register('ngsw-worker.js', {
+    ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: "registerWhenStable:30000",
     }),
   ],
   declarations: [AppComponent],

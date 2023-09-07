@@ -62,6 +62,8 @@ export class AddOrUpdateApartmentsPage {
         this.dataToEdit = (
           await this.service.getApartment(this.route.snapshot.params.id)
         ).data();
+        console.clear();
+        console.log(this.dataToEdit);
         this.loader.hide(id);
       } else {
         this.loader.hide(id);
