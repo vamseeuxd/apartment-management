@@ -27,13 +27,13 @@ export const AppModules = [
     title: "Wings",
   },
   {
-    route: "/app/tabs/flat",
+    route: "/app/tabs/flats",
     color: "primary",
     icon: "scan-circle-outline",
     id: "Flat",
     profilePic: "/assets/img/flat.png",
-    name: "Flat",
-    title: "Flat",
+    name: "Flats",
+    title: "Flats",
   },
   {
     route: "/app/tabs/owners",

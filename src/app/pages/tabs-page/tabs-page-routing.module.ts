@@ -103,6 +103,16 @@ const routes: Routes = [
         ],
       },
       {
+        path: "flats",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../flats/page.module").then((m) => m.FlatsModule),
+          },
+        ],
+      },
+      {
         path: "",
         redirectTo: "/app/tabs/schedule",
         pathMatch: "full",

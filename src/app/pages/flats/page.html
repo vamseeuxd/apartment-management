@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Flats</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- prettier-ignore -->
+<ion-content fullscreen="true">
+  <ng-container *ngIf="apartmentsWithFlats$ | async as apartments">
+    <ion-list>
+      <ion-item-group *ngFor="let apartment of apartments">
+        <ion-item-divider sticky>
+          <ion-label>
+            {{apartment.name}}
+          </ion-label>
+        </ion-item-divider>
+    
+        <ion-item-sliding *ngFor="let flat of apartment.flats" #slidingItem>
+          <ion-item-options side="start">
+            <ion-item-option color="warning" (click)="slidingItem.close();" routerLink="/app/tabs/flats/update/{{flat.id}}" > &nbsp;&nbsp;Edit&nbsp;&nbsp; </ion-item-option>
+            <ion-item-option color="danger" (click)="deleteItem(slidingItem,flat.id);" > Delete </ion-item-option>
+          </ion-item-options>
+          <ion-item>
+            <ion-label style="padding-left: 10px;border-left: 2px solid #3bc7c4;">
+              <h3>{{flat.name|titlecase}}</h3>
+              <p style="text-wrap: balance" [innerHTML]="flat.description | titlecase"></p>
+            </ion-label>
+          </ion-item>
+        </ion-item-sliding>
+      </ion-item-group>
+  
+    </ion-list>
+  </ng-container>
+
+
+  <ion-fab
+    slot="fixed"
+    routerLink="/app/tabs/flats/add"
+    vertical="bottom"
+    horizontal="end"
+    #fab
+  >
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -24,7 +24,6 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-
 /*
  * App CSS
  * ----------------------------------------------------------------------------
@@ -33,3 +32,13 @@
  */
 
 @import "./app/app";
+
+*[required] {
+  .label-text:after {
+    content: "*";
+    color: red;
+    font-size: 16px;
+    display: inline-block;
+    margin-left: 2px;
+  }
+}
