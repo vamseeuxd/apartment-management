@@ -45,6 +45,15 @@ export const AppModules = [
     title: "Owners",
   },
   {
+    route: "/app/tabs/members",
+    color: "tertiary",
+    icon: "person-add-outline",
+    id: "Members",
+    profilePic: "/assets/img/flat.png",
+    name: "Members",
+    title: "Members",
+  },
+  {
     route: "/app/tabs/accounts",
     color: "secondary",
     icon: "newspaper-outline",
@@ -99,15 +108,6 @@ export const AppModules = [
     title: "Vehicles",
   },
   {
-    route: "/app/tabs/members",
-    color: "tertiary",
-    icon: "person-add-outline",
-    id: "Members",
-    profilePic: "/assets/img/flat.png",
-    name: "Members",
-    title: "Members",
-  },
-  {
     route: "/app/tabs/staff",
     color: "success",
     icon: "person-circle-outline",
@@ -142,5 +142,14 @@ export const AppModules = [
     profilePic: "/assets/img/flat.png",
     name: "Tenants",
     title: "Tenants",
+  },
+  {
+    route: "/account",
+    color: "medium",
+    icon: "person-circle-outline",
+    id: "Tenants",
+    profilePic: "/assets/img/flat.png",
+    name: "User Profile",
+    title: "User Profile",
   },
 ];

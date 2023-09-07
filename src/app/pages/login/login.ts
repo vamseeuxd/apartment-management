@@ -16,6 +16,7 @@ import {
 import { Subscription } from "rxjs";
 import { LoaderService } from "../../services/loader/loader.service";
 import { AlertController } from "@ionic/angular";
+import { UsersService } from "../../services/users/users.service";
 
 @Component({
   selector: "page-login",
@@ -27,13 +28,13 @@ export class LoginPage {
   submitted = false;
   private auth: Auth = inject(Auth);
   user$ = user(this.auth);
-  userSubscription: Subscription;
 
   constructor(
     public userData: UserData,
     public router: Router,
     public loader: LoaderService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private usersService: UsersService
   ) {}
 
   onLogin(form: NgForm) {
@@ -54,14 +55,34 @@ export class LoginPage {
     const id = this.loader.show();
     try {
       const result = await signInWithPopup(this.auth, provider);
+      await this.addUserToDataBase(result.user);
       this.loader.hide(id);
-      console.log(result);
       this.userData.login(result.user.displayName);
       this.router.navigateByUrl("/app/tabs/dashboard");
     } catch (error) {
-      console.log(error.code);
-      console.log(error.message);
       console.table(error);
+      this.loader.hide(id);
+    }
+  }
+
+  async addUserToDataBase(user: User) {
+    const id = this.loader.show();
+    try {
+      const result = await this.usersService.getUsersByUid(user.uid);
+      this.loader.hide(id);
+      if (result.data()) {
+        this.loader.hide(id);
+      } else {
+        const uid = user.uid;
+        const email = user.email;
+        const displayName = user.displayName;
+        const photoURL = user.photoURL;
+        // prettier-ignore
+        await this.usersService.addUser( { uid, email, displayName, photoURL, }, uid);
+        this.loader.hide(id);
+      }
+    } catch (error) {
+      console.log(error);
       this.loader.hide(id);
     }
   }

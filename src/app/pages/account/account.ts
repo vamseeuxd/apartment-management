@@ -1,77 +1,38 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, inject } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from "@ionic/angular";
 
-import { UserData } from '../../providers/user-data';
-
+import { Auth, user } from "@angular/fire/auth";
 
 @Component({
-  selector: 'page-account',
-  templateUrl: 'account.html',
-  styleUrls: ['./account.scss'],
+  selector: "page-account",
+  templateUrl: "account.html",
+  styleUrls: ["./account.scss"],
 })
-export class AccountPage implements AfterViewInit {
-  username: string;
+export class AccountPage {
+  private auth: Auth = inject(Auth);
+  user$ = user(this.auth);
+  private toastController: ToastController = inject(ToastController);
 
-  constructor(
-    public alertCtrl: AlertController,
-    public router: Router,
-    public userData: UserData
-  ) { }
-
-  ngAfterViewInit() {
-    this.getUsername();
-  }
-
-  updatePicture() {
-    console.log('Clicked to update picture');
-  }
-
-  // Present an alert with the current username populated
-  // clicking OK will update the username and display it
-  // clicking Cancel will close the alert and do nothing
-  async changeUsername() {
-    const alert = await this.alertCtrl.create({
-      header: 'Change Username',
-      buttons: [
-        'Cancel',
-        {
-          text: 'Ok',
-          handler: (data: any) => {
-            this.userData.setUsername(data.username);
-            this.getUsername();
-          }
-        }
-      ],
-      inputs: [
-        {
-          type: 'text',
-          name: 'username',
-          value: this.username,
-          placeholder: 'username'
-        }
-      ]
+  async copyMessage(val: string, message:string) {
+    const selBox = document.createElement("textarea");
+    selBox.style.position = "fixed";
+    selBox.style.left = "0";
+    selBox.style.top = "0";
+    selBox.style.opacity = "0";
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand("copy");
+    document.body.removeChild(selBox);
+    const toast = await this.toastController.create({
+      message: `${message} : ${val} copied`,
+      duration: 1500,
+      position: 'bottom',
     });
-    await alert.present();
-  }
 
-  getUsername() {
-    this.userData.getUsername().then((username) => {
-      this.username = username;
-    });
-  }
-
-  changePassword() {
-    console.log('Clicked to change password');
-  }
-
-  logout() {
-    this.userData.logout();
-    this.router.navigateByUrl('/login');
-  }
-
-  support() {
-    this.router.navigateByUrl('/support');
+    await toast.present();
   }
 }
