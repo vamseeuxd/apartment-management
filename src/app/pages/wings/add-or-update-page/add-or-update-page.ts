@@ -17,6 +17,7 @@ export class AddOrUpdateWingsPage {
   private auth: Auth = inject(Auth);
   user$ = user(this.auth);
   dataToEdit: IWing = {
+    id: "",
     name: "",
     noOfFloors: 1,
     description: "",

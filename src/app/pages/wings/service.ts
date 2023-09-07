@@ -18,14 +18,17 @@ import {
 import { ToastController } from "@ionic/angular";
 import { Observable } from "rxjs";
 import { IFirestoreTime } from "../../utilities/firestoreTime";
+import { IFlat } from "../flats/service";
 
 export interface IWing {
+  id: string;
   apartment: string;
   name: string;
   createdBy: string;
   noOfFloors: number;
   description: string;
   createdOn: IFirestoreTime;
+  flats?: IFlat[];
 }
 
 @Injectable({

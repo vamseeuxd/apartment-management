@@ -18,8 +18,8 @@
           </ion-label>
         </ion-item-divider>
 
-        <ion-label color="warning" class="ion-text-center ion-margin" *ngIf="apartment.wings.length === 0">
-          <h5>No wing for <b>{{apartment.name}}</b></h5>
+        <ion-label *ngIf="apartment.wings.length === 0" class="ion-text-center">
+          <p style="margin-top: 10px;">No wings for <b>{{apartment.name}}</b></p>
         </ion-label>
     
         <ion-item-sliding *ngFor="let wing of apartment.wings" #slidingItem>
