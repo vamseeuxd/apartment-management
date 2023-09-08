@@ -46,6 +46,7 @@
     "@ionic/storage-angular": "^4.0.0",
     "@maskito/angular": "^1.5.0",
     "@maskito/core": "^1.5.0",
+    "angularx-qrcode": "^16.0.2",
     "cordova-plugin-inappbrowser": "5.0.0",
     "core-js": "^3.6.4",
     "rxjs": "^7.8.0",

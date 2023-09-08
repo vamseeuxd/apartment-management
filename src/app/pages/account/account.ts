@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 
 import { AlertController, ToastController } from "@ionic/angular";
 
-import { Auth, user } from "@angular/fire/auth";
+import { Auth, User, user } from "@angular/fire/auth";
 
 @Component({
   selector: "page-account",
@@ -15,7 +15,7 @@ export class AccountPage {
   user$ = user(this.auth);
   private toastController: ToastController = inject(ToastController);
 
-  async copyMessage(val: string, message:string) {
+  async copyMessage(val: string, message: string) {
     const selBox = document.createElement("textarea");
     selBox.style.position = "fixed";
     selBox.style.left = "0";
@@ -30,9 +30,18 @@ export class AccountPage {
     const toast = await this.toastController.create({
       message: `${message} : ${val} copied`,
       duration: 1500,
-      position: 'bottom',
+      position: "bottom",
     });
-
     await toast.present();
+  }
+
+  getQrData(user: User) {
+    return JSON.stringify({
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      phoneNumber: user.phoneNumber,
+    });
   }
 }

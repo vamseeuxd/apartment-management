@@ -8,15 +8,36 @@
 </ion-header>
 
 <ion-content>
-  <div  *ngIf="user$ | async as user;" class="ion-padding-top ion-text-center">
-    <img [src]="user.photoURL" alt="avatar">
+  <div *ngIf="user$ | async as user;" class="ion-padding-top ion-text-center">
+    <img [src]="user.photoURL" alt="avatar" />
     <h2>{{user.displayName | titlecase}}</h2>
 
     <ion-list inset>
-      <ion-item (click)="copyMessage(user.uid, 'UID')">UID : {{user.uid}}</ion-item>
-      <ion-item (click)="copyMessage(user.email, 'Email')">Email : {{user.email}}</ion-item>
-      <ion-item>Email Verified : {{user.emailVerified ? 'Yes' : 'No'}}</ion-item>
+      <ion-item (click)="copyMessage(user.uid, 'UID')"
+        >UID : {{user.uid}}</ion-item
+      >
+      <ion-item (click)="copyMessage(user.email, 'Email')"
+        >Email : {{user.email}}</ion-item
+      >
+      <ion-item
+        >Email Verified : {{user.emailVerified ? 'Yes' : 'No'}}</ion-item
+      >
     </ion-list>
+    <div class="qrcodeImage">
+      <qrcode
+        [qrdata]="getQrData(user)"
+        [allowEmptyString]="true"
+        [cssClass]="'center'"
+        [colorDark]="'#000000ff'"
+        [colorLight]="'#ffffffff'"
+        [elementType]="'svg'"
+        [errorCorrectionLevel]="'M'"
+        [margin]="4"
+        [scale]="1"
+        [title]="'A custom title attribute'"
+        [width]="200"
+      ></qrcode>
+    </div>
   </div>
 </ion-content>
 
