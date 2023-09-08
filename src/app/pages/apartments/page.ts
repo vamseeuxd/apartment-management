@@ -1,4 +1,5 @@
 import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
 import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoaderService } from "../../services/loader/loader.service";
@@ -16,7 +17,12 @@ export class ApartmentsPage {
     public loader: LoaderService,
     private service: ApartmentsService
   ) {
-    this.apartments$ = this.service.apartments$;
+    const id = this.loader.show();
+    this.apartments$ = this.service.apartments$.pipe(
+      tap(() => {
+        this.loader.hide(id);
+      })
+    );
   }
 
   // prettier-ignore

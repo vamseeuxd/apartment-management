@@ -26,7 +26,7 @@ export class UsersService {
   firestore: Firestore = inject(Firestore);
   usersCollection = collection(this.firestore, "users");
   // prettier-ignore
-  usersCollectionWithQuery = query( this.usersCollection, orderBy("name", "asc") );
+  usersCollectionWithQuery = query( this.usersCollection, orderBy("displayName", "asc") );
   // prettier-ignore
   users$: Observable<any[]> = collectionData(this.usersCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
   auth: Auth = inject(Auth);
@@ -43,23 +43,11 @@ export class UsersService {
     } catch (error) {
       this.showError(error);
     }
-    /* try {
-      await addDoc(this.usersCollection, {
-        ...user,
-        createdOn: serverTimestamp(),
-        createdBy: userUid,
-      });
-    } catch (error) {
-      this.showError(error);
-    } */
   }
 
   async getUsersByUid(userId: string) {
     const documentReference = doc(this.usersCollection, userId);
     return getDoc(documentReference);
-    /* const q = query(this.usersCollection, where("uid", "==", userId));
-    const users$ = collectionData(q, { idField: "id" }) as Observable<any[]>;
-    return users$.toPromise(); */
   }
 
   async updateUser(user: any, userId: string, userUid: string) {
