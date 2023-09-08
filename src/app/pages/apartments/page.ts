@@ -2,7 +2,7 @@ import { Observable } from "rxjs";
 import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoaderService } from "../../services/loader/loader.service";
-import { ApartmentsService } from "./service";
+import { ApartmentsService, IApartment } from "./service";
 
 @Component({
   selector: "page-apartments",
@@ -10,7 +10,7 @@ import { ApartmentsService } from "./service";
   styleUrls: ["./page.scss"],
 })
 export class ApartmentsPage {
-  apartments$: Observable<any[]>;
+  apartments$: Observable<IApartment[]>;
   constructor(
     private alertController: AlertController,
     public loader: LoaderService,
@@ -43,7 +43,7 @@ export class ApartmentsPage {
     });
     await alert.present();
   }
-  getAddressString(apartment: any) {
+  getAddressString(apartment: IApartment) {
     const {
       addressLine1,
       addressLine2,

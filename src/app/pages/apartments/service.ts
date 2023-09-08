@@ -1,6 +1,7 @@
 import { Injectable, inject } from "@angular/core";
-import { Auth, user } from "@angular/fire/auth";
+import { Auth, User, user } from "@angular/fire/auth";
 import {
+  CollectionReference,
   Firestore,
   addDoc,
   collection,
@@ -14,7 +15,25 @@ import {
   updateDoc,
 } from "@angular/fire/firestore";
 import { ToastController } from "@ionic/angular";
-import { Observable, lastValueFrom } from "rxjs";
+import { Observable } from "rxjs";
+import { IFirestoreTime } from "../../utilities/firestoreTime";
+
+export interface IApartment {
+  id: string;
+  name: string;
+  registrationNumber: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  district: string;
+  state: string;
+  pincode: string;
+  country: string;
+  lastUpdatedOn?: IFirestoreTime;
+  createdOn?: IFirestoreTime;
+  lastUpdatedBy?: string;
+  createdBy?: string;
+}
 
 @Injectable({
   providedIn: "root",
@@ -22,14 +41,16 @@ import { Observable, lastValueFrom } from "rxjs";
 export class ApartmentsService {
   toastController: ToastController = inject(ToastController);
   firestore: Firestore = inject(Firestore);
-  apartmentsCollection = collection(this.firestore, "apartments");
-  apartmentsCollectionWithQuery = query(this.apartmentsCollection, orderBy("name", "asc"));
   // prettier-ignore
-  apartments$: Observable<any[]> = collectionData(this.apartmentsCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
+  apartmentsCollection: CollectionReference<IApartment> = collection(this.firestore, "apartments") as CollectionReference<IApartment>;
+  // prettier-ignore
+  apartmentsCollectionWithQuery = query( this.apartmentsCollection, orderBy("name", "asc") );
+  // prettier-ignore
+  apartments$: Observable<IApartment[]> = collectionData(this.apartmentsCollectionWithQuery, { idField: "id" }) as Observable<IApartment[]>;
   auth: Auth = inject(Auth);
-  user$ = user(this.auth);
+  user$: Observable<User> = user(this.auth);
 
-  async addApartment(apartment, userUid: string) {
+  async addApartment(apartment: IApartment, userUid: string) {
     try {
       await addDoc(this.apartmentsCollection, {
         ...apartment,
@@ -42,7 +63,10 @@ export class ApartmentsService {
   }
 
   async getApartment(apartmentId: string) {
-    const documentReference = doc(this.apartmentsCollection, apartmentId);
+    const documentReference = doc<IApartment>(
+      this.apartmentsCollection,
+      apartmentId
+    );
     return getDoc(documentReference);
   }
 
