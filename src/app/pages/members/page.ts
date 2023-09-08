@@ -52,7 +52,6 @@ export class MembersPage {
         return returnValue;
       }),
       tap((x) => {
-        console.log(x);
         this.loader.hide(id);
       })
     );

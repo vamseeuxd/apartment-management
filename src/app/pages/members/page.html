@@ -23,7 +23,7 @@
       <ion-item-sliding *ngFor="let user of apartment?.users" #slidingItem>
         <ion-item-options side="start">
           <ion-item-option color="warning" (click)="slidingItem.close();" routerLink="/app/tabs/members/update/{{user.member.id}}" > &nbsp;&nbsp;Edit&nbsp;&nbsp; </ion-item-option>
-          <ion-item-option color="danger" (click)="deleteItem(slidingItem,user.id);" > Delete </ion-item-option>
+          <ion-item-option color="danger" (click)="deleteItem(slidingItem,user.member.id);" > Delete </ion-item-option>
         </ion-item-options>
         <ion-item>
           <ion-label style="padding-left: 10px;border-left: 2px solid #3bc7c4;">
