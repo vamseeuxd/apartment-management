@@ -29,20 +29,22 @@
     *ngIf="selectedAparment$ | async as selectedAparment; else selectAparmentComponent"
   >
     <div class="dashboard-grid">
-      <div
-        class="ion-activatable dashboard-grid-item"
-        [style.width.px]="titleWidth"
-        [style.height.px]="titleWidth"
-        [routerLink]="module.route"
-        *ngFor="let module of modules"
-      >
-        <ion-icon [color]="module.color" slot="start" [name]="module.icon">
-        </ion-icon>
-        <ion-label [color]="module.color">
-          <h3 style="margin-top: 8px">{{module.name}}</h3>
-        </ion-label>
-        <ion-ripple-effect></ion-ripple-effect>
-      </div>
+      <ng-container *ngFor="let module of modules">
+        <div
+          class="ion-activatable dashboard-grid-item"
+          [style.width.px]="titleWidth"
+          *ngIf="!module.hideInDashboard"
+          [style.height.px]="titleWidth"
+          [routerLink]="module.route"
+        >
+          <ion-icon [color]="module.color" slot="start" [name]="module.icon">
+          </ion-icon>
+          <ion-label [color]="module.color">
+            <h3 style="margin-top: 8px">{{module.name}}</h3>
+          </ion-label>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+      </ng-container>
     </div>
   </ng-container>
 </ion-content>

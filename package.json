@@ -12,6 +12,7 @@
     "deploy": "firebase deploy",
     "lint": "ng lint && npm run lint:sass",
     "gen-page": "ionic generate page dashboard",
+    "gen-component": "ng generate component components/apartment-select",
     "lint:sass": "stylelint \"src/**/*.scss\"",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",

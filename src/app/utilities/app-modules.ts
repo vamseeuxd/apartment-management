@@ -6,6 +6,7 @@ export const AppModules = [
     id: "Dashboard",
     name: "Dashboard",
     title: "Dashboard",
+    hideInDashboard: true,
   },
   {
     route: "/app/tabs/apartments",
@@ -14,6 +15,7 @@ export const AppModules = [
     id: "Apartments",
     name: "Apartments",
     title: "Apartments",
+    hideInDashboard: true,
   },
   {
     route: "/app/tabs/wings",
@@ -134,5 +136,6 @@ export const AppModules = [
     id: "Tenants",
     name: "User Profile",
     title: "User Profile",
+    hideInDashboard: true,
   },
 ];
