@@ -42,7 +42,7 @@ export class WingsService {
     this.wingsCollection,
     orderBy("name", "asc")
   );
-  // prettier-ignore
+  // prettier-ignore--
   wings$: Observable<any[]> = collectionData(this.wingsCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
   auth: Auth = inject(Auth);
   user$ = user(this.auth);

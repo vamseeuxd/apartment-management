@@ -3,25 +3,56 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Dashboard</ion-title>
+    <!-- <ion-title>Dashboard</ion-title> -->
+    <ng-container
+      *ngIf="aparments$ | async as aparments; else inProgressLoader"
+    >
+      <ion-item>
+        <ion-select
+          placeholder="Select Apartment"
+          [value]="selectedAparment"
+          (ionChange)="apartmentsService.updateSelecteAparment($event.detail.value)"
+        >
+          <ion-select-option
+            *ngFor="let aparment of aparments"
+            [value]="aparment"
+            >Dashboard for {{aparment.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+    </ng-container>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen="true">
-  <div class="dashboard-grid">
-    <div
-      class="ion-activatable dashboard-grid-item"
-      [style.width.px]="titleWidth"
-      [style.height.px]="titleWidth"
-      [routerLink]="module.route"
-      *ngFor="let module of modules"
-    >
-      <ion-icon [color]="module.color" slot="start" [name]="module.icon">
-      </ion-icon>
-      <ion-label [color]="module.color">
-        <h3 style="margin-top: 8px;">{{module.name}}</h3>
-      </ion-label>
-      <ion-ripple-effect></ion-ripple-effect>
+  <ng-container
+    *ngIf="selectedAparment$ | async as selectedAparment; else selectAparmentComponent"
+  >
+    <div class="dashboard-grid">
+      <div
+        class="ion-activatable dashboard-grid-item"
+        [style.width.px]="titleWidth"
+        [style.height.px]="titleWidth"
+        [routerLink]="module.route"
+        *ngFor="let module of modules"
+      >
+        <ion-icon [color]="module.color" slot="start" [name]="module.icon">
+        </ion-icon>
+        <ion-label [color]="module.color">
+          <h3 style="margin-top: 8px">{{module.name}}</h3>
+        </ion-label>
+        <ion-ripple-effect></ion-ripple-effect>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </ion-content>
+
+<ng-template #inProgressLoader>
+  <ion-progress-bar type="indeterminate"></ion-progress-bar>
+</ng-template>
+
+<ng-template #selectAparmentComponent>
+  <ion-text color="primary">
+    <h1 class="ion-text-center">Please select Aparment</h1>
+  </ion-text>
+</ng-template>

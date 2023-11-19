@@ -13,9 +13,10 @@ import {
   query,
   serverTimestamp,
   updateDoc,
+  where,
 } from "@angular/fire/firestore";
 import { ToastController } from "@ionic/angular";
-import { Observable } from "rxjs";
+import { Observable, Subject, forkJoin, from, map, of, switchMap } from "rxjs";
 import { IFirestoreTime } from "../../utilities/firestoreTime";
 
 export interface IApartment {
@@ -41,14 +42,17 @@ export interface IApartment {
 export class ApartmentsService {
   toastController: ToastController = inject(ToastController);
   firestore: Firestore = inject(Firestore);
+  auth: Auth = inject(Auth);
+  user$: Observable<User> = user(this.auth);
   // prettier-ignore
   apartmentsCollection: CollectionReference<IApartment> = collection(this.firestore, "apartments") as CollectionReference<IApartment>;
   // prettier-ignore
   apartmentsCollectionWithQuery = query( this.apartmentsCollection, orderBy("name", "asc") );
   // prettier-ignore
   apartments$: Observable<IApartment[]> = collectionData(this.apartmentsCollectionWithQuery, { idField: "id" }) as Observable<IApartment[]>;
-  auth: Auth = inject(Auth);
-  user$: Observable<User> = user(this.auth);
+
+  selectedAparmentAction: Subject<IApartment> = new Subject();
+  selectedAparment$ = this.selectedAparmentAction.asObservable();
 
   async addApartment(apartment: IApartment, userUid: string) {
     try {
@@ -60,6 +64,49 @@ export class ApartmentsService {
     } catch (error) {
       this.showError(error);
     }
+  }
+
+  getApartmentDetailsRelatedToUser(): Observable<IApartment[]> {
+    return this.user$.pipe(
+      switchMap((user) => {
+        if (user) {
+          const collectionRef: CollectionReference<IApartment> = collection(
+            this.firestore,
+            "members"
+          ) as CollectionReference<any>;
+          const collectionQueryRef = query(
+            collectionRef,
+            where("uid", "==", user.uid)
+          );
+          const collectionDataRef = collectionData(collectionQueryRef, {
+            idField: "id",
+          }) as Observable<any[]>;
+          return collectionDataRef.pipe(
+            map((members: any[]) => {
+              return members.map((member) => member.apartment);
+            })
+          );
+        } else {
+          return [];
+        }
+      }),
+      switchMap((apartmentIds: any[]) => {
+        const requests = apartmentIds.map((apartmentId) => {
+          // return of(apartmentId);
+          return from(this.getApartment(apartmentId)).pipe(
+            map((app) => {
+              return app.data();
+            })
+          );
+        });
+        return forkJoin(requests);
+      })
+    );
+  }
+
+  updateSelecteAparment(aparment: IApartment) {
+    console.log(aparment);
+    this.selectedAparmentAction.next(aparment);
   }
 
   async getApartment(apartmentId: string) {

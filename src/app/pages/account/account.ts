@@ -43,5 +43,6 @@ export class AccountPage {
       photoURL: user.photoURL,
       phoneNumber: user.phoneNumber,
     });
+    // return user.uid;
   }
 }

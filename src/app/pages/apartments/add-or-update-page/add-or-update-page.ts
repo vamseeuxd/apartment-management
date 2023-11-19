@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { MaskitoElementPredicateAsync, MaskitoOptions } from "@maskito/core";
 import { LoaderService } from "../../../services/loader/loader.service";
 import { Auth, User, user } from "@angular/fire/auth";
-import { ApartmentsService, IApartment } from "../service";
+import { ApartmentsService, IApartment } from "../../../services/apartments/apartments.service";
 
 @Component({
   selector: "add-or-update-page-apartments",

@@ -1,4 +1,9 @@
-import { Component, inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MaskitoElementPredicateAsync, MaskitoOptions } from "@maskito/core";
@@ -6,7 +11,15 @@ import { LoaderService } from "../../../services/loader/loader.service";
 import { Auth, User, user } from "@angular/fire/auth";
 import { MembersService, IMember } from "../service";
 import { Observable } from "rxjs";
-import { ApartmentsService, IApartment } from "../../apartments/service";
+import {
+  NgxScannerQrcodeService,
+  ScannerQRCodeConfig,
+  ScannerQRCodeResult,
+  ScannerQRCodeSelectedFiles,
+} from "ngx-scanner-qrcode";
+import { UsersService } from "../../../services/users/users.service";
+import { ToastController } from "@ionic/angular";
+import { ApartmentsService, IApartment } from "../../../services/apartments/apartments.service";
 
 @Component({
   selector: "add-or-update-page-members",
@@ -16,10 +29,11 @@ import { ApartmentsService, IApartment } from "../../apartments/service";
 export class AddOrUpdateMembersPage {
   private auth: Auth = inject(Auth);
   user$ = user(this.auth);
+  isModalOpen = false;
   dataToEdit: IMember = {
     uid: "",
     apartment: "",
-    id: ""
+    id: "",
   };
   readonly pinCodeMask: MaskitoOptions = {
     mask: [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/],
@@ -30,11 +44,17 @@ export class AddOrUpdateMembersPage {
 
   apartments$: Observable<IApartment[]>;
 
+  newMemberDetails = null;
+
   constructor(
     public route: ActivatedRoute,
     public loader: LoaderService,
     private router: Router,
     private service: MembersService,
+    private usersService: UsersService,
+    private cdr: ChangeDetectorRef,
+    private qrcode: NgxScannerQrcodeService,
+    private toastController: ToastController,
     private apartmentService: ApartmentsService
   ) {
     this.apartments$ = this.apartmentService.apartments$;
@@ -83,5 +103,83 @@ export class AddOrUpdateMembersPage {
         this.loader.hide(id);
       }
     }
+  }
+
+  onModalDismiss() {
+    this.isModalOpen = false;
+    this.cdr.markForCheck();
+  }
+
+  async onQrScannerEvent(e: ScannerQRCodeResult[], action?: any) {
+    // e && action && action.pause();
+    console.log(e);
+    if (e.length > 0 && e[0].value) {
+      const data = JSON.parse(e[0].value);
+      if (data && data.uid) {
+        // this.dataToEdit.uid = data.uid;
+        // prettier-ignore
+        const userDetails = await this.usersService.getUsersByUid( data.uid );
+        this.newMemberDetails = userDetails.data();
+      }
+      if (action && action.stop) {
+        action.stop();
+        this.onModalDismiss();
+      }
+    }
+  }
+
+  closeConfirmModal() {
+    this.newMemberDetails = false;
+    setTimeout(() => {
+      this.cdr.markForCheck();
+    }, 0);
+  }
+
+  async yesAddMemberToApartment() {
+    const id = this.loader.show();
+    this.dataToEdit.uid = this.newMemberDetails.uid;
+    this.newMemberDetails = false;
+    setTimeout(() => {
+      this.cdr.markForCheck();
+    }, 0);
+    try {
+      await this.service.addMember(this.dataToEdit, this.dataToEdit.uid);
+      this.loader.hide(id);
+      this.router.navigate(["/app/tabs/members"]);
+    } catch (error) {
+      console.log(error.code);
+      this.loader.hide(id);
+    }
+  }
+
+  onQrUploadSelects($event: any) {
+    // console.log($event.target.files);
+    this.qrcode
+      .loadFilesToScan($event.target.files, {}, 0.5)
+      .subscribe(async (res: ScannerQRCodeSelectedFiles[]) => {
+        if (
+          res &&
+          res.length > 0 &&
+          res[0].data &&
+          res[0].data.length > 0 &&
+          res[0].data[0].value &&
+          JSON.parse(res[0].data[0].value).uid
+        ) {
+          // this.dataToEdit.uid = JSON.parse(res[0].data[0].value).uid;
+          // prettier-ignore
+          const userDetails = await this.usersService.getUsersByUid( JSON.parse(res[0].data[0].value).uid );
+          console.log(JSON.stringify(userDetails.data(), null, 2));
+          this.newMemberDetails = userDetails.data();
+        } else {
+          const toast = await this.toastController.create({
+            message: "Invalid QR Code Image",
+            duration: 1500,
+            color: "danger",
+            position: "bottom",
+          });
+          await toast.present();
+        }
+        $event.target.value = null;
+      });
   }
 }

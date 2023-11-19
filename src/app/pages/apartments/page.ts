@@ -3,7 +3,7 @@ import { tap } from "rxjs/operators";
 import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoaderService } from "../../services/loader/loader.service";
-import { ApartmentsService, IApartment } from "./service";
+import { ApartmentsService, IApartment } from "../../services/apartments/apartments.service";
 
 @Component({
   selector: "page-apartments",
@@ -29,7 +29,7 @@ export class ApartmentsPage {
   async deleteItem( slidingItem: HTMLIonItemSlidingElement, apartmentId: string ) {
     await slidingItem.close();
     const alert = await this.alertController.create(
-      { 
+      {
         header: "Delete Confirmation", subHeader: "Are you sure! Do you want to delete?",
         buttons: [
           {

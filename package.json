@@ -1,12 +1,12 @@
 {
   "name": "apartment-management",
   "version": "0.0.0",
-  "description": "Ionic Conference App",
+  "description": "apartment-management",
   "author": "Ionic Team <hi@ionicframework.com>",
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ionic serve --external",
     "build": "ng build --configuration production",
     "test": "ng test",
     "deploy": "firebase deploy",
@@ -49,6 +49,7 @@
     "angularx-qrcode": "^16.0.2",
     "cordova-plugin-inappbrowser": "5.0.0",
     "core-js": "^3.6.4",
+    "ngx-scanner-qrcode": "^1.6.2",
     "rxjs": "^7.8.0",
     "sw-toolbox": "3.6.0",
     "tslib": "^2.0.0",

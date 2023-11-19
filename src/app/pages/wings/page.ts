@@ -4,7 +4,7 @@ import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoaderService } from "../../services/loader/loader.service";
 import { WingsService } from "./service";
-import { ApartmentsService } from "../apartments/service";
+import { ApartmentsService } from "../../services/apartments/apartments.service";
 
 @Component({
   selector: "page-wings",
@@ -45,7 +45,7 @@ export class WingsPage {
   async deleteItem( slidingItem: HTMLIonItemSlidingElement, wingId: string ) {
     await slidingItem.close();
     const alert = await this.alertController.create(
-      { 
+      {
         header: "Delete Confirmation", subHeader: "Are you sure! Do you want to delete?",
         buttons: [
           {
