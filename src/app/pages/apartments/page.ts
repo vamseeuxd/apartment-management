@@ -1,8 +1,9 @@
 import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
 import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoaderService } from "../../services/loader/loader.service";
-import { ApartmentsService } from "./service";
+import { ApartmentsService, IApartment } from "../../services/apartments/apartments.service";
 
 @Component({
   selector: "page-apartments",
@@ -10,20 +11,25 @@ import { ApartmentsService } from "./service";
   styleUrls: ["./page.scss"],
 })
 export class ApartmentsPage {
-  apartments$: Observable<any[]>;
+  apartments$: Observable<IApartment[]>;
   constructor(
     private alertController: AlertController,
     public loader: LoaderService,
     private service: ApartmentsService
   ) {
-    this.apartments$ = this.service.apartments$;
+    const id = this.loader.show();
+    this.apartments$ = this.service.apartments$.pipe(
+      tap(() => {
+        this.loader.hide(id);
+      })
+    );
   }
 
   // prettier-ignore
   async deleteItem( slidingItem: HTMLIonItemSlidingElement, apartmentId: string ) {
     await slidingItem.close();
     const alert = await this.alertController.create(
-      { 
+      {
         header: "Delete Confirmation", subHeader: "Are you sure! Do you want to delete?",
         buttons: [
           {
@@ -43,7 +49,7 @@ export class ApartmentsPage {
     });
     await alert.present();
   }
-  getAddressString(apartment: any) {
+  getAddressString(apartment: IApartment) {
     const {
       addressLine1,
       addressLine2,

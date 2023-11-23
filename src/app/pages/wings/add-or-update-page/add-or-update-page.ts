@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { LoaderService } from "../../../services/loader/loader.service";
 import { Auth, User, user } from "@angular/fire/auth";
 import { IWing, WingsService } from "../service";
-import { ApartmentsService } from "../../apartments/service";
 import { IonInput } from "@ionic/angular";
+import { ApartmentsService, IApartment } from "../../../services/apartments/apartments.service";
 
 @Component({
   selector: "add-or-update-page-wings",
@@ -28,7 +28,7 @@ export class AddOrUpdateWingsPage {
       seconds: 0,
     },
   };
-  apartments$: Observable<any[]>;
+  apartments$: Observable<IApartment[]>;
 
   constructor(
     public route: ActivatedRoute,

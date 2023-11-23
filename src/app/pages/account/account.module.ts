@@ -4,11 +4,13 @@ import { IonicModule } from '@ionic/angular';
 
 import { AccountPage } from './account';
 import { AccountPageRoutingModule } from './account-routing.module';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   imports: [
     CommonModule,
     IonicModule,
+    QRCodeModule,
     AccountPageRoutingModule
   ],
   declarations: [

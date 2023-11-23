@@ -1,0 +1,29 @@
+:host {
+  .back-button-inside-button {
+    position: absolute;
+    left: -15px;
+    right: -16px;
+    top: 0px;
+    bottom: 0px;
+    opacity: 0;
+  }
+}
+::ng-deep .qrcodeImage {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  .innter {
+    width: 200px;
+    height: 200px;
+  }
+  ::ng-deep .origin-canvas {
+    width: 200px;
+    height: 200px;
+  }
+  ::ng-deep .origin-video {
+    width: 200px;
+    height: 200px;
+  }
+}

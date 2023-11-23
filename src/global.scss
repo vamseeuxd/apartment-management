@@ -42,3 +42,29 @@
     margin-left: 2px;
   }
 }
+
+ion-modal#smallModal {
+  --width: fit-content;
+  --min-width: 90vw;
+  --max-width: 90vw;
+  --height: fit-content;
+  --border-radius: 6px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+  /* h1 {
+    margin: 20px 20px 10px 20px;
+  }
+  ion-icon {
+    margin-right: 6px;
+    width: 48px;
+    height: 48px;
+    padding: 4px 0;
+    color: #aaaaaa;
+  } */
+  .wrapper {
+    margin-bottom: 30px 10px;
+  }
+}
+
+.select-alert {
+  --min-width: 350px;
+}

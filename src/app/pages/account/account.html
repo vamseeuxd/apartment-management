@@ -8,16 +8,63 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="username" class="ion-padding-top ion-text-center">
-    <img src="https://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">
-    <h2>{{username}}</h2>
+  <div *ngIf="user$ | async as user;" class="ion-padding-top ion-text-center">
+    <img [src]="user.photoURL" alt="avatar" />
+    <h2>{{user.displayName | titlecase}}</h2>
 
     <ion-list inset>
-      <ion-item (click)="updatePicture()">Update Picture</ion-item>
-      <ion-item (click)="changeUsername()">Change Username</ion-item>
-      <ion-item (click)="changePassword()">Change Password</ion-item>
-      <ion-item (click)="support()">Support</ion-item>
-      <ion-item (click)="logout()">Logout</ion-item>
+      <ion-item (click)="copyMessage(user.uid, 'UID')"
+        >UID : {{user.uid}}</ion-item
+      >
+      <ion-item (click)="copyMessage(user.email, 'Email')"
+        >Email : {{user.email}}</ion-item
+      >
+      <ion-item
+        >Email Verified : {{user.emailVerified ? 'Yes' : 'No'}}</ion-item
+      >
     </ion-list>
+    <div class="qrcodeImage">
+      <qrcode
+        [qrdata]="getQrData(user)"
+        [allowEmptyString]="true"
+        [cssClass]="'center'"
+        [colorDark]="'#000000ff'"
+        [colorLight]="'#ffffffff'"
+        [elementType]="'svg'"
+        [errorCorrectionLevel]="'M'"
+        [margin]="4"
+        [scale]="1"
+        [title]="'A custom title attribute'"
+        [width]="200"
+      ></qrcode>
+    </div>
   </div>
 </ion-content>
+
+<!-- {
+        "uid": "KdNte7RxlyWtwjD1OlI34G5rddj1",
+        "email": "vamsi.flex@gmail.com",
+        "emailVerified": true,
+        "displayName": "vamsi kalyan",
+        "isAnonymous": false,
+        "photoURL": "https://lh3.googleusercontent.com/a/AAcHTtcKxpKuPFiFQjiB1JRFeTaoZw2qzwbGpLXwZTP4Fez4eg=s96-c",
+        "providerData": [
+          {
+            "providerId": "google.com",
+            "uid": "100105445848125370945",
+            "displayName": "vamsi kalyan",
+            "email": "vamsi.flex@gmail.com",
+            "phoneNumber": null,
+            "photoURL": "https://lh3.googleusercontent.com/a/AAcHTtcKxpKuPFiFQjiB1JRFeTaoZw2qzwbGpLXwZTP4Fez4eg=s96-c"
+          }
+        ],
+        "stsTokenManager": {
+          "refreshToken": "AMf-vBz8-lDJ1dQ9pL2-ezem0_ccq4UKeTYpHUTUPwCcTu0w73RykGBC4_xtXU3KOb-8Z5Ye8yD6apGDbrA625kTT2IPq4GIGfEPpleY39O3uGHLIHjUgx086x0w939sjOJagMApd7kfUrfDvLk83LVwM0rvDfgWfVddileKbLNlEtR05Qr7MM3ayP23_N15Sb-Eh8pWzGDrYeqa3Igftzn3zbCWuUVpeZBH1pdwL80JnJT8NnPswuI3_hs8CFHWzEvXT10AD1a4qFUxJxhMvxEV6spT0FKvAccHE5_UcTHt2Zck0V76XplhyOiWovWek0CCUlUyG6E3tEhit-iTN6j2i57yzY9OAsq9UcYY8nLrnIkcVi363iQHuv0Zh_2QoOgD85Rtb0sShH2lNdjfc1pub_AoAtlqLojtfkmWTJ7XmS7OHLe3QIb5tgY31Jmu59NWL3FWFmokpi_SElerUZ2t4jn5nhGIZw",
+          "accessToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE5MGFkMTE4YTk0MGFkYzlmMmY1Mzc2YjM1MjkyZmVkZThjMmQwZWUiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidmFtc2kga2FseWFuIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FBY0hUdGNLeHBLdVBGaUZRamlCMUpSRmVUYW9adzJxendiR3BMWHdaVFA0RmV6NGVnPXM5Ni1jIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2FwYXJ0bWVudC1tYW5hZ2VtZW50LTZmOTFlIiwiYXVkIjoiYXBhcnRtZW50LW1hbmFnZW1lbnQtNmY5MWUiLCJhdXRoX3RpbWUiOjE2OTM3NTk3NzQsInVzZXJfaWQiOiJLZE50ZTdSeGx5V3R3akQxT2xJMzRHNXJkZGoxIiwic3ViIjoiS2ROdGU3UnhseVd0d2pEMU9sSTM0RzVyZGRqMSIsImlhdCI6MTY5Mzc1OTc3NCwiZXhwIjoxNjkzNzYzMzc0LCJlbWFpbCI6InZhbXNpLmZsZXhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMDAxMDU0NDU4NDgxMjUzNzA5NDUiXSwiZW1haWwiOlsidmFtc2kuZmxleEBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJnb29nbGUuY29tIn19.VER567TB2VJBrXvbhCRS_DkyJejGxLGdxzIGjAi6dSblQyuf2hKHNfuHz0rnioD3RhEP1JOngJrMl2YMwZ3LP0Dbm41cravG2IuGeofpOVLCtD83Ta9bUfxuaa4AgL4NEng8fmMxFIC4Y-87mk3Ap60vzOKTg6VaFzNTr2UUUS7MxxDwqwYfqNbbYM4nH3OtKd-ZtbR-P3vjZQ9nv42_Hsl08unayMX8cZE1Gp_BPEkST2tGulaQS098bNgHU55kozJZ2eutrCDamHjD6Xwzh1OZbfSw4m32J1ejFBF3QEjKKTdUHZN_KYaKudCJk0mhgVVcMstHzvlA4IVeSWyD2g",
+          "expirationTime": 1693763374343
+        },
+        "createdAt": "1693757396302",
+        "lastLoginAt": "1693759754871",
+        "apiKey": "AIzaSyCKXnbSpOGDDh-xOd_5turvXuD-NIJfH60",
+        "appName": "[DEFAULT]"
+      } -->

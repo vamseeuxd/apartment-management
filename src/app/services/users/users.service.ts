@@ -11,7 +11,9 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  setDoc,
   updateDoc,
+  where,
 } from "@angular/fire/firestore";
 import { ToastController } from "@ionic/angular";
 import { Observable, lastValueFrom } from "rxjs";
@@ -19,20 +21,22 @@ import { Observable, lastValueFrom } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class ApartmentsService {
+export class UsersService {
   toastController: ToastController = inject(ToastController);
   firestore: Firestore = inject(Firestore);
-  apartmentsCollection = collection(this.firestore, "apartments");
-  apartmentsCollectionWithQuery = query(this.apartmentsCollection, orderBy("name", "asc"));
+  usersCollection = collection(this.firestore, "users");
   // prettier-ignore
-  apartments$: Observable<any[]> = collectionData(this.apartmentsCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
+  usersCollectionWithQuery = query( this.usersCollection, orderBy("displayName", "asc") );
+  // prettier-ignore
+  users$: Observable<any[]> = collectionData(this.usersCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
   auth: Auth = inject(Auth);
   user$ = user(this.auth);
 
-  async addApartment(apartment, userUid: string) {
+  async addUser(user, userUid: string) {
     try {
-      await addDoc(this.apartmentsCollection, {
-        ...apartment,
+      const documentReference = doc(this.usersCollection, userUid);
+      await setDoc(documentReference, {
+        ...user,
         createdOn: serverTimestamp(),
         createdBy: userUid,
       });
@@ -41,23 +45,23 @@ export class ApartmentsService {
     }
   }
 
-  async getApartment(apartmentId: string) {
-    const documentReference = doc(this.apartmentsCollection, apartmentId);
+  async getUsersByUid(userId: string) {
+    const documentReference = doc(this.usersCollection, userId);
     return getDoc(documentReference);
   }
 
-  async updateApartment(apartment: any, apartmentId: string, userUid: string) {
+  async updateUser(user: any, userId: string, userUid: string) {
     try {
-      const documentReference = doc(this.apartmentsCollection, apartmentId);
+      const documentReference = doc(this.usersCollection, userId);
       // prettier-ignore
-      updateDoc(documentReference, { ...apartment, lastUpdatedOn: serverTimestamp(), lastUpdatedBy: userUid });
+      updateDoc(documentReference, { ...user, lastUpdatedOn: serverTimestamp(), lastUpdatedBy: userUid });
     } catch (error) {
       this.showError(error);
     }
   }
 
-  async deleteApartment(apartmentId: string) {
-    const documentReference = doc(this.apartmentsCollection, apartmentId);
+  async deleteUser(userId: string) {
+    const documentReference = doc(this.usersCollection, userId);
     try {
       await deleteDoc(documentReference);
     } catch (error) {

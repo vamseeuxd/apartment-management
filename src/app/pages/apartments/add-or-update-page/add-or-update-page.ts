@@ -1,23 +1,10 @@
-import { Observable } from "rxjs";
 import { Component, inject } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MaskitoElementPredicateAsync, MaskitoOptions } from "@maskito/core";
-import {
-  CollectionReference,
-  DocumentReference,
-  Firestore,
-  addDoc,
-  collection,
-  collectionData,
-  doc,
-  getDoc,
-  serverTimestamp,
-  updateDoc,
-} from "@angular/fire/firestore";
 import { LoaderService } from "../../../services/loader/loader.service";
 import { Auth, User, user } from "@angular/fire/auth";
-import { ApartmentsService } from "../service";
+import { ApartmentsService, IApartment } from "../../../services/apartments/apartments.service";
 
 @Component({
   selector: "add-or-update-page-apartments",
@@ -27,7 +14,7 @@ import { ApartmentsService } from "../service";
 export class AddOrUpdateApartmentsPage {
   private auth: Auth = inject(Auth);
   user$ = user(this.auth);
-  dataToEdit: any = {
+  dataToEdit: IApartment = {
     name: "",
     registrationNumber: "",
     pincode: "",
@@ -38,6 +25,7 @@ export class AddOrUpdateApartmentsPage {
     createdBy: "",
     city: "",
     district: "",
+    id: "",
   };
   readonly pinCodeMask: MaskitoOptions = {
     mask: [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/],
@@ -59,11 +47,8 @@ export class AddOrUpdateApartmentsPage {
     const sub = this.route.params.subscribe(async (params) => {
       sub.unsubscribe();
       if (params && params.id) {
-        this.dataToEdit = (
-          await this.service.getApartment(this.route.snapshot.params.id)
-        ).data();
-        console.clear();
-        console.log(this.dataToEdit);
+        // prettier-ignore
+        this.dataToEdit = ( await this.service.getApartment(this.route.snapshot.params.id) ).data();
         this.loader.hide(id);
       } else {
         this.loader.hide(id);
@@ -89,7 +74,8 @@ export class AddOrUpdateApartmentsPage {
     if (apartmentForm.valid) {
       const id = this.loader.show();
       try {
-        await this.service.updateApartment(apartmentForm.value, docId, user.uid);
+        // prettier-ignore
+        await this.service.updateApartment( apartmentForm.value, docId, user.uid );
         this.loader.hide(id);
         apartmentForm.resetForm({});
         this.router.navigate(["/app/tabs/apartments"]);

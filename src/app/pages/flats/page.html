@@ -12,27 +12,31 @@
   <ng-container *ngIf="apartmentsWithFlats$ | async as apartments">
     <ion-accordion-group [multiple]="true">
       <ion-accordion *ngFor="let apartment of apartments" [value]="apartment.id">
-        <ion-item  slot="header" style="border: 1px solid #d5d5d5;margin: 5px;">
+        <ion-item  slot="header" style="border: 1px solid #d5d5d5;margin: 5px;margin-bottom: 0px;">
           <ion-label>
             {{apartment.name}}
           </ion-label>
         </ion-item>
 
-        <div slot="content" style="margin-top: -7px;">
-          <ion-label *ngIf="apartment.wings.length === 0" class="ion-text-center">
-            <p style="margin-top: 10px;">No Wings to show</p>
-          </ion-label>
-          <ion-accordion-group *ngIf="apartment.wings.length > 0" [multiple]="true" style="border: 1px solid #d5d5d5;margin: 5px;">
-            <ion-accordion *ngFor="let wing of apartment.wings" [value]="wing.id" toggleIcon="caret-down-circle">
+        <div slot="content">
+          <ion-item *ngIf="apartment.wings.length === 0" style="border: 1px solid #d5d5d5;margin: 5px;margin-top: 0px;">
+            <ion-label class="ion-text-center">
+              <p style="margin-top: 10px;">No Wings to show</p>
+            </ion-label>
+          </ion-item>
+          <ion-accordion-group *ngIf="apartment.wings.length > 0" [multiple]="true" style="border: 1px solid #d5d5d5;margin: 5px;margin-top: 0px;">
+            <ion-accordion *ngFor="let wing of apartment.wings" [value]="wing.id" toggleIcon="caret-down-circle" style=" border: 1px solid #d5d5d5; margin: 10px 10px; width: calc(100% - 20px); ">
               <ion-item  slot="header">
                 <ion-label>
                   {{wing.name}}
                 </ion-label>
               </ion-item>
-              <div slot="content">
-                <ion-label *ngIf="wing.flats.length === 0" class="ion-text-center">
-                  <p>No Floats to show</p>
-                </ion-label>
+              <div slot="content" style="border-top: 1px solid #d5d5d5;">
+                <ion-item *ngIf="wing.flats.length === 0" class="ion-text-center">
+                  <ion-label class="ion-text-center">
+                    <p>No Floats to show</p>
+                  </ion-label>
+                </ion-item>
                 <ion-item-sliding *ngFor="let flat of wing.flats" #slidingItem>
                   <ion-item-options side="start">
                     <ion-item-option color="warning" (click)="slidingItem.close();" routerLink="/app/tabs/flats/update/{{flat.id}}" > &nbsp;&nbsp;Edit&nbsp;&nbsp; </ion-item-option>

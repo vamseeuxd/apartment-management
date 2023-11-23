@@ -113,6 +113,16 @@ const routes: Routes = [
         ],
       },
       {
+        path: "members",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../members/page.module").then((m) => m.MembersModule),
+          },
+        ],
+      },
+      {
         path: "",
         redirectTo: "/app/tabs/schedule",
         pathMatch: "full",
