@@ -4,12 +4,14 @@ import { IonicModule } from '@ionic/angular';
 
 import { DashboardPage } from './dashboard';
 import { DashboardPageRoutingModule } from './dashboard-routing.module';
+import { SharedModule } from '../../components/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     IonicModule,
-    DashboardPageRoutingModule
+    DashboardPageRoutingModule,
+    SharedModule
   ],
   declarations: [DashboardPage],
 })

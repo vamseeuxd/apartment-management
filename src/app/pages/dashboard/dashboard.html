@@ -3,31 +3,12 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <!-- <ion-title>Dashboard</ion-title> -->
-    <ng-container
-      *ngIf="aparments$ | async as aparments; else inProgressLoader"
-    >
-      <ion-item>
-        <ion-select
-          placeholder="Select Apartment"
-          [value]="selectedAparment"
-          (ionChange)="apartmentsService.updateSelecteAparment($event.detail.value)"
-        >
-          <ion-select-option
-            *ngFor="let aparment of aparments"
-            [value]="aparment"
-            >Dashboard for {{aparment.name}}</ion-select-option
-          >
-        </ion-select>
-      </ion-item>
-    </ng-container>
+      <apartment-select labelFor="Dashboard for"></apartment-select>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen="true">
-  <ng-container
-    *ngIf="selectedAparment$ | async as selectedAparment; else selectAparmentComponent"
-  >
+  <ng-container *ngIf="selectedApartment; else selectAparmentComponent">
     <div class="dashboard-grid">
       <ng-container *ngFor="let module of modules">
         <div
@@ -48,10 +29,6 @@
     </div>
   </ng-container>
 </ion-content>
-
-<ng-template #inProgressLoader>
-  <ion-progress-bar type="indeterminate"></ion-progress-bar>
-</ng-template>
 
 <ng-template #selectAparmentComponent>
   <ion-text color="primary">

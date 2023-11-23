@@ -16,7 +16,15 @@ import {
   where,
 } from "@angular/fire/firestore";
 import { ToastController } from "@ionic/angular";
-import { Observable, Subject, forkJoin, from, map, of, switchMap } from "rxjs";
+import {
+  Observable,
+  Subject,
+  forkJoin,
+  from,
+  map,
+  shareReplay,
+  switchMap,
+} from "rxjs";
 import { IFirestoreTime } from "../../utilities/firestoreTime";
 
 export interface IApartment {
@@ -51,8 +59,16 @@ export class ApartmentsService {
   // prettier-ignore
   apartments$: Observable<IApartment[]> = collectionData(this.apartmentsCollectionWithQuery, { idField: "id" }) as Observable<IApartment[]>;
 
-  selectedAparmentAction: Subject<IApartment> = new Subject();
-  selectedAparment$ = this.selectedAparmentAction.asObservable();
+  apartments: IApartment[] = [];
+  selectedApartmentAction: Subject<IApartment> = new Subject();
+  selectedApartment$ = this.selectedApartmentAction.asObservable();
+  selectedApartment: IApartment;
+
+  constructor() {
+    this.getApartmentDetailsRelatedToUser().subscribe((apartments) => {
+      this.apartments = apartments;
+    });
+  }
 
   async addApartment(apartment: IApartment, userUid: string) {
     try {
@@ -95,18 +111,19 @@ export class ApartmentsService {
           // return of(apartmentId);
           return from(this.getApartment(apartmentId)).pipe(
             map((app) => {
-              return app.data();
+              return { ...app.data(), id: apartmentId };
             })
           );
         });
         return forkJoin(requests);
-      })
+      }),
+      shareReplay()
     );
   }
 
   updateSelecteAparment(aparment: IApartment) {
-    console.log(aparment);
-    this.selectedAparmentAction.next(aparment);
+    this.selectedApartmentAction.next(aparment);
+    this.selectedApartment = aparment;
   }
 
   async getApartment(apartmentId: string) {

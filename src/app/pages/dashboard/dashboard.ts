@@ -15,15 +15,18 @@ export class DashboardPage {
   modules = AppModules;
   titleWidth = 120;
   public apartmentsService: ApartmentsService = inject(ApartmentsService);
-  aparments$: Observable<IApartment[]>;
-  selectedAparment$: Observable<IApartment>;
+  apartments: IApartment[] = [];
+  selectedApartment: IApartment;
   @HostListener("window:resize", ["$event"])
   onResize(event) {
     this.titleWidth = window.innerWidth / 3 - 18;
   }
   constructor() {
     this.titleWidth = window.innerWidth / 3 - 18;
-    this.aparments$ = this.apartmentsService.getApartmentDetailsRelatedToUser();
-    this.selectedAparment$ = this.apartmentsService.selectedAparment$;
+    this.apartmentsService
+      .selectedApartment$
+      .subscribe((aparment) => {
+        this.selectedApartment = aparment;
+      });
   }
 }

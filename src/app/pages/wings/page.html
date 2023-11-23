@@ -3,13 +3,14 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Wings</ion-title>
+    <!-- <ion-title>Wings</ion-title> -->
+      <apartment-select labelFor="Wings in"></apartment-select>
   </ion-toolbar>
 </ion-header>
 
 <!-- prettier-ignore -->
 <ion-content fullscreen="true">
-  <ng-container *ngIf="apartmentsWithWings$ | async as apartments">
+  <!-- <ng-container *ngIf="apartmentsWithWings$ | async as apartments">
     <ion-list>
       <ion-item-group *ngFor="let apartment of apartments">
         <ion-item-divider sticky>
@@ -21,7 +22,7 @@
         <ion-label *ngIf="apartment.wings.length === 0" class="ion-text-center">
           <p style="margin-top: 10px;">No wings for <b>{{apartment.name}}</b></p>
         </ion-label>
-    
+
         <ion-item-sliding *ngFor="let wing of apartment.wings" #slidingItem>
           <ion-item-options side="start">
             <ion-item-option color="warning" (click)="slidingItem.close();" routerLink="/app/tabs/wings/update/{{wing.id}}" > &nbsp;&nbsp;Edit&nbsp;&nbsp; </ion-item-option>
@@ -35,10 +36,10 @@
           </ion-item>
         </ion-item-sliding>
       </ion-item-group>
-  
+
     </ion-list>
-  </ng-container>
-  
+  </ng-container> -->
+
   <ion-fab slot="fixed" routerLink="/app/tabs/wings/add" vertical="bottom" horizontal="end" #fab>
     <ion-fab-button> <ion-icon name="add"></ion-icon> </ion-fab-button>
   </ion-fab>

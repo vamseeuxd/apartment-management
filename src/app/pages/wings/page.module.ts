@@ -7,6 +7,7 @@ import { WingsPageRoutingModule } from "./page-routing.module";
 import { AddOrUpdateWingsPage } from "./add-or-update-page/add-or-update-page";
 import { FormsModule } from "@angular/forms";
 import { MaskitoModule } from "@maskito/angular"; /* https://maskito.dev/getting-started/maskito-libraries */
+import { SharedModule } from "../../components/shared.module";
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { MaskitoModule } from "@maskito/angular"; /* https://maskito.dev/getting
     WingsPageRoutingModule,
     FormsModule,
     MaskitoModule,
+    SharedModule,
   ],
   declarations: [WingsPage, AddOrUpdateWingsPage],
 })

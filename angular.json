@@ -53,7 +53,7 @@
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true,
-            "allowedCommonJsDependencies": ["localforage"],
+            "allowedCommonJsDependencies": ["localforage", "qrcode"],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"
           },
