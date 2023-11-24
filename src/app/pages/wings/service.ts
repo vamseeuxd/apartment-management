@@ -1,24 +1,11 @@
 import { Injectable, inject } from "@angular/core";
-import { Auth, user } from "@angular/fire/auth";
-import {
-  Firestore,
-  addDoc,
-  collection,
-  collectionData,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  orderBy,
-  query,
-  serverTimestamp,
-  updateDoc,
-  where,
-} from "@angular/fire/firestore";
+import { serverTimestamp } from "@angular/fire/firestore";
 import { ToastController } from "@ionic/angular";
-import { Observable } from "rxjs";
+import { Observable, switchMap, firstValueFrom, Subject } from "rxjs";
 import { IFirestoreTime } from "../../interfaces/firestoreTime";
 import { IFlat } from "../flats/service";
+import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { IApartment } from "../../interfaces/IApartment";
 
 export interface IWing {
   id: string;
@@ -36,22 +23,22 @@ export interface IWing {
 })
 export class WingsService {
   toastController: ToastController = inject(ToastController);
-  firestore: Firestore = inject(Firestore);
-  wingsCollection = collection(this.firestore, "wings");
-  wingsCollectionWithQuery = query(
-    this.wingsCollection,
-    orderBy("name", "asc")
+  private afs: AngularFirestore = inject(AngularFirestore);
+  apartmentAction: Subject<IApartment> = new Subject<IApartment>();
+  apartment$: Observable<IApartment> = this.apartmentAction.asObservable();
+  public wings$: Observable<IWing[]> = this.apartment$.pipe(
+    switchMap((apartment: any) => {
+      return this.afs
+        .collection<any>("wings", (ref) => {
+          return ref.where("apartment", "==", apartment.id);
+        })
+        .valueChanges({ idField: "id" });
+    })
   );
-  // prettier-ignore--
-  wings$: Observable<any[]> = collectionData(this.wingsCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
-  auth: Auth = inject(Auth);
-  user$ = user(this.auth);
-
-  constructor() {}
 
   async addWing(wing, userUid: string) {
     try {
-      await addDoc(this.wingsCollection, {
+      const newDoc = await this.afs.collection<IWing>("wings").add({
         ...wing,
         createdOn: serverTimestamp(),
         createdBy: userUid,
@@ -61,39 +48,31 @@ export class WingsService {
     }
   }
 
-  async getWingsByApartmentId(apartmentId: string) {
-    const q = query(
-      this.wingsCollection,
-      where("apartment", "==", apartmentId),
-      orderBy("name", "asc")
-    );
-    const wings = await getDocs(q);
-    const returnData = [];
-    wings.forEach((wing) => {
-      returnData.push({ ...wing.data(), id: wing.id });
-    });
-    return returnData;
-  }
-
   async getWing(wingId: string) {
-    const documentReference = doc(this.wingsCollection, wingId);
-    return getDoc(documentReference);
+    return firstValueFrom(
+      this.afs
+        .collection<IWing>("wings")
+        .doc(wingId)
+        .valueChanges({ idField: "id" })
+    );
   }
 
   async updateWing(wing: any, wingId: string, userUid: string) {
     try {
-      const documentReference = doc(this.wingsCollection, wingId);
-      // prettier-ignore
-      updateDoc(documentReference, { ...wing, lastUpdatedOn: serverTimestamp(), lastUpdatedBy: userUid });
+      const doc = await this.afs.collection<IWing>("wings").doc(wingId);
+      await doc.update({
+        ...wing,
+        lastUpdatedOn: serverTimestamp(),
+        lastUpdatedBy: userUid,
+      });
     } catch (error) {
       this.showError(error);
     }
   }
 
   async deleteWing(wingId: string) {
-    const documentReference = doc(this.wingsCollection, wingId);
     try {
-      await deleteDoc(documentReference);
+      await this.afs.collection<IWing>("wings").doc(wingId).delete();
     } catch (error) {
       this.showError(error);
     }

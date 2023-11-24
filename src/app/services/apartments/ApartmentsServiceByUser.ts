@@ -19,8 +19,6 @@ export class ApartmentsByUserService {
   toastController: ToastController = inject(ToastController);
   private afs: AngularFirestore = inject(AngularFirestore);
   private afAuth: AngularFireAuth = inject(AngularFireAuth);
-  private router: Router = inject(Router);
-  private ngZone: NgZone = inject(NgZone);
   public apartments$: Observable<IApartment[]> = this.afAuth.authState.pipe(
     switchMap((user: any) =>
       this.afs

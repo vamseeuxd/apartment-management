@@ -3,8 +3,11 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title *ngIf="apartment$ | async as apartment">
-      <ion-skeleton-text *ngIf="!apartment" [animated]="true"></ion-skeleton-text>
+    <ion-title>
+      <ion-skeleton-text
+        *ngIf="!apartment"
+        [animated]="true"
+      ></ion-skeleton-text>
       <ng-container *ngIf="apartment">Wings in {{apartment.name}}</ng-container>
     </ion-title>
   </ion-toolbar>
@@ -12,37 +15,25 @@
 
 <!-- prettier-ignore -->
 <ion-content fullscreen="true">
-  <!-- <ng-container *ngIf="apartmentsWithWings$ | async as apartments">
+  <ng-container *ngIf="service.wings$| async as wings">
     <ion-list>
-      <ion-item-group *ngFor="let apartment of apartments">
-        <ion-item-divider sticky>
-          <ion-label>
-            {{apartment.name}}
+      <ion-item-sliding *ngFor="let wing of wings" #slidingItem>
+        <ion-item-options side="start">
+          <ion-item-option color="warning" (click)="slidingItem.close();"
+          [routerLink]="['/app/tabs/wings',apartment.id,'update',wing.id]"> &nbsp;&nbsp;Edit&nbsp;&nbsp; </ion-item-option>
+          <ion-item-option color="danger" (click)="deleteItem(slidingItem,wing.id);" > Delete </ion-item-option>
+        </ion-item-options>
+        <ion-item>
+          <ion-label style="padding-left: 10px;border-left: 2px solid #3bc7c4;">
+            <h3>{{wing.name|titlecase}}</h3>
+            <p style="text-wrap: balance" [innerHTML]="wing.description | titlecase"></p>
           </ion-label>
-        </ion-item-divider>
-
-        <ion-label *ngIf="apartment.wings.length === 0" class="ion-text-center">
-          <p style="margin-top: 10px;">No wings for <b>{{apartment.name}}</b></p>
-        </ion-label>
-
-        <ion-item-sliding *ngFor="let wing of apartment.wings" #slidingItem>
-          <ion-item-options side="start">
-            <ion-item-option color="warning" (click)="slidingItem.close();" routerLink="/app/tabs/wings/update/{{wing.id}}" > &nbsp;&nbsp;Edit&nbsp;&nbsp; </ion-item-option>
-            <ion-item-option color="danger" (click)="deleteItem(slidingItem,wing.id);" > Delete </ion-item-option>
-          </ion-item-options>
-          <ion-item>
-            <ion-label style="padding-left: 10px;border-left: 2px solid #3bc7c4;">
-              <h3>{{wing.name|titlecase}}</h3>
-              <p style="text-wrap: balance" [innerHTML]="wing.description | titlecase"></p>
-            </ion-label>
-          </ion-item>
-        </ion-item-sliding>
-      </ion-item-group>
-
+        </ion-item>
+      </ion-item-sliding>
     </ion-list>
-  </ng-container> -->
+  </ng-container>
 
-  <ion-fab slot="fixed" routerLink="/app/tabs/wings/add" vertical="bottom" horizontal="end" #fab>
+  <ion-fab slot="fixed" *ngIf="apartment" [routerLink]="['/app/tabs/wings',apartment.id,'add']" vertical="bottom" horizontal="end" #fab>
     <ion-fab-button> <ion-icon name="add"></ion-icon> </ion-fab-button>
   </ion-fab>
 </ion-content>

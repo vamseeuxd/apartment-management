@@ -1,4 +1,3 @@
-import { Observable } from "rxjs";
 import { Component, inject } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -6,7 +5,7 @@ import { LoaderService } from "../../../services/loader/loader.service";
 import { Auth, User, user } from "@angular/fire/auth";
 import { IWing, WingsService } from "../service";
 import { IonInput } from "@ionic/angular";
-import { ApartmentsService } from "../../../services/apartments/apartments.service";
+import { ApartmentBase } from "../../../base-classes/apartment-base";
 import { IApartment } from "../../../interfaces/IApartment";
 
 @Component({
@@ -14,7 +13,7 @@ import { IApartment } from "../../../interfaces/IApartment";
   templateUrl: "add-or-update-page.html",
   styleUrls: ["./add-or-update-page.scss"],
 })
-export class AddOrUpdateWingsPage {
+export class AddOrUpdateWingsPage extends ApartmentBase {
   private auth: Auth = inject(Auth);
   user$ = user(this.auth);
   dataToEdit: IWing = {
@@ -29,16 +28,18 @@ export class AddOrUpdateWingsPage {
       seconds: 0,
     },
   };
-  apartments$: Observable<IApartment[]>;
-
+  apartment: IApartment;
   constructor(
     public route: ActivatedRoute,
     public loader: LoaderService,
     private router: Router,
-    private service: WingsService,
-    private apartmentService: ApartmentsService
+    private service: WingsService
   ) {
-    this.apartments$ = this.apartmentService.apartments$;
+    super();
+    this.apartment$.subscribe((apartment) => {
+      this.apartment = apartment;
+      this.service.apartmentAction.next(apartment);
+    });
     this.getWing();
   }
 
@@ -47,9 +48,9 @@ export class AddOrUpdateWingsPage {
     const sub = this.route.params.subscribe(async (params) => {
       sub.unsubscribe();
       if (params && params.id) {
-        this.dataToEdit = (
-          await this.service.getWing(this.route.snapshot.params.id)
-        ).data() as IWing;
+        this.dataToEdit = await this.service.getWing(
+          this.route.snapshot.params.id
+        );
         this.loader.hide(id);
       } else {
         this.loader.hide(id);
@@ -57,7 +58,12 @@ export class AddOrUpdateWingsPage {
     });
   }
 
-  async save(wingForm: NgForm, user: User, addNew: boolean, wingNameRef: IonInput) {
+  async save(
+    wingForm: NgForm,
+    user: User,
+    addNew: boolean,
+    wingNameRef: IonInput
+  ) {
     if (wingForm.valid) {
       const id = this.loader.show();
       try {
@@ -71,7 +77,7 @@ export class AddOrUpdateWingsPage {
           wingForm.resetForm(this.dataToEdit);
           wingNameRef.setFocus();
         } else {
-          this.router.navigate(["/app/tabs/wings"]);
+          this.router.navigate(["/app/tabs/wings", this.apartment.id]);
           wingForm.resetForm({});
         }
       } catch (error) {
@@ -87,7 +93,7 @@ export class AddOrUpdateWingsPage {
         await this.service.updateWing(wingForm.value, docId, user.uid);
         this.loader.hide(id);
         wingForm.resetForm({});
-        this.router.navigate(["/app/tabs/wings"]);
+        this.router.navigate(["/app/tabs/wings", this.apartment.id]);
       } catch (error) {
         console.log(error.code);
         this.loader.hide(id);

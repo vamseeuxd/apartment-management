@@ -4,8 +4,20 @@
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      <ion-title *ngIf="!params.id">Add Wing</ion-title>
-      <ion-title *ngIf="!!params.id">Update Wing</ion-title>
+      <!-- <ion-title *ngIf="!params.id">Add Wing</ion-title>
+      <ion-title *ngIf="!!params.id">Update Wing</ion-title> -->
+      <ion-title *ngIf="apartment">
+        <ion-skeleton-text
+          *ngIf="!apartment"
+          [animated]="true"
+        ></ion-skeleton-text>
+        <ng-container *ngIf="!params.id"
+          >Add Wing in {{apartment.name}}</ng-container
+        >
+        <ng-container *ngIf="!!params.id"
+          >Update {{apartment.name}} Wing</ng-container
+        >
+      </ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -24,7 +36,7 @@
               placeholder="Enter Wing Name"
             ></ion-input>
           </ion-item>
-          
+
           <ion-item>
             <ion-input
               label="No Of Floors in Wing"
@@ -47,23 +59,12 @@
               placeholder="Enter Wing Description"
             ></ion-input>
           </ion-item>
-
-          <ion-item *ngIf="apartments$ | async as apartments">
-            <ion-select
-              [required]="true"
-              label="Apartment"
-              labelPlacement="floating"
-              [ngModel]="dataToEdit['apartment']"
-              name="apartment"
-              placeholder="Select Apartment"
-            >
-              <ion-select-option
-                *ngFor="let apartment of apartments"
-                [value]="apartment.id"
-                >{{apartment.name}}</ion-select-option
-              >
-            </ion-select>
-          </ion-item>
+          <input
+            *ngIf="apartment"
+            type="hidden"
+            name="apartment"
+            [ngModel]="apartment.id"
+          />
         </ion-list>
         <ion-grid fixed>
           <ion-row>
@@ -91,12 +92,12 @@
                 >Update</ion-button
               >
             </ion-col>
-            <ion-col size="12">
+            <ion-col size="12" *ngIf="apartment">
               <ion-button expand="full" color="dark">
                 Cancel
                 <ion-back-button
                   class="back-button-inside-button"
-                  defaultHref="/app/tabs/wings"
+                  [defaultHref]="'/app/tabs/wings/'+apartment.id"
                 ></ion-back-button>
               </ion-button>
             </ion-col>

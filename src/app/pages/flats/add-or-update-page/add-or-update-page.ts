@@ -63,9 +63,9 @@ export class AddOrUpdateFlatsPage {
 
   async onAparmentChange($event: any) {
     const id = this.loader.show();
-    this.wings = await this.wingsService.getWingsByApartmentId(
+    /* this.wings = await this.wingsService.getWingsByApartmentId(
       $event.detail.value
-    );
+    ); */
     this.onWingChange({ detail: { value: this.dataToEdit.wing } });
     this.loader.hide(id);
   }

@@ -22,12 +22,14 @@ export class ApartmentBase {
   apartment$: Observable<IApartment> = this.activatedRoute.params.pipe(
     mergeMap((params: any) => {
       const loaderId = this.loader.show();
-      return from(this.apartmentsService.getApartment(params.apartmentId)).pipe(
-        map((data) => {
-          this.loader.hide(loaderId);
-          return data;
-        })
-      );
+      return params.apartmentId
+        ? from(this.apartmentsService.getApartment(params.apartmentId)).pipe(
+            map((data) => {
+              this.loader.hide(loaderId);
+              return data;
+            })
+          )
+        : of(null);
     })
   );
 }
