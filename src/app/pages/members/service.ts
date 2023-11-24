@@ -2,6 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { Auth, User, user } from "@angular/fire/auth";
 import {
   CollectionReference,
+  FieldValue,
   Firestore,
   addDoc,
   collection,
@@ -16,14 +17,14 @@ import {
 } from "@angular/fire/firestore";
 import { ToastController } from "@ionic/angular";
 import { Observable } from "rxjs";
-import { IFirestoreTime } from "../../utilities/firestoreTime";
+import { IFirestoreTime } from "../../interfaces/firestoreTime";
 
 export interface IMember {
-  id: string;
+  id?: string;
   uid: string;
   apartment: string;
   lastUpdatedOn?: IFirestoreTime;
-  createdOn?: IFirestoreTime;
+  createdOn?: FieldValue;
   lastUpdatedBy?: string;
   createdBy?: string;
 }

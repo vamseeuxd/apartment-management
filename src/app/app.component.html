@@ -5,7 +5,7 @@
         <ion-list lines="none">
           <!-- <ion-list-header> Apartment Management </ion-list-header> -->
           <ng-container *ngFor="let module of modules">
-            <ion-menu-toggle autoHide="false">
+            <ion-menu-toggle autoHide="false" *ngIf="!module.hideInSideMenu">
               <ion-item
                 [routerLink]="module.route"
                 routerLinkActive="selected"
@@ -17,8 +17,8 @@
               </ion-item>
             </ion-menu-toggle>
           </ng-container>
-          
 
+        <!--
           <ion-list-header> For Demo Only </ion-list-header>
           <ion-menu-toggle
             autoHide="false"
@@ -36,6 +36,7 @@
               </ion-label>
             </ion-item>
           </ion-menu-toggle>
+         -->
         </ion-list>
 
         <ion-list *ngIf="loggedIn" lines="none">
@@ -53,7 +54,7 @@
             </ion-item>
           </ion-menu-toggle>
 
-          <ion-menu-toggle autoHide="false">
+          <!-- <ion-menu-toggle autoHide="false">
             <ion-item
               routerLink="/support"
               routerLinkActive="active"
@@ -63,7 +64,7 @@
               <ion-icon slot="start" name="help"></ion-icon>
               <ion-label> Support </ion-label>
             </ion-item>
-          </ion-menu-toggle>
+          </ion-menu-toggle> -->
 
           <ion-menu-toggle autoHide="false">
             <ion-item button (click)="logout()" detail="false">
@@ -76,7 +77,7 @@
             <ion-icon slot="start" name="moon-outline"></ion-icon>
             <ion-toggle [(ngModel)]="dark"> Dark Mode </ion-toggle>
           </ion-item>
-          
+
         </ion-list>
 
         <ion-list *ngIf="!loggedIn" lines="none">
@@ -94,7 +95,7 @@
             </ion-item>
           </ion-menu-toggle>
 
-          <ion-menu-toggle autoHide="false">
+          <!-- <ion-menu-toggle autoHide="false">
             <ion-item
               routerLink="/support"
               routerLinkActive="active"
@@ -104,9 +105,9 @@
               <ion-icon slot="start" name="help"></ion-icon>
               <ion-label> Support </ion-label>
             </ion-item>
-          </ion-menu-toggle>
+          </ion-menu-toggle> -->
 
-          <ion-menu-toggle autoHide="false">
+          <!-- <ion-menu-toggle autoHide="false">
             <ion-item
               routerLink="/signup"
               routerLinkActive="active"
@@ -116,7 +117,7 @@
               <ion-icon slot="start" name="person-add"></ion-icon>
               <ion-label> Signup </ion-label>
             </ion-item>
-          </ion-menu-toggle>
+          </ion-menu-toggle> -->
 
           <ion-item>
             <ion-icon slot="start" name="moon-outline"></ion-icon>

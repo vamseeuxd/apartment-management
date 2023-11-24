@@ -19,6 +19,7 @@ import { LoaderService } from "./services/loader/loader.service";
 import { Auth, signOut } from "@angular/fire/auth";
 import { filter } from "rxjs/operators";
 import { AppModules } from "./utilities/app-modules";
+import { ApartmentBase } from "./base-classes/apartment-base";
 
 @Component({
   selector: "app-root",
@@ -26,7 +27,7 @@ import { AppModules } from "./utilities/app-modules";
   styleUrls: ["./app.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppComponent implements OnInit {
+export class AppComponent extends ApartmentBase implements OnInit  {
   modules = AppModules;
   private auth: Auth = inject(Auth);
   appPages = [
@@ -65,6 +66,7 @@ export class AppComponent implements OnInit {
     public loader: LoaderService,
     private alertController: AlertController
   ) {
+    super();
     this.initializeApp();
   }
 

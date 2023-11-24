@@ -1,9 +1,10 @@
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
-import { Component } from "@angular/core";
-import { AlertController } from "@ionic/angular";
+import { Component, inject } from "@angular/core";
+import { AlertController, ToastController } from "@ionic/angular";
 import { LoaderService } from "../../services/loader/loader.service";
-import { ApartmentsService, IApartment } from "../../services/apartments/apartments.service";
+import { IApartment } from "../../interfaces/IApartment";
+import { ApartmentsByUserService } from "../../services/apartments/ApartmentsServiceByUser";
 
 @Component({
   selector: "page-apartments",
@@ -12,10 +13,11 @@ import { ApartmentsService, IApartment } from "../../services/apartments/apartme
 })
 export class ApartmentsPage {
   apartments$: Observable<IApartment[]>;
+  toastController: ToastController = inject(ToastController);
   constructor(
     private alertController: AlertController,
     public loader: LoaderService,
-    private service: ApartmentsService
+    private service: ApartmentsByUserService
   ) {
     const id = this.loader.show();
     this.apartments$ = this.service.apartments$.pipe(
@@ -39,6 +41,8 @@ export class ApartmentsPage {
               try {
                 await this.service.deleteApartment(apartmentId);
                 this.loader.hide(id);
+                const toast = await this.toastController.create({ message: 'Apartment Deleted Successfully', duration: 1500, position: "bottom" });
+                await toast.present();
               } catch (error) {
                 this.loader.hide(id);
               }

@@ -1,8 +1,8 @@
 import { Component, Input } from "@angular/core";
 import {
   ApartmentsService,
-  IApartment,
 } from "../../services/apartments/apartments.service";
+import { IApartment } from "../../interfaces/IApartment";
 import { ActionSheetController } from "@ionic/angular";
 
 @Component({

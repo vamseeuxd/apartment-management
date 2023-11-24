@@ -7,6 +7,7 @@ export const AppModules = [
     name: "Dashboard",
     title: "Dashboard",
     hideInDashboard: true,
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/apartments",
@@ -24,6 +25,7 @@ export const AppModules = [
     id: "Wings",
     name: "Wings",
     title: "Wings",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/flats",
@@ -32,6 +34,7 @@ export const AppModules = [
     id: "Flat",
     name: "Flats",
     title: "Flats",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/members",
@@ -40,6 +43,7 @@ export const AppModules = [
     id: "Members",
     name: "Members",
     title: "Members",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/owners",
@@ -48,6 +52,7 @@ export const AppModules = [
     id: "Owners",
     name: "Owners",
     title: "Owners",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/accounts",
@@ -56,6 +61,7 @@ export const AppModules = [
     id: "Accounts",
     name: "Accounts",
     title: "Accounts",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/visitors",
@@ -64,6 +70,7 @@ export const AppModules = [
     id: "Visitors",
     name: "Visitors",
     title: "Visitors",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/notices",
@@ -72,6 +79,7 @@ export const AppModules = [
     id: "Notices",
     name: "Notices",
     title: "Notices",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/events",
@@ -80,6 +88,7 @@ export const AppModules = [
     id: "Events",
     name: "Events",
     title: "Events",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/rules",
@@ -88,6 +97,7 @@ export const AppModules = [
     id: "Rules",
     name: "Rules",
     title: "Rules",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/vehicles",
@@ -96,6 +106,7 @@ export const AppModules = [
     id: "Vehicles",
     name: "Vehicles",
     title: "Vehicles",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/staff",
@@ -104,6 +115,7 @@ export const AppModules = [
     id: "Staff",
     name: "Staff",
     title: "Staff",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/notifications",
@@ -112,6 +124,7 @@ export const AppModules = [
     id: "My Notifications",
     name: "My Notifications",
     title: "My Notifications",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/inventory",
@@ -120,6 +133,7 @@ export const AppModules = [
     id: "Inventory",
     name: "Inventory",
     title: "Inventory",
+    hideInSideMenu: true,
   },
   {
     route: "/app/tabs/tenants",
@@ -128,6 +142,7 @@ export const AppModules = [
     id: "Tenants",
     name: "Tenants",
     title: "Tenants",
+    hideInSideMenu: true,
   },
   {
     route: "/account",
@@ -137,5 +152,6 @@ export const AppModules = [
     name: "User Profile",
     title: "User Profile",
     hideInDashboard: true,
+    hideInSideMenu: true,
   },
 ];

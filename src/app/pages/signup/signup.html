@@ -9,21 +9,21 @@
 
 <ion-content>
 
-  <div class="signup-logo">
+  <!-- <div class="signup-logo">
     <img src="assets/img/appicon.svg" alt="Ionic Logo">
-  </div>
+  </div> -->
 
   <div class="signup-form">
     <form #signupForm="ngForm" novalidate>
       <ion-input
-        label="Username"
+        label="Email Address"
         labelPlacement="stacked"
         fill="solid"
         [(ngModel)]="signup.username"
         name="username"
         type="text"
         #username="ngModel"
-        errorText="Username is required"
+        errorText="Email Address is required"
         required>
       </ion-input>
 
@@ -40,7 +40,7 @@
       </ion-input>
 
       <div class="ion-padding">
-        <ion-button (click)="onSignup(signupForm)" type="submit" expand="block">Create</ion-button>
+        <ion-button (click)="onSignup(signupForm)" type="submit" expand="block">Sign Up</ion-button>
       </div>
     </form>
   </div>

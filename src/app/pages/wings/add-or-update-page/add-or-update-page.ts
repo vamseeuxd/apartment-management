@@ -6,7 +6,8 @@ import { LoaderService } from "../../../services/loader/loader.service";
 import { Auth, User, user } from "@angular/fire/auth";
 import { IWing, WingsService } from "../service";
 import { IonInput } from "@ionic/angular";
-import { ApartmentsService, IApartment } from "../../../services/apartments/apartments.service";
+import { ApartmentsService } from "../../../services/apartments/apartments.service";
+import { IApartment } from "../../../interfaces/IApartment";
 
 @Component({
   selector: "add-or-update-page-wings",

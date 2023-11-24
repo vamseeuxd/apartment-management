@@ -19,7 +19,9 @@ import {
 } from "ngx-scanner-qrcode";
 import { UsersService } from "../../../services/users/users.service";
 import { ToastController } from "@ionic/angular";
-import { ApartmentsService, IApartment } from "../../../services/apartments/apartments.service";
+import { ApartmentsService } from "../../../services/apartments/apartments.service";
+import { IApartment } from "../../../interfaces/IApartment";
+import { ApartmentsByUserService } from "../../../services/apartments/ApartmentsServiceByUser";
 
 @Component({
   selector: "add-or-update-page-members",
@@ -55,7 +57,7 @@ export class AddOrUpdateMembersPage {
     private cdr: ChangeDetectorRef,
     private qrcode: NgxScannerQrcodeService,
     private toastController: ToastController,
-    private apartmentService: ApartmentsService
+    private apartmentService: ApartmentsByUserService
   ) {
     this.apartments$ = this.apartmentService.apartments$;
     this.getMember();

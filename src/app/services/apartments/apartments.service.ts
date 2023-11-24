@@ -25,24 +25,7 @@ import {
   shareReplay,
   switchMap,
 } from "rxjs";
-import { IFirestoreTime } from "../../utilities/firestoreTime";
-
-export interface IApartment {
-  id: string;
-  name: string;
-  registrationNumber: string;
-  addressLine1: string;
-  addressLine2: string;
-  city: string;
-  district: string;
-  state: string;
-  pincode: string;
-  country: string;
-  lastUpdatedOn?: IFirestoreTime;
-  createdOn?: IFirestoreTime;
-  lastUpdatedBy?: string;
-  createdBy?: string;
-}
+import { IApartment } from "../../interfaces/IApartment";
 
 @Injectable({
   providedIn: "root",

@@ -15,7 +15,7 @@ import {
 } from "@angular/fire/firestore";
 import { ToastController } from "@ionic/angular";
 import { Observable } from "rxjs";
-import { IFirestoreTime } from "../../utilities/firestoreTime";
+import { IFirestoreTime } from "../../interfaces/firestoreTime";
 
 export interface IFlat {
   name: string;

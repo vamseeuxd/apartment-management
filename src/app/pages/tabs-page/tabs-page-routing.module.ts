@@ -51,7 +51,7 @@ const routes: Routes = [
         ],
       },
       {
-        path: "dashboard",
+        path: "dashboard/:apartmentId",
         children: [
           {
             path: "",
@@ -93,7 +93,7 @@ const routes: Routes = [
         ],
       },
       {
-        path: "wings",
+        path: "wings/:apartmentId",
         children: [
           {
             path: "",
@@ -124,7 +124,7 @@ const routes: Routes = [
       },
       {
         path: "",
-        redirectTo: "/app/tabs/schedule",
+        redirectTo: "apartments",
         pathMatch: "full",
       },
     ],

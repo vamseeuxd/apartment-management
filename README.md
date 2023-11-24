@@ -86,3 +86,6 @@ See [CONTRIBUTING.md](https://github.com/ionic-team/apartment-management/blob/ma
 ### iOS
 
 1. Run `ionic cordova run ios --prod`
+
+
+[Full Angular 16 Firebase Authentication Example Tutorial](https://www.positronx.io/full-angular-firebase-authentication-system/)

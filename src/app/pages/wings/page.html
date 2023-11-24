@@ -3,8 +3,10 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <!-- <ion-title>Wings</ion-title> -->
-      <apartment-select labelFor="Wings in"></apartment-select>
+    <ion-title *ngIf="apartment$ | async as apartment">
+      <ion-skeleton-text *ngIf="!apartment" [animated]="true"></ion-skeleton-text>
+      <ng-container *ngIf="apartment">Wings in {{apartment.name}}</ng-container>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
