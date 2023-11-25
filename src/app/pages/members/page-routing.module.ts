@@ -1,22 +1,22 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
 
-import { MembersPage } from "./page";
-import { AddOrUpdateMembersPage } from "./add-or-update-page/add-or-update-page";
+import { MembersPage } from './page'
+import { AddOrUpdateMembersPage } from './add-or-update-page/add-or-update-page'
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: MembersPage,
   },
   {
-    path: "add",
+    path: 'add',
     component: AddOrUpdateMembersPage,
   },
   {
-    path: "update/:id",
+    path: 'update/:id',
     component: AddOrUpdateMembersPage,
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

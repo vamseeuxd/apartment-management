@@ -1,4 +1,4 @@
 export interface IFirestoreTime {
-  seconds: number;
-  nanoseconds: number;
+  seconds: number
+  nanoseconds: number
 }

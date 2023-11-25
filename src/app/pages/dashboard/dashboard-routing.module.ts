@@ -1,13 +1,13 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
 
-import { DashboardPage } from "./dashboard";
+import { DashboardPage } from './dashboard'
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: DashboardPage,
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

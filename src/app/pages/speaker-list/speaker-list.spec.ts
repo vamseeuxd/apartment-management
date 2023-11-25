@@ -1,22 +1,22 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ActionSheetController } from '@ionic/angular';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
+import { Router } from '@angular/router'
+import { TestBed, waitForAsync } from '@angular/core/testing'
+import { ActionSheetController } from '@ionic/angular'
 
-import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
-import { SpeakerListPage } from './speaker-list';
-import { ConferenceData } from '../../providers/conference-data';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx'
+import { SpeakerListPage } from './speaker-list'
+import { ConferenceData } from '../../providers/conference-data'
 
-const confDataSub = {};
+const confDataSub = {}
 
 describe('SpeakerListPage', () => {
-  let fixture, app;
+  let fixture, app
   beforeEach(waitForAsync(() => {
     const actionSheetSpy = jasmine.createSpyObj('ActionSheetController', [
-      'create'
-    ]);
-    const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
-    const iabSpy = jasmine.createSpyObj('InAppBrowser', ['create']);
+      'create',
+    ])
+    const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl'])
+    const iabSpy = jasmine.createSpyObj('InAppBrowser', ['create'])
 
     TestBed.configureTestingModule({
       declarations: [SpeakerListPage],
@@ -25,15 +25,15 @@ describe('SpeakerListPage', () => {
         { provide: ActionSheetController, useValue: actionSheetSpy },
         { provide: InAppBrowser, useValue: iabSpy },
         { provide: Router, useValue: routerSpy },
-        { provide: ConferenceData, useValue: confDataSub }
-      ]
-    }).compileComponents();
-  }));
+        { provide: ConferenceData, useValue: confDataSub },
+      ],
+    }).compileComponents()
+  }))
   beforeEach(() => {
-    fixture = TestBed.createComponent(SpeakerListPage);
-    app = fixture.debugElement.componentInstance;
-  });
+    fixture = TestBed.createComponent(SpeakerListPage)
+    app = fixture.debugElement.componentInstance
+  })
   it('should create the speaker list page', () => {
-    expect(app).toBeTruthy();
-  });
-});
+    expect(app).toBeTruthy()
+  })
+})

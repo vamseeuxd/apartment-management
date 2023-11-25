@@ -12,7 +12,7 @@ export const environment = {
     authDomain: 'apartment-management-6f91e.firebaseapp.com',
     messagingSenderId: '308712653757',
   },
-};
+}
 
 /*
  * In development mode, to ignore zone related error stack frames such as

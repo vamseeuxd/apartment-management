@@ -4,7 +4,9 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      <ng-container *ngIf="apartment$ | async as apartment else titleElseCase">Dashboard for {{apartment.name}}</ng-container>
+      <ng-container *ngIf="apartment$ | async as apartment else titleElseCase"
+        >Dashboard for {{apartment.name}}</ng-container
+      >
     </ion-title>
   </ion-toolbar>
 </ion-header>

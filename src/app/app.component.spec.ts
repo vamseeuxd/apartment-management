@@ -1,29 +1,23 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
-import { SwUpdate } from '@angular/service-worker';
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { MenuController, Platform } from '@ionic/angular';
-import { IonicStorageModule } from '@ionic/storage-angular';
-import { AppComponent } from './app.component';
-import { UserData } from './providers/user-data';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
+import { Router } from '@angular/router'
+import { SwUpdate } from '@angular/service-worker'
+import { TestBed, waitForAsync } from '@angular/core/testing'
+import { MenuController } from '@ionic/angular'
+import { IonicStorageModule } from '@ionic/storage-angular'
+import { AppComponent } from './app.component'
+import { UserData } from './providers/user-data'
 
 describe('AppComponent', () => {
-  let menuSpy,
-    routerSpy,
-    userDataSpy,
-    statusBarSpy,
-    splashScreenSpy,
-    swUpdateSpy,
-    platformReadySpy,
-    platformSpy,
-    app,
-    fixture;
+  let menuSpy, routerSpy, userDataSpy, swUpdateSpy, app, fixture
 
   beforeEach(waitForAsync(() => {
-    menuSpy = jasmine.createSpyObj('MenuController', ['toggle', 'enable']);
-    routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
-    userDataSpy = jasmine.createSpyObj('UserData', ['isLoggedIn', 'logout']);
-    swUpdateSpy = jasmine.createSpyObj('SwUpdate', ['available', 'activateUpdate']);
+    menuSpy = jasmine.createSpyObj('MenuController', ['toggle', 'enable'])
+    routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl'])
+    userDataSpy = jasmine.createSpyObj('UserData', ['isLoggedIn', 'logout'])
+    swUpdateSpy = jasmine.createSpyObj('SwUpdate', [
+      'available',
+      'activateUpdate',
+    ])
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
@@ -34,16 +28,16 @@ describe('AppComponent', () => {
         { provide: Router, useValue: routerSpy },
         { provide: UserData, useValue: userDataSpy },
         { provide: SwUpdate, useValue: swUpdateSpy },
-       // { provide: Platform, useValue: platformSpy }
-      ]
-    }).compileComponents();
-  }));
+        // { provide: Platform, useValue: platformSpy }
+      ],
+    }).compileComponents()
+  }))
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppComponent);
-    app = fixture.debugElement.componentInstance;
-  });
+    fixture = TestBed.createComponent(AppComponent)
+    app = fixture.debugElement.componentInstance
+  })
 
   it('should create the app', () => {
-    expect(app).toBeTruthy();
-  });
-});
+    expect(app).toBeTruthy()
+  })
+})

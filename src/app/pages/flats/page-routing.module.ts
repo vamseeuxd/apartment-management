@@ -1,22 +1,22 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
 
-import { FlatsPage } from "./page";
-import { AddOrUpdateFlatsPage } from "./add-or-update-page/add-or-update-page";
+import { FlatsPage } from './page'
+import { AddOrUpdateFlatsPage } from './add-or-update-page/add-or-update-page'
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: FlatsPage,
   },
   {
-    path: "add",
+    path: 'add',
     component: AddOrUpdateFlatsPage,
   },
   {
-    path: "update/:id",
+    path: 'update/:id',
     component: AddOrUpdateFlatsPage,
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

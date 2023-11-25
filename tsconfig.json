@@ -11,10 +11,7 @@
     "experimentalDecorators": true,
     "target": "ES2022",
     "skipLibCheck": true,
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es2017", "dom"],
     "useDefineForClassFields": false
   }
 }

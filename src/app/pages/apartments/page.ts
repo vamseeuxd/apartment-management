@@ -1,30 +1,30 @@
-import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
-import { Component, inject } from "@angular/core";
-import { AlertController, ToastController } from "@ionic/angular";
-import { LoaderService } from "../../services/loader/loader.service";
-import { IApartment } from "../../interfaces/IApartment";
-import { ApartmentsByUserService } from "../../services/apartments/ApartmentsServiceByUser";
+import { Observable } from 'rxjs'
+import { tap } from 'rxjs/operators'
+import { Component, inject } from '@angular/core'
+import { AlertController, ToastController } from '@ionic/angular'
+import { LoaderService } from '../../services/loader/loader.service'
+import { IApartment } from '../../interfaces/IApartment'
+import { ApartmentsByUserService } from '../../services/apartments/ApartmentsServiceByUser'
 
 @Component({
-  selector: "page-apartments",
-  templateUrl: "page.html",
-  styleUrls: ["./page.scss"],
+  selector: 'page-apartments',
+  templateUrl: 'page.html',
+  styleUrls: ['./page.scss'],
 })
 export class ApartmentsPage {
-  apartments$: Observable<IApartment[]>;
-  toastController: ToastController = inject(ToastController);
+  apartments$: Observable<IApartment[]>
+  toastController: ToastController = inject(ToastController)
   constructor(
     private alertController: AlertController,
     public loader: LoaderService,
-    private service: ApartmentsByUserService
+    private service: ApartmentsByUserService,
   ) {
-    const id = this.loader.show();
+    const id = this.loader.show()
     this.apartments$ = this.service.apartments$.pipe(
       tap(() => {
-        this.loader.hide(id);
-      })
-    );
+        this.loader.hide(id)
+      }),
+    )
   }
 
   // prettier-ignore
@@ -62,7 +62,7 @@ export class ApartmentsPage {
       state,
       country,
       pincode,
-    } = apartment;
+    } = apartment
     return Object.values({
       addressLine1: `${addressLine1}`,
       addressLine2: addressLine2 ? `${addressLine2}` : null,
@@ -73,7 +73,7 @@ export class ApartmentsPage {
       pincode: `${pincode}`,
     })
       .filter((val) => !!val)
-      .join(", ");
+      .join(', ')
     // .join("<br>");
   }
 }

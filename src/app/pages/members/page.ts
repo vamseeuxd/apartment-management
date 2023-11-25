@@ -1,39 +1,39 @@
-import { Observable, combineLatest } from "rxjs";
-import { map, tap } from "rxjs/operators";
-import { Component } from "@angular/core";
-import { AlertController } from "@ionic/angular";
-import { LoaderService } from "../../services/loader/loader.service";
-import { MembersService, IMember } from "./service";
-import { UsersService } from "../../services/users/users.service";
-import { ApartmentsService } from "../../services/apartments/apartments.service";
+import { Observable, combineLatest } from 'rxjs'
+import { map, tap } from 'rxjs/operators'
+import { Component } from '@angular/core'
+import { AlertController } from '@ionic/angular'
+import { LoaderService } from '../../services/loader/loader.service'
+import { MembersService, IMember } from './service'
+import { UsersService } from '../../services/users/users.service'
+import { ApartmentsService } from '../../services/apartments/apartments.service'
 
 @Component({
-  selector: "page-members",
-  templateUrl: "page.html",
-  styleUrls: ["./page.scss"],
+  selector: 'page-members',
+  templateUrl: 'page.html',
+  styleUrls: ['./page.scss'],
 })
 export class MembersPage {
-  members$: Observable<IMember[]>;
-  membersWithApartmentAndUserDetail$: Observable<any>;
+  members$: Observable<IMember[]>
+  membersWithApartmentAndUserDetail$: Observable<any>
   constructor(
     private alertController: AlertController,
     public loader: LoaderService,
     private apartmentService: ApartmentsService,
     private usersService: UsersService,
-    private service: MembersService
+    private service: MembersService,
   ) {
-    this.getMembersWithApartmentAndUserDetail();
+    this.getMembersWithApartmentAndUserDetail()
   }
 
   getMembersWithApartmentAndUserDetail() {
-    const id = this.loader.show();
+    const id = this.loader.show()
     this.membersWithApartmentAndUserDetail$ = combineLatest([
       this.apartmentService.apartments$,
       this.usersService.users$,
       this.service.members$,
     ]).pipe(
       map(([apartments, users, members]) => {
-        const returnValue = [];
+        const returnValue = []
         apartments.forEach((apartment) => {
           const groupedApartment = {
             ...apartment,
@@ -41,20 +41,20 @@ export class MembersPage {
               .filter((member) => member.apartment === apartment.id)
               .map((member) => {
                 const user = users.find((user) => {
-                  return user.uid === member.uid;
-                });
-                return user ? { ...user, member } : null;
+                  return user.uid === member.uid
+                })
+                return user ? { ...user, member } : null
               })
               .filter((user) => !!user),
-          };
-          returnValue.push(groupedApartment);
-        });
-        return returnValue;
+          }
+          returnValue.push(groupedApartment)
+        })
+        return returnValue
       }),
       tap((x) => {
-        this.loader.hide(id);
-      })
-    );
+        this.loader.hide(id)
+      }),
+    )
   }
 
   // prettier-ignore
@@ -82,13 +82,13 @@ export class MembersPage {
     await alert.present();
   }
   getAddressString(member: IMember) {
-    const { uid, apartment } = member;
+    const { uid, apartment } = member
     return Object.values({
       UID: `${uid}`,
       apartment: `${apartment}`,
     })
       .filter((val) => !!val)
-      .join(", ");
+      .join(', ')
     // .join("<br>");
   }
 }

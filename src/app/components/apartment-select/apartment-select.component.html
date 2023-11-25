@@ -5,11 +5,15 @@
       <ion-button
         *ngIf="!apartmentsService.selectedApartment"
         fill="clear"
-        (click)="presentActionSheet( )"
+        (click)="presentActionSheet()"
       >
         Select Aparment
       </ion-button>
-      <span (click)="presentActionSheet()">{{ apartmentsService.selectedApartment ? (apartmentsService.selectedApartment.name) : "" }}</span>
+      <span (click)="presentActionSheet()">{{
+        apartmentsService.selectedApartment
+          ? apartmentsService.selectedApartment.name
+          : ''
+      }}</span>
     </div>
   </ion-title>
 </ng-container>

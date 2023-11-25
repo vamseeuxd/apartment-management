@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component } from '@angular/core'
+import { NgForm } from '@angular/forms'
 
-import { AlertController, ToastController } from '@ionic/angular';
-
+import { AlertController, ToastController } from '@ionic/angular'
 
 @Component({
   selector: 'page-support',
@@ -10,34 +9,34 @@ import { AlertController, ToastController } from '@ionic/angular';
   styleUrls: ['./support.scss'],
 })
 export class SupportPage {
-  submitted = false;
-  supportMessage: string;
+  submitted = false
+  supportMessage: string
 
   constructor(
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController
-  ) { }
+    public toastCtrl: ToastController,
+  ) {}
 
   async ionViewDidEnter() {
     const toast = await this.toastCtrl.create({
       message: 'This does not actually send a support request.',
-      duration: 3000
-    });
-    await toast.present();
+      duration: 3000,
+    })
+    await toast.present()
   }
 
   async submit(form: NgForm) {
-    this.submitted = true;
+    this.submitted = true
 
     if (form.valid) {
-      this.supportMessage = '';
-      this.submitted = false;
+      this.supportMessage = ''
+      this.submitted = false
 
       const toast = await this.toastCtrl.create({
         message: 'Your support request has been sent.',
-        duration: 3000
-      });
-      await toast.present();
+        duration: 3000,
+      })
+      await toast.present()
     }
   }
 

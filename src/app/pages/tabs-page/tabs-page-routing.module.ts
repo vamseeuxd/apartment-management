@@ -1,135 +1,137 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { TabsPage } from "./tabs-page";
-import { SchedulePage } from "../schedule/schedule";
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { TabsPage } from './tabs-page'
+import { SchedulePage } from '../schedule/schedule'
 
 const routes: Routes = [
   {
-    path: "tabs",
+    path: 'tabs',
     component: TabsPage,
     children: [
       {
-        path: "schedule",
+        path: 'schedule',
         children: [
           {
-            path: "",
+            path: '',
             component: SchedulePage,
           },
           {
-            path: "session/:sessionId",
+            path: 'session/:sessionId',
             loadChildren: () =>
-              import("../session-detail/session-detail.module").then(
-                (m) => m.SessionDetailModule
+              import('../session-detail/session-detail.module').then(
+                (m) => m.SessionDetailModule,
               ),
           },
         ],
       },
       {
-        path: "speakers",
+        path: 'speakers',
         children: [
           {
-            path: "",
+            path: '',
             loadChildren: () =>
-              import("../speaker-list/speaker-list.module").then(
-                (m) => m.SpeakerListModule
+              import('../speaker-list/speaker-list.module').then(
+                (m) => m.SpeakerListModule,
               ),
           },
           {
-            path: "session/:sessionId",
+            path: 'session/:sessionId',
             loadChildren: () =>
-              import("../session-detail/session-detail.module").then(
-                (m) => m.SessionDetailModule
+              import('../session-detail/session-detail.module').then(
+                (m) => m.SessionDetailModule,
               ),
           },
           {
-            path: "speaker-details/:speakerId",
+            path: 'speaker-details/:speakerId',
             loadChildren: () =>
-              import("../speaker-detail/speaker-detail.module").then(
-                (m) => m.SpeakerDetailModule
+              import('../speaker-detail/speaker-detail.module').then(
+                (m) => m.SpeakerDetailModule,
               ),
           },
         ],
       },
       {
-        path: "dashboard/:apartmentId",
+        path: 'dashboard/:apartmentId',
         children: [
           {
-            path: "",
+            path: '',
             loadChildren: () =>
-              import("../dashboard/dashboard.module").then(
-                (m) => m.DashboardListModule
+              import('../dashboard/dashboard.module').then(
+                (m) => m.DashboardListModule,
               ),
-          }
-        ],
-      },
-      {
-        path: "map",
-        children: [
-          {
-            path: "",
-            loadChildren: () =>
-              import("../map/map.module").then((m) => m.MapModule),
           },
         ],
       },
       {
-        path: "about",
+        path: 'map',
         children: [
           {
-            path: "",
+            path: '',
             loadChildren: () =>
-              import("../about/about.module").then((m) => m.AboutModule),
+              import('../map/map.module').then((m) => m.MapModule),
           },
         ],
       },
       {
-        path: "apartments",
+        path: 'about',
         children: [
           {
-            path: "",
+            path: '',
             loadChildren: () =>
-              import("../apartments/page.module").then((m) => m.ApartmentsModule),
+              import('../about/about.module').then((m) => m.AboutModule),
           },
         ],
       },
       {
-        path: "wings/:apartmentId",
+        path: 'apartments',
         children: [
           {
-            path: "",
+            path: '',
             loadChildren: () =>
-              import("../wings/page.module").then((m) => m.WingsModule),
+              import('../apartments/page.module').then(
+                (m) => m.ApartmentsModule,
+              ),
           },
         ],
       },
       {
-        path: "flats",
+        path: 'wings/:apartmentId',
         children: [
           {
-            path: "",
+            path: '',
             loadChildren: () =>
-              import("../flats/page.module").then((m) => m.FlatsModule),
+              import('../wings/page.module').then((m) => m.WingsModule),
           },
         ],
       },
       {
-        path: "members",
+        path: 'flats',
         children: [
           {
-            path: "",
+            path: '',
             loadChildren: () =>
-              import("../members/page.module").then((m) => m.MembersModule),
+              import('../flats/page.module').then((m) => m.FlatsModule),
           },
         ],
       },
       {
-        path: "",
-        redirectTo: "apartments",
-        pathMatch: "full",
+        path: 'members',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../members/page.module').then((m) => m.MembersModule),
+          },
+        ],
+      },
+      {
+        path: '',
+        redirectTo: 'apartments',
+        pathMatch: 'full',
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

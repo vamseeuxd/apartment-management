@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core'
+import { Router } from '@angular/router'
 
-import { MenuController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular'
 
-import { Storage } from '@ionic/storage-angular';
+import { Storage } from '@ionic/storage-angular'
 
 @Component({
   selector: 'page-tutorial',
@@ -11,7 +11,7 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['./tutorial.scss'],
 })
 export class TutorialPage {
-  showSkip = true;
+  showSkip = true
 
   constructor(
     public menu: MenuController,
@@ -22,21 +22,21 @@ export class TutorialPage {
   startApp() {
     this.router
       .navigateByUrl('/app/tabs/apartments', { replaceUrl: true })
-      .then(() => this.storage.set('ion_did_tutorial', true));
+      .then(() => this.storage.set('ion_did_tutorial', true))
   }
 
   ionViewWillEnter() {
-    this.storage.get('ion_did_tutorial').then(res => {
+    this.storage.get('ion_did_tutorial').then((res) => {
       if (res === true) {
-        this.router.navigateByUrl('/app/tabs/apartments', { replaceUrl: true });
+        this.router.navigateByUrl('/app/tabs/apartments', { replaceUrl: true })
       }
-    });
+    })
 
-    this.menu.enable(false);
+    this.menu.enable(false)
   }
 
   ionViewDidLeave() {
     // enable the root left menu when leaving the tutorial page
-    this.menu.enable(true);
+    this.menu.enable(true)
   }
 }
