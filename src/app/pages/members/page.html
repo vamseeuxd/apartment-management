@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -7,7 +7,6 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- prettier-ignore -->
 <ion-content fullscreen="true">
   <ion-list *ngIf="membersWithApartmentAndUserDetail$ | async as apartments">
     <ion-item-group *ngFor="let apartment of apartments">
@@ -29,26 +28,10 @@
           <ion-label style="padding-left: 10px;border-left: 2px solid #3bc7c4;">
             <h3>{{user.displayName|titlecase}}</h3>
             <p style="text-wrap: balance" [innerHTML]="user.email"></p>
-            <!-- <small><pre>{{user|json}}</pre></small> -->
           </ion-label>
         </ion-item>
       </ion-item-sliding>
     </ion-item-group>
-
-
-    <!-- <ion-item-sliding *ngFor="let member of members" #slidingItem>
-      <ion-item-options side="start">
-        <ion-item-option color="warning" (click)="slidingItem.close();" routerLink="/app/tabs/members/update/{{member.id}}" > &nbsp;&nbsp;Edit&nbsp;&nbsp; </ion-item-option>
-        <ion-item-option color="danger" (click)="deleteItem(slidingItem,member.id);" > Delete </ion-item-option>
-      </ion-item-options>
-      <ion-item>
-        <ion-label style="padding-left: 10px; border-left: 2px solid #3bc7c4">
-          <h3>{{member.name|titlecase}}</h3>
-          <p style="text-wrap: balance" [innerHTML]="getAddressString(member) | titlecase"
-          ></p>
-        </ion-label>
-      </ion-item>
-    </ion-item-sliding> -->
   </ion-list>
 
   <ion-fab
@@ -63,3 +46,97 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+ -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <ion-skeleton-text
+        *ngIf="!apartment"
+        [animated]="true"
+      ></ion-skeleton-text>
+      <ng-container *ngIf="apartment"
+        >Members in {{apartment.name}}</ng-container
+      >
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ng-container *ngIf="service.members$| async as members">
+    <ion-list>
+      <ion-item-sliding *ngFor="let member of members" #slidingItem>
+        <ion-item-options side="start">
+          <ion-item-option
+            color="warning"
+            (click)="slidingItem.close();"
+            [routerLink]="['/app/tabs/members',apartment.id,'update',member.id]"
+          >
+            &nbsp;&nbsp;Edit&nbsp;&nbsp;
+          </ion-item-option>
+          <ion-item-option
+            color="danger"
+            (click)="deleteItem(slidingItem,member.id);"
+          >
+            Delete
+          </ion-item-option>
+        </ion-item-options>
+        <ion-item>
+          <ion-avatar aria-hidden="true" slot="start">
+            <img alt="" [src]="member.userDetails.photoURL" />
+          </ion-avatar>
+          <ion-label>
+            <h3>Name : {{member.userDetails.displayName|titlecase}}</h3>
+            <p style="text-wrap: balance">
+              Email : {{member.userDetails.email}}
+            </p>
+            <p style="text-wrap: balance">Roles : {{member.roles||'--'}}</p>
+            <!--
+              <h3>{{member.name|titlecase}}</h3>
+              <p style="text-wrap: balance" [innerHTML]="member.description | titlecase"></p>
+            -->
+          </ion-label>
+        </ion-item>
+      </ion-item-sliding>
+    </ion-list>
+  </ng-container>
+
+  <ion-fab
+    slot="fixed"
+    *ngIf="apartment"
+    [routerLink]="['/app/tabs/members',apartment.id,'add']"
+    vertical="bottom"
+    horizontal="end"
+    #fab
+  >
+    <ion-fab-button> <ion-icon name="add"></ion-icon> </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<!-- [
+  {
+    "apartment": "krpkpDvzY5y2FkWjMweU",
+    "id": "B4kjhF0CNPFKAbIQ5Qpr",
+    "createdOn": {
+      "seconds": 1694833769,
+      "nanoseconds": 263000000
+    },
+    "uid": "KdNte7RxlyWtwjD1OlI34G5rddj1",
+    "createdBy": "KdNte7RxlyWtwjD1OlI34G5rddj1",
+    "userDetails": {
+      "displayName": "vamsi kalyan",
+      "uid": "KdNte7RxlyWtwjD1OlI34G5rddj1",
+      "photoURL": "https://lh3.googleusercontent.com/a/AAcHTtcKxpKuPFiFQjiB1JRFeTaoZw2qzwbGpLXwZTP4Fez4eg=s96-c",
+      "createdOn": {
+        "seconds": 1694087820,
+        "nanoseconds": 426000000
+      },
+      "email": "vamsi.flex@gmail.com",
+      "createdBy": "KdNte7RxlyWtwjD1OlI34G5rddj1",
+      "id": "KdNte7RxlyWtwjD1OlI34G5rddj1"
+    }
+  }
+] -->
