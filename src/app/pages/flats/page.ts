@@ -1,39 +1,39 @@
-import { Observable, combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
-import { Component } from "@angular/core";
-import { AlertController } from "@ionic/angular";
-import { LoaderService } from "../../services/loader/loader.service";
-import { FlatsService, IFlat } from "./service";
-import { IWing, WingsService } from "../wings/service";
-import { ApartmentsService } from "../../services/apartments/apartments.service";
+import { Observable, combineLatest } from 'rxjs'
+import { map } from 'rxjs/operators'
+import { Component } from '@angular/core'
+import { AlertController } from '@ionic/angular'
+import { LoaderService } from '../../services/loader/loader.service'
+import { FlatsService, IFlat } from './service'
+import { IWing, WingsService } from '../wings/service'
+import { ApartmentsService } from '../../services/apartments/apartments.service'
 
 @Component({
-  selector: "page-flats",
-  templateUrl: "page.html",
-  styleUrls: ["./page.scss"],
+  selector: 'page-flats',
+  templateUrl: 'page.html',
+  styleUrls: ['./page.scss'],
 })
 export class FlatsPage {
-  flats$: Observable<IFlat[]>;
-  apartments$: Observable<any[]>;
-  wings$: Observable<IWing[]>;
-  apartmentsWithFlats$: Observable<any[]>;
+  flats$: Observable<IFlat[]>
+  apartments$: Observable<any[]>
+  wings$: Observable<IWing[]>
+  apartmentsWithFlats$: Observable<any[]>
   constructor(
     private alertController: AlertController,
     public loader: LoaderService,
     private service: FlatsService,
     private apartmentService: ApartmentsService,
-    private wingsService: WingsService
+    private wingsService: WingsService,
   ) {
-    this.flats$ = this.service.flats$;
-    this.apartments$ = this.apartmentService.apartments$;
-    this.wings$ = this.wingsService.wings$;
+    this.flats$ = this.service.flats$
+    this.apartments$ = this.apartmentService.apartments$
+    this.wings$ = this.wingsService.wings$
     this.apartmentsWithFlats$ = combineLatest([
       this.apartments$,
       this.flats$,
       this.wings$,
     ]).pipe(
       map(([apartments, flats, wings]) => {
-        const returnValue = [];
+        const returnValue = []
         apartments.forEach((apartment) => {
           const groupedApartment = {
             ...apartment,
@@ -41,14 +41,14 @@ export class FlatsPage {
               .filter((wing) => apartment.id == wing.apartment)
               .map((wing) => {
                 wing.flats = flats.filter((flat) => wing.id == flat.wing)
-                return wing;
+                return wing
               }),
-          };
-          returnValue.push(groupedApartment);
-        });
-        return returnValue;
-      })
-    );
+          }
+          returnValue.push(groupedApartment)
+        })
+        return returnValue
+      }),
+    )
   }
 
   // prettier-ignore

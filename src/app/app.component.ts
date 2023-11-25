@@ -1,58 +1,59 @@
-import { Component, OnInit, ViewEncapsulation, inject } from "@angular/core";
-import { Router } from "@angular/router";
-import { SwUpdate, VersionReadyEvent } from "@angular/service-worker";
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core'
+import { Router } from '@angular/router'
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker'
 
 import {
   AlertController,
   MenuController,
   Platform,
   ToastController,
-} from "@ionic/angular";
+} from '@ionic/angular'
 
-import { StatusBar } from "@capacitor/status-bar";
-import { SplashScreen } from "@capacitor/splash-screen";
+import { StatusBar } from '@capacitor/status-bar'
+import { SplashScreen } from '@capacitor/splash-screen'
 
-import { Storage } from "@ionic/storage-angular";
+import { Storage } from '@ionic/storage-angular'
 
-import { UserData } from "./providers/user-data";
-import { LoaderService } from "./services/loader/loader.service";
-import { Auth, signOut } from "@angular/fire/auth";
-import { filter } from "rxjs/operators";
-import { AppModules } from "./utilities/app-modules";
+import { UserData } from './providers/user-data'
+import { LoaderService } from './services/loader/loader.service'
+import { Auth, signOut } from '@angular/fire/auth'
+import { filter } from 'rxjs/operators'
+import { AppModules } from './utilities/app-modules'
+import { ApartmentBase } from './base-classes/apartment-base'
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppComponent implements OnInit {
-  modules = AppModules;
-  private auth: Auth = inject(Auth);
+export class AppComponent extends ApartmentBase implements OnInit {
+  modules = AppModules
+  private auth: Auth = inject(Auth)
   appPages = [
     {
-      title: "Schedule",
-      url: "/app/tabs/schedule",
-      icon: "calendar",
+      title: 'Schedule',
+      url: '/app/tabs/schedule',
+      icon: 'calendar',
     },
     {
-      title: "Speakers",
-      url: "/app/tabs/speakers",
-      icon: "people",
+      title: 'Speakers',
+      url: '/app/tabs/speakers',
+      icon: 'people',
     },
     {
-      title: "Map",
-      url: "/app/tabs/map",
-      icon: "map",
+      title: 'Map',
+      url: '/app/tabs/map',
+      icon: 'map',
     },
     {
-      title: "About",
-      url: "/app/tabs/about",
-      icon: "information-circle",
+      title: 'About',
+      url: '/app/tabs/about',
+      icon: 'information-circle',
     },
-  ];
-  loggedIn = false;
-  dark = false;
+  ]
+  loggedIn = false
+  dark = false
 
   constructor(
     private menu: MenuController,
@@ -63,103 +64,104 @@ export class AppComponent implements OnInit {
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
     public loader: LoaderService,
-    private alertController: AlertController
+    private alertController: AlertController,
   ) {
-    this.initializeApp();
+    super()
+    this.initializeApp()
   }
 
   async ngOnInit() {
-    await this.storage.create();
-    this.checkLoginStatus();
-    this.listenForLoginEvents();
+    await this.storage.create()
+    this.checkLoginStatus()
+    this.listenForLoginEvents()
 
     this.swUpdate.versionUpdates
       .pipe(
-        filter((evt): evt is VersionReadyEvent => evt.type === "VERSION_READY")
+        filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
       )
       .subscribe(async () => {
         const toast = await this.toastCtrl.create({
-          message: "Update available!",
-          position: "bottom",
+          message: 'Update available!',
+          position: 'bottom',
           buttons: [
             {
-              role: "cancel",
-              text: "Reload",
+              role: 'cancel',
+              text: 'Reload',
             },
           ],
-        });
-        await toast.present();
+        })
+        await toast.present()
         toast
           .onDidDismiss()
           .then(() => this.swUpdate.activateUpdate())
-          .then(() => window.location.reload());
-      });
+          .then(() => window.location.reload())
+      })
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      if (this.platform.is("hybrid")) {
-        StatusBar.hide();
-        SplashScreen.hide();
+      if (this.platform.is('hybrid')) {
+        StatusBar.hide()
+        SplashScreen.hide()
       }
-    });
+    })
   }
 
   checkLoginStatus() {
     return this.userData.isLoggedIn().then((loggedIn) => {
-      return this.updateLoggedInStatus(loggedIn);
-    });
+      return this.updateLoggedInStatus(loggedIn)
+    })
   }
 
   updateLoggedInStatus(loggedIn: boolean) {
     setTimeout(() => {
-      this.loggedIn = loggedIn;
-    }, 300);
+      this.loggedIn = loggedIn
+    }, 300)
   }
 
   listenForLoginEvents() {
-    window.addEventListener("user:login", () => {
-      this.updateLoggedInStatus(true);
-    });
+    window.addEventListener('user:login', () => {
+      this.updateLoggedInStatus(true)
+    })
 
-    window.addEventListener("user:signup", () => {
-      this.updateLoggedInStatus(true);
-    });
+    window.addEventListener('user:signup', () => {
+      this.updateLoggedInStatus(true)
+    })
 
-    window.addEventListener("user:logout", () => {
-      this.updateLoggedInStatus(false);
-    });
+    window.addEventListener('user:logout', () => {
+      this.updateLoggedInStatus(false)
+    })
   }
 
   async logout() {
     const alert = await this.alertController.create({
-      header: "Logout Confirmation",
-      subHeader: "Are you sure You want to logout?",
+      header: 'Logout Confirmation',
+      subHeader: 'Are you sure You want to logout?',
       buttons: [
         {
-          text: "Cancel",
-          role: "cancel",
+          text: 'Cancel',
+          role: 'cancel',
         },
         {
-          text: "OK",
-          role: "confirm",
+          text: 'OK',
+          role: 'confirm',
           handler: async () => {
-            const id = this.loader.show();
-            await signOut(this.auth);
-            this.loader.hide(id);
+            const id = this.loader.show()
+            await signOut(this.auth)
+            this.loader.hide(id)
             this.userData.logout().then(() => {
-              return this.router.navigateByUrl("/login");
-            });
+              return this.router.navigateByUrl('/login')
+            })
           },
         },
       ],
-    });
-    await alert.present();
+    })
+    await alert.present()
   }
 
   openTutorial() {
-    this.menu.enable(false);
-    this.storage.set("ion_did_tutorial", false);
-    this.router.navigateByUrl("/tutorial");
+    this.menu.enable(false)
+    this.storage.set('ion_did_tutorial', false)
+    this.router.navigateByUrl('/tutorial')
   }
 }

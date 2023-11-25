@@ -1,5 +1,11 @@
-
 export interface UserOptions {
-  username: string;
-  password: string;
+  username: string
+  password: string
+}
+export interface User {
+  uid: string
+  email: string
+  displayName: string
+  photoURL: string
+  emailVerified: boolean
 }

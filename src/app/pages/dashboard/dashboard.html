@@ -3,35 +3,35 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-      <apartment-select labelFor="Dashboard for"></apartment-select>
+    <ion-title>
+      <ng-container *ngIf="apartment$ | async as apartment else titleElseCase"
+        >Dashboard for {{apartment.name}}</ng-container
+      >
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen="true">
-  <ng-container *ngIf="selectedApartment; else selectAparmentComponent">
-    <div class="dashboard-grid">
-      <ng-container *ngFor="let module of modules">
-        <div
-          class="ion-activatable dashboard-grid-item"
-          [style.width.px]="titleWidth"
-          *ngIf="!module.hideInDashboard"
-          [style.height.px]="titleWidth"
-          [routerLink]="module.route"
-        >
-          <ion-icon [color]="module.color" slot="start" [name]="module.icon">
-          </ion-icon>
-          <ion-label [color]="module.color">
-            <h3 style="margin-top: 8px">{{module.name}}</h3>
-          </ion-label>
-          <ion-ripple-effect></ion-ripple-effect>
-        </div>
-      </ng-container>
-    </div>
-  </ng-container>
+  <div class="dashboard-grid" *ngIf="apartment$ | async as apartment">
+    <ng-container *ngFor="let module of modules">
+      <div
+        class="ion-activatable dashboard-grid-item"
+        [style.width.px]="titleWidth"
+        *ngIf="!module.hideInDashboard"
+        [style.height.px]="titleWidth"
+        [routerLink]="[module.route, apartment.id]"
+      >
+        <ion-icon [color]="module.color" slot="start" [name]="module.icon">
+        </ion-icon>
+        <ion-label [color]="module.color">
+          <h3 style="margin-top: 8px">{{module.name}}</h3>
+        </ion-label>
+        <ion-ripple-effect></ion-ripple-effect>
+      </div>
+    </ng-container>
+  </div>
 </ion-content>
 
-<ng-template #selectAparmentComponent>
-  <ion-text color="primary">
-    <h1 class="ion-text-center">Please select Aparment</h1>
-  </ion-text>
+<ng-template #titleElseCase>
+  <ion-skeleton-text [animated]="true"></ion-skeleton-text>
 </ng-template>

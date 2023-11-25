@@ -13,6 +13,7 @@ We've built versions of this Conference app in React and Vue for developers that
 [https://github.com/ionic-team/ionic-vue-conference-app](https://github.com/ionic-team/ionic-vue-conference-app)
 
 ## Table of Contents
+
 - [Getting Started](#getting-started)
 - [Contributing](#contributing)
 - [App Preview](#app-preview)
@@ -21,15 +22,14 @@ We've built versions of this Conference app in React and Vue for developers that
   - [Android](#android)
   - [iOS](#ios)
 
-
 ## Getting Started
 
-* [Download the installer](https://nodejs.org/) for Node LTS.
-* Install the ionic CLI globally: `npm install -g ionic`
-* Clone this repository: `git clone https://github.com/ionic-team/apartment-management.git`.
-* Run `npm install` from the project root.
-* Run `ionic serve` in a terminal from the project root.
-* Profit. :tada:
+- [Download the installer](https://nodejs.org/) for Node LTS.
+- Install the ionic CLI globally: `npm install -g ionic`
+- Clone this repository: `git clone https://github.com/ionic-team/apartment-management.git`.
+- Run `npm install` from the project root.
+- Run `ionic serve` in a terminal from the project root.
+- Profit. :tada:
 
 _Note: See [How to Prevent Permissions Errors](https://docs.npmjs.com/getting-started/fixing-npm-permissions) if you are running into issues when trying to install packages globally._
 
@@ -37,40 +37,37 @@ _Note: See [How to Prevent Permissions Errors](https://docs.npmjs.com/getting-st
 
 See [CONTRIBUTING.md](https://github.com/ionic-team/apartment-management/blob/main/.github/CONTRIBUTING.md) :tada::+1:
 
-
 ## App Preview
 
 ### [Menu](https://github.com/ionic-team/apartment-management/blob/main/src/app/app.component.html)
 
-| Material Design  | iOS  |
-| -----------------| -----|
+| Material Design                                          | iOS                                              |
+| -------------------------------------------------------- | ------------------------------------------------ |
 | ![Android Menu](/resources/screenshots/android-menu.png) | ![iOS Menu](/resources/screenshots/ios-menu.png) |
-
 
 ### [Schedule Page](https://github.com/ionic-team/apartment-management/blob/main/src/app/pages/schedule/schedule.html)
 
-| Material Design  | iOS  |
-| -----------------| -----|
+| Material Design                                                  | iOS                                                      |
+| ---------------------------------------------------------------- | -------------------------------------------------------- |
 | ![Android Schedule](/resources/screenshots/android-schedule.png) | ![iOS Schedule](/resources/screenshots/ios-schedule.png) |
 
 ### [Speakers Page](https://github.com/ionic-team/apartment-management/blob/main/src/app/pages/speaker-list/speaker-list.html)
 
-| Material Design  | iOS  |
-| -----------------| -----|
+| Material Design                                                  | iOS                                                      |
+| ---------------------------------------------------------------- | -------------------------------------------------------- |
 | ![Android Speakers](/resources/screenshots/android-speakers.png) | ![iOS Speakers](/resources/screenshots/ios-speakers.png) |
 
 ### [Speaker Detail Page](https://github.com/ionic-team/apartment-management/blob/main/src/app/pages/speaker-detail/speaker-detail.html)
 
-| Material Design  | iOS  |
-| -----------------| -----|
+| Material Design                                                              | iOS                                                                  |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------- |
 | ![Android Speaker Detail](/resources/screenshots/android-speaker-detail.png) | ![iOS Speaker Detail](/resources/screenshots/ios-speaker-detail.png) |
 
 ### [About Page](https://github.com/ionic-team/apartment-management/blob/main/src/app/pages/about/about.html)
 
-| Material Design  | iOS  |
-| -----------------| -----|
+| Material Design                                            | iOS                                                |
+| ---------------------------------------------------------- | -------------------------------------------------- |
 | ![Android About](/resources/screenshots/android-about.png) | ![iOS About](/resources/screenshots/ios-about.png) |
-
 
 ## Deploying
 
@@ -86,3 +83,5 @@ See [CONTRIBUTING.md](https://github.com/ionic-team/apartment-management/blob/ma
 ### iOS
 
 1. Run `ionic cordova run ios --prod`
+
+[Full Angular 16 Firebase Authentication Example Tutorial](https://www.positronx.io/full-angular-firebase-authentication-system/)

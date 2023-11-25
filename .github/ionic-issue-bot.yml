@@ -5,7 +5,7 @@ triage:
 
 closeAndLock:
   labels:
-    - label: "ionitron: support"
+    - label: 'ionitron: support'
       message: >
         Thanks for the issue! This issue appears to be a support request. We use this issue tracker exclusively for
         bug reports and feature requests. Please use our [forum](https://forum.ionicframework.com) or our
@@ -13,7 +13,7 @@ closeAndLock:
 
 
         Thank you for using Ionic!
-    - label: "ionitron: ionic pro"
+    - label: 'ionitron: ionic pro'
       message: >
         Thanks for the issue! This issue appears to be related to Ionic Pro. We use this issue tracker exclusively for
         bug reports and feature requests. Please use the [Ionic Pro Support Forum](https://ionic.zendesk.com/hc/en-us/requests/new)
@@ -21,7 +21,7 @@ closeAndLock:
 
 
         Thank you for using Ionic!
-    - label: "ionitron: missing template"
+    - label: 'ionitron: missing template'
       message: >
         Thanks for the issue! It appears that you have not filled out the provided issue template. We use this issue
         template in order to gather more information and further assist you. Please create a new issue and ensure the
@@ -51,7 +51,7 @@ stale:
   exemptAssigned: true
   exemptProjects: true
   exemptMilestones: true
-  label: "ionitron: stale issue"
+  label: 'ionitron: stale issue'
   message: >
     Thanks for the issue! This issue is being closed due to inactivity. If this is still
     an issue with the latest version of the Ionic Conference App, please create a new issue
@@ -83,7 +83,7 @@ noReply:
 
 wrongRepo:
   repos:
-    - label: "ionitron: ionic"
+    - label: 'ionitron: ionic'
       repo: ionic
       message: >
         Thanks for the issue! We use this issue tracker exclusively for bug reports and feature requests
@@ -92,7 +92,7 @@ wrongRepo:
 
 
         Thank you for using Ionic!
-    - label: "ionitron: cli"
+    - label: 'ionitron: cli'
       repo: ionic-cli
       message: >
         Thanks for the issue! We use this issue tracker exclusively for bug reports and feature requests
@@ -101,7 +101,7 @@ wrongRepo:
 
 
         Thank you for using Ionic!
-    - label: "ionitron: docs"
+    - label: 'ionitron: docs'
       repo: ionic-docs
       message: >
         Thanks for the issue! We use this issue tracker exclusively for bug reports and feature requests
@@ -110,7 +110,7 @@ wrongRepo:
 
 
         Thank you for using Ionic!
-    - label: "ionitron: stencil"
+    - label: 'ionitron: stencil'
       repo: stencil
       message: >
         Thanks for the issue! We use this issue tracker exclusively for bug reports and feature requests
@@ -119,7 +119,7 @@ wrongRepo:
 
 
         Thank you for using Ionic!
-    - label: "ionitron: native"
+    - label: 'ionitron: native'
       repo: ionic-native
       message: >
         Thanks for the issue! We use this issue tracker exclusively for bug reports and feature requests
