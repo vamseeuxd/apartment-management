@@ -10,7 +10,7 @@ export const checkTutorialGuard = () => {
   return from(storage.get('ion_did_tutorial')).pipe(
     tap((didTutorial) => {
       if (didTutorial === true) {
-        router.navigate(['/app', 'tabs', 'schedule'])
+        router.navigate(['/app', 'tabs', 'apartments'])
       }
     }),
     map((didTutorial) => !didTutorial),

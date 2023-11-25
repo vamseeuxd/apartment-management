@@ -9,31 +9,55 @@
 
 <!-- prettier-ignore -->
 <ion-content fullscreen="true">
-  <ion-list *ngIf="apartments$ | async as apartments">
-    <ion-item-sliding *ngFor="let apartment of apartments" #slidingItem>
-      <ion-item-options side="start">
-        <ion-item-option color="warning" (click)="slidingItem.close();" routerLink="/app/tabs/apartments/update/{{apartment.id}}" > &nbsp;&nbsp;Edit&nbsp;&nbsp; </ion-item-option>
-        <ion-item-option color="danger" (click)="deleteItem(slidingItem,apartment.id);" > Delete </ion-item-option>
-      </ion-item-options>
-      <ion-item>
-        <ion-label [routerLink]="['../dashboard',apartment.id]" style="padding-left: 10px; border-left: 2px solid #3bc7c4">
-          <h3>{{apartment.name|titlecase}}</h3>
-          <p style="text-wrap: balance" [innerHTML]="getAddressString(apartment) | titlecase"
-          ></p>
-        </ion-label>
-      </ion-item>
-    </ion-item-sliding>
-  </ion-list>
+  <ng-container *ngIf="apartments$ | async as apartments">
+    <ion-list>
+      <ion-list-header>
+        <ion-text color="primary" *ngIf="apartments.length > 1">
+          <h6>
+            You belong to multiple apartment communities. Please select the apartment whose dashboard you'd like to view.
+          </h6>
+        </ion-text>
+        <ion-text color="primary" *ngIf="apartments.length === 1">
+          <h6>
+            Choose an apartment to view its corresponding dashboard.
+          </h6>
+        </ion-text>
+        <ion-text color="primary" *ngIf="apartments.length === 0">
+          <h6>
+            You are not currently associated with any apartment communities.
+            To create a new apartment community, please click the 'Add Apartment Community' button below.
+          </h6>
+        </ion-text>
+      </ion-list-header>
+      <ion-item-sliding *ngFor="let apartment of apartments" #slidingItem>
+        <ion-item-options side="start">
+          <ion-item-option color="warning" (click)="slidingItem.close();" routerLink="/app/tabs/apartments/update/{{apartment.id}}" > &nbsp;&nbsp;Edit&nbsp;&nbsp; </ion-item-option>
+          <ion-item-option color="danger" (click)="deleteItem(slidingItem,apartment.id);" > Delete </ion-item-option>
+        </ion-item-options>
+        <ion-item>
+          <ion-label [routerLink]="['../dashboard',apartment.id]" style="padding-left: 10px; border-left: 2px solid #3bc7c4">
+            <h3>{{apartment.name|titlecase}}</h3>
+            <p style="text-wrap: balance" [innerHTML]="getAddressString(apartment) | titlecase"
+            ></p>
+          </ion-label>
+        </ion-item>
+      </ion-item-sliding>
+    </ion-list>
+    <div *ngIf="apartments.length === 0" style=" display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: center; ">
+        <ion-button routerLink="/app/tabs/apartments/add" class="ion-margin-horizontal">Add Apartment Community</ion-button>
+    </div>
+    <ion-fab
+      *ngIf="apartments.length > 0"
+      slot="fixed"
+      routerLink="/app/tabs/apartments/add"
+      vertical="bottom"
+      horizontal="end"
+      #fab
+    >
+      <ion-fab-button color="warning">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ng-container>
 
-  <ion-fab
-    slot="fixed"
-    routerLink="/app/tabs/apartments/add"
-    vertical="bottom"
-    horizontal="end"
-    #fab
-  >
-    <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>
