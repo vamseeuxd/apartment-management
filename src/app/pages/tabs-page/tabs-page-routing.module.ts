@@ -115,7 +115,7 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'members',
+        path: 'members/:apartmentId',
         children: [
           {
             path: '',
