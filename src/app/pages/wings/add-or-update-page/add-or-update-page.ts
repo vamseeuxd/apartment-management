@@ -30,7 +30,6 @@ export class AddOrUpdateWingsPage extends ApartmentBase {
   };
   apartment: IApartment;
   constructor(
-    public route: ActivatedRoute,
     public loader: LoaderService,
     private router: Router,
     private service: WingsService
@@ -39,22 +38,16 @@ export class AddOrUpdateWingsPage extends ApartmentBase {
     this.apartment$.subscribe((apartment) => {
       this.apartment = apartment;
       this.service.apartmentAction.next(apartment);
+      this.getWing();
     });
-    this.getWing();
   }
 
   getWing() {
-    const id = this.loader.show();
-    const sub = this.route.params.subscribe(async (params) => {
-      sub.unsubscribe();
-      if (params && params.id) {
-        this.dataToEdit = await this.service.getWing(
-          this.route.snapshot.params.id
-        );
-        this.loader.hide(id);
-      } else {
-        this.loader.hide(id);
-      }
+    this.activatedRoute.params.subscribe(async (params) => {
+      const loaderId = this.loader.show();
+      const wingId = params.id;
+      this.dataToEdit = await this.service.getWing(wingId);
+      this.loader.hide(loaderId);
     });
   }
 

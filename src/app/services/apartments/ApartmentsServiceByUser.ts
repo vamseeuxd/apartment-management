@@ -1,11 +1,7 @@
-import { switchMap, map, Observable, firstValueFrom } from "rxjs";
-import { NgZone } from "@angular/core";
-// @ts-ignore
-// import { switchMap, map } from "rxjs/operators";
+import { switchMap, map, Observable, firstValueFrom, of } from "rxjs";
 import { Injectable, inject } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
-import { Router } from "@angular/router";
 import { documentId, serverTimestamp } from "@angular/fire/firestore";
 import { ToastController } from "@ionic/angular";
 import { IApartment } from "../../interfaces/IApartment";
@@ -21,19 +17,23 @@ export class ApartmentsByUserService {
   private afAuth: AngularFireAuth = inject(AngularFireAuth);
   public apartments$: Observable<IApartment[]> = this.afAuth.authState.pipe(
     switchMap((user: any) =>
-      this.afs
-        .collection<any>("members", (ref) => {
-          return ref.where("uid", "==", user.uid);
-        })
-        .valueChanges()
+      user
+        ? this.afs
+            .collection<any>("members", (ref) => {
+              return ref.where("uid", "==", user.uid);
+            })
+            .valueChanges({ idField: "id" })
+        : of([])
     ),
     map((memberShips: any[]) => memberShips.map((d) => d.apartment)),
     switchMap((apartmentIds: string[]) =>
-      this.afs
-        .collection<IApartment>("apartments", (ref) =>
-          ref.where(documentId(), "in", apartmentIds)
-        )
-        .valueChanges({ idField: "id" })
+      apartmentIds.length > 0
+        ? this.afs
+            .collection<IApartment>("apartments", (ref) =>
+              ref.where(documentId(), "in", apartmentIds)
+            )
+            .valueChanges({ idField: "id" })
+        : of([])
     )
   );
 

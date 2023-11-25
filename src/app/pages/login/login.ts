@@ -58,7 +58,7 @@ export class LoginPage {
       await this.addUserToDataBase(result.user);
       this.loader.hide(id);
       this.userData.login(result.user.displayName);
-      this.router.navigateByUrl("/app/tabs/dashboard");
+      this.router.navigateByUrl("/app/tabs/apartments");
     } catch (error) {
       console.table(error);
       this.loader.hide(id);
