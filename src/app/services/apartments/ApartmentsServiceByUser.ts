@@ -5,7 +5,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore'
 import { documentId, serverTimestamp } from '@angular/fire/firestore'
 import { ToastController } from '@ionic/angular'
 import { IApartment } from '../../interfaces/IApartment'
-import { IMember } from '../../pages/members/service'
+import { IMember, MEMBER_ROLES } from '../../pages/members/service'
 
 @Injectable({
   providedIn: 'root',
@@ -74,6 +74,7 @@ export class ApartmentsByUserService {
       })
       const memberDetails: IMember = {
         uid: userUid,
+        roles: [MEMBER_ROLES.ADMIN],
         apartment: newDoc.id,
       }
       console.log('memberDetails', memberDetails)

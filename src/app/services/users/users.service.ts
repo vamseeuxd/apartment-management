@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core'
 import { Auth, user } from '@angular/fire/auth'
 import {
+  FieldValue,
   Firestore,
   collection,
   collectionData,
@@ -16,6 +17,18 @@ import {
 import { ToastController } from '@ionic/angular'
 import { Observable } from 'rxjs'
 
+export interface IUser {
+  createdBy?: string
+  createdOn?: FieldValue
+  displayName: string
+  email: string
+  photoURL: string
+  id?: string
+  uid: string
+  lastUpdatedOn?: FieldValue
+  lastUpdatedBy?: string
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -26,7 +39,7 @@ export class UsersService {
   // prettier-ignore
   usersCollectionWithQuery = query( this.usersCollection, orderBy("displayName", "asc") );
   // prettier-ignore
-  users$: Observable<any[]> = collectionData(this.usersCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
+  users$: Observable<IUser[]> = collectionData(this.usersCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
   auth: Auth = inject(Auth)
   user$ = user(this.auth)
 

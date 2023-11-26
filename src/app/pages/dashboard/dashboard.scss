@@ -1,13 +1,12 @@
 .dashboard-grid {
-  /* width: calc(100% - 5px); */
   height: calc(100% - 5px);
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* justify-content: space-between;
-  align-content: flex-start; */
+  padding: 0 10px;
+  justify-content: space-evenly;
   padding: 0 10px;
   .dashboard-grid-item {
     border: 1px solid #ccc;

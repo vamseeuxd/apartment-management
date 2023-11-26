@@ -4,30 +4,30 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { MaskitoElementPredicateAsync, MaskitoOptions } from '@maskito/core'
 import { LoaderService } from '../../../services/loader/loader.service'
 import { Auth, User, user } from '@angular/fire/auth'
-import { MembersService, IMember } from '../service'
-import { Observable } from 'rxjs'
+import { MembersService, IMember, MEMBER_ROLES } from '../service'
 import {
   NgxScannerQrcodeService,
   ScannerQRCodeResult,
   ScannerQRCodeSelectedFiles,
 } from 'ngx-scanner-qrcode'
-import { UsersService } from '../../../services/users/users.service'
-import { ToastController } from '@ionic/angular'
+import { IUser, UsersService } from '../../../services/users/users.service'
+import { AlertController, ToastController } from '@ionic/angular'
 import { IApartment } from '../../../interfaces/IApartment'
-import { ApartmentsByUserService } from '../../../services/apartments/ApartmentsServiceByUser'
+import { ApartmentBase } from '../../../base-classes/apartment-base'
 
 @Component({
   selector: 'add-or-update-page-members',
   templateUrl: 'add-or-update-page.html',
   styleUrls: ['./add-or-update-page.scss'],
 })
-export class AddOrUpdateMembersPage {
+export class AddOrUpdateMembersPage extends ApartmentBase {
   private auth: Auth = inject(Auth)
   user$ = user(this.auth)
   isModalOpen = false
   dataToEdit: IMember = {
     uid: '',
     apartment: '',
+    roles: [MEMBER_ROLES.FLAT_OWNER],
     id: '',
   }
   readonly pinCodeMask: MaskitoOptions = {
@@ -37,9 +37,9 @@ export class AddOrUpdateMembersPage {
     el: HTMLIonInputElement,
   ) => el.getInputElement()
 
-  apartments$: Observable<IApartment[]>
-
   newMemberDetails = null
+  apartment: IApartment
+  members: IMember[] = []
 
   constructor(
     public route: ActivatedRoute,
@@ -50,19 +50,31 @@ export class AddOrUpdateMembersPage {
     private cdr: ChangeDetectorRef,
     private qrcode: NgxScannerQrcodeService,
     private toastController: ToastController,
-    private apartmentService: ApartmentsByUserService,
+    private alertController: AlertController,
   ) {
-    this.apartments$ = this.apartmentService.apartments$
-    this.getMember()
+    super()
+    this.service.members$.subscribe((members) => {
+      this.members = members
+    })
+    this.apartment$.subscribe((apartment) => {
+      this.apartment = apartment
+      this.service.apartmentAction.next(apartment)
+      this.dataToEdit.apartment = apartment.id
+      this.getMember()
+    })
   }
 
   getMember() {
     const id = this.loader.show()
-    const sub = this.route.params.subscribe(async (params) => {
-      sub.unsubscribe()
+    this.route.params.subscribe(async (params) => {
       if (params && params.id) {
-        // prettier-ignore
-        this.dataToEdit = ( await this.service.getMember(this.route.snapshot.params.id) ).data();
+        this.dataToEdit = await this.service.getMember(
+          this.route.snapshot.params.id,
+        )
+        if (!this.dataToEdit.roles) {
+          this.dataToEdit.roles = []
+        }
+        this.newMemberDetails = { ...this.dataToEdit.userDetails }
         this.loader.hide(id)
       } else {
         this.loader.hide(id)
@@ -70,33 +82,26 @@ export class AddOrUpdateMembersPage {
     })
   }
 
-  async save(memberForm: NgForm, user: User) {
-    if (memberForm.valid) {
-      const id = this.loader.show()
-      try {
-        await this.service.addMember(memberForm.value, user.uid)
-        this.loader.hide(id)
-        memberForm.resetForm({})
-        this.router.navigate(['/app/tabs/members'])
-      } catch (error) {
-        console.log(error.code)
-        this.loader.hide(id)
-      }
+  async save(member: IMember, user: User) {
+    const id = this.loader.show()
+    try {
+      await this.service.addMember(member, user.uid)
+      this.loader.hide(id)
+      this.router.navigate(['/app/tabs/members', this.apartment.id])
+    } catch (error) {
+      console.log(error.code)
+      this.loader.hide(id)
     }
   }
-  async update(memberForm: NgForm, user: User, docId: string) {
-    if (memberForm.valid) {
-      const id = this.loader.show()
-      try {
-        // prettier-ignore
-        await this.service.updateMember( memberForm.value, docId, user.uid );
-        this.loader.hide(id)
-        memberForm.resetForm({})
-        this.router.navigate(['/app/tabs/members'])
-      } catch (error) {
-        console.log(error.code)
-        this.loader.hide(id)
-      }
+  async update(member: IMember, user: User) {
+    const id = this.loader.show()
+    try {
+      await this.service.updateMember(member, member.id, user.uid)
+      this.loader.hide(id)
+      this.router.navigate(['/app/tabs/members', this.apartment.id])
+    } catch (error) {
+      console.log(error.code)
+      this.loader.hide(id)
     }
   }
 
@@ -140,7 +145,7 @@ export class AddOrUpdateMembersPage {
     try {
       await this.service.addMember(this.dataToEdit, this.dataToEdit.uid)
       this.loader.hide(id)
-      this.router.navigate(['/app/tabs/members'])
+      this.router.navigate(['/app/tabs/members', this.apartment.id])
     } catch (error) {
       console.log(error.code)
       this.loader.hide(id)
@@ -160,11 +165,33 @@ export class AddOrUpdateMembersPage {
           res[0].data[0].value &&
           JSON.parse(res[0].data[0].value).uid
         ) {
-          // this.dataToEdit.uid = JSON.parse(res[0].data[0].value).uid;
-          // prettier-ignore
-          const userDetails = await this.usersService.getUsersByUid( JSON.parse(res[0].data[0].value).uid );
-          console.log(JSON.stringify(userDetails.data(), null, 2))
-          this.newMemberDetails = userDetails.data()
+          const uid = JSON.parse(res[0].data[0].value).uid
+          const userDetails = await this.usersService.getUsersByUid(uid)
+          const data = userDetails.data()
+          if (data) {
+            const isExistingMember = this.members
+              .map((member: IMember) => member.uid)
+              .includes(uid)
+            if (isExistingMember) {
+              const alert = await this.alertController.create({
+                header: `'${data.displayName}' Already a Member`,
+                message:
+                  `'${data.displayName}' is already a member of this apartment community.`,
+                buttons: ['OK'],
+              })
+              await alert.present()
+            } else {
+              this.newMemberDetails = data
+              this.dataToEdit.uid = uid
+            }
+          } else {
+            const alert = await this.alertController.create({
+              header: 'No User Found',
+              message: 'The account may have been disabled or deleted',
+              buttons: ['OK'],
+            })
+            await alert.present()
+          }
         } else {
           const toast = await this.toastController.create({
             message: 'Invalid QR Code Image',
