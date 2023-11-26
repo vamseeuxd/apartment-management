@@ -1,0 +1,101 @@
+<ion-list *ngIf="!userDetails">
+  <ion-item>
+    <ion-thumbnail slot="start">
+      <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+    </ion-thumbnail>
+    <ion-label>
+      <h1>
+        <ion-skeleton-text
+          [animated]="true"
+          style="width: 80%"
+        ></ion-skeleton-text>
+      </h1>
+      <h3>
+        <ion-skeleton-text
+          [animated]="true"
+          style="width: 60%"
+        ></ion-skeleton-text>
+      </h3>
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>
+      <h6>
+        <div style="display: flex; align-items: center">
+          Select Role
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 100%"
+          ></ion-skeleton-text>
+          <ion-icon
+            name="caret-down-outline"
+            style="margin-left: 20px"
+          ></ion-icon>
+        </div>
+      </h6>
+    </ion-label>
+  </ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-skeleton-text
+          [animated]="true"
+          style="width: 100%; height: 36px"
+        ></ion-skeleton-text>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button
+          expand="full"
+          [routerLink]="['/app/tabs/members/', apartment.id]"
+          *ngIf="apartment"
+          color="dark"
+        >
+          Cancel
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-list>
+
+<ion-list *ngIf="userDetails">
+  <ion-item>
+    <ion-avatar slot="start">
+      <img alt="Silhouette of a person's head" [src]="userDetails?.photoURL" />
+    </ion-avatar>
+    <ion-label>
+      <h1>{{ userDetails?.displayName | titlecase }}</h1>
+      <h3>{{ userDetails?.email }}</h3>
+    </ion-label>
+  </ion-item>
+  <ion-item-group>
+    <ion-item-divider>
+      <h5>Select Role(s) for this User</h5>
+    </ion-item-divider>
+    <ion-item lines="inset"> <ion-label ><ion-checkbox [checked]="dataToEdit.roles.includes('ADMIN')"  (ionChange)="onRoleChange($event)" value="ADMIN" >ADMIN</ion-checkbox ></ion-label > </ion-item>
+    <ion-item lines="inset"> <ion-label ><ion-checkbox [checked]="dataToEdit.roles.includes('OWNER')"  (ionChange)="onRoleChange($event)" value="OWNER" >OWNER</ion-checkbox ></ion-label > </ion-item>
+    <ion-item lines="inset"> <ion-label ><ion-checkbox [checked]="dataToEdit.roles.includes('TENANT')" (ionChange)="onRoleChange($event)" value="TENANT" >TENANT</ion-checkbox ></ion-label > </ion-item>
+    <ion-item lines="none">  <ion-label ><ion-checkbox [checked]="dataToEdit.roles.includes('STAFF')"  (ionChange)="onRoleChange($event)" value="STAFF" >STAFF</ion-checkbox ></ion-label > </ion-item>
+  </ion-item-group>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button
+          (click)="save.emit(dataToEdit)"
+          [disabled]="!(dataToEdit?.roles?.length > 0)"
+          color="primary"
+          expand="full"
+          >Save Member</ion-button
+        >
+      </ion-col>
+      <ion-col size="6">
+        <ion-button
+          color="dark"
+          [routerLink]="['/app/tabs/members/', apartment.id]"
+          expand="full"
+        >
+          Cancel
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-list>

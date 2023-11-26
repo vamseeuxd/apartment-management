@@ -11,7 +11,7 @@
     "test": "ng test",
     "deploy": "firebase deploy",
     "gen-page": "ionic generate page dashboard",
-    "gen-component": "ng generate component components/apartment-select",
+    "gen-component": "ionic generate component pages/members/edit-member-details",
     "lint:sass": "stylelint \"src/**/*.scss\"",
     "e2e": "ng e2e",
     "lint": "ng lint",

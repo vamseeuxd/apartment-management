@@ -20,102 +20,102 @@
   </ion-header>
 
   <ion-content fullscreen="true" class="ion-padding">
-    <div
-      style="display: flex; flex-direction: column; margin-top: 50%"
-      *ngIf="apartment"
-    >
-      <ng-container *ngIf="user$ | async as user">
-        <!-- prettier-ignore -->
-        <ion-text class="ion-text-center">
-          <h3>Scan or Upload Member QR Code.</h3>
-        </ion-text>
-        <!-- prettier-ignore -->
-        <ion-button (click)="isModalOpen = true;" [disabled]="!apartment" expand="block" >Scan Member QR Code</ion-button >
-        <!-- prettier-ignore -->
-        <ion-button expand="block" (click)="fileInput.click()" [disabled]="!apartment">Upload Member QR Code</ion-button >
-        <!-- prettier-ignore -->
-        <input type="file" style="display: none" (change)="onQrUploadSelects($event)" #fileInput [accept]="'.jpg, .png, .gif, .jpeg'" />
-        <!-- prettier-ignore -->
-        <ion-button expand="full" color="dark"> Cancel <ion-back-button class="back-button-inside-button" [defaultHref]="'/app/tabs/members/'+apartment.id" ></ion-back-button> </ion-button>
+    <ng-container *ngIf="user$ | async as user">
+      <app-edit-member-details
+        [apartment]="apartment"
+        [userDetails]="newMemberDetails"
+        [dataToEdit]="dataToEdit"
+        (save)="!route.snapshot.params.id ? save($event,user) :  update($event,user)"
+      ></app-edit-member-details>
+      <ng-container
+        *ngIf="apartment && !dataToEdit.id && !route.snapshot.params.id"
+      >
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-button
+                (click)="isModalOpen = true;"
+                [disabled]="!apartment"
+                expand="full"
+                >Scan QR</ion-button
+              >
+            </ion-col>
+            <ion-col>
+              <ion-button
+                expand="full"
+                (click)="fileInput.click()"
+                [disabled]="!apartment"
+                >Upload QR</ion-button
+              >
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <input
+          type="file"
+          style="display: none"
+          (change)="onQrUploadSelects($event)"
+          #fileInput
+          [accept]="'.jpg, .png, .gif, .jpeg'"
+        />
       </ng-container>
-    </div>
+    </ng-container>
 
-    <!-- prettier-ignore -->
-    <ion-modal #modal [isOpen]="isModalOpen" (didDismiss)="onModalDismiss();" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.75]" >
+    <ion-modal
+      #modal
+      [isOpen]="isModalOpen"
+      (didDismiss)="onModalDismiss();"
+      [initialBreakpoint]="0.75"
+      [breakpoints]="[0, 0.75]"
+    >
       <ng-template>
         <ion-content *ngIf="isModalOpen">
-          <!-- prettier-ignore -->
           <ng-container>
-          <br/>
-          <ion-item *ngIf="action.devices | async as devices">
-            <ion-select label="Select device" (ionChange)="action.playDevice($event.detail.value)" labelPlacement="floating" name="device" placeholder="Select device" >
-              <ion-select-option  *ngFor="let c of devices;let ind = index;" [value]="c.deviceId" >{{c.label}}</ion-select-option >
-            </ion-select>
-          </ion-item>
-          <br/>
-          <div class="qrcodeImage">
-            <div class="innter">
-              <ngx-scanner-qrcode [isBeep]="true" (event)="onQrScannerEvent($event, action)" #action="scanner"></ngx-scanner-qrcode>
-              <!-- <div style="height: 0px;opacity: 0;">{{action.start()|json}}</div> -->
+            <ion-item *ngIf="action.devices | async as devices">
+              <ion-select
+                label="Select device"
+                (ionChange)="action.playDevice($event.detail.value)"
+                labelPlacement="floating"
+                name="device"
+                placeholder="Select device"
+              >
+                <ion-select-option
+                  *ngFor="let c of devices;let ind = index;"
+                  [value]="c.deviceId"
+                  >{{c.label}}</ion-select-option
+                >
+              </ion-select>
+            </ion-item>
+            <br />
+            <div class="qrcodeImage">
+              <div class="innter">
+                <ngx-scanner-qrcode
+                  [isBeep]="true"
+                  (event)="onQrScannerEvent($event, action)"
+                  #action="scanner"
+                ></ngx-scanner-qrcode>
+              </div>
             </div>
-          </div>
-        </ng-container>
+          </ng-container>
           <ion-grid fixed>
             <ion-row>
               <ion-col size="6">
-                <!-- prettier-ignore -->
-                <ion-button (click)="action.isStart ? action.stop() : action.start()" expand="full" >{{action.isStart ? 'Stop Scan' : 'Start Scan'}}</ion-button>
+                <ion-button
+                  (click)="action.isStart ? action.stop() : action.start()"
+                  expand="full"
+                  >{{action.isStart ? 'Stop Scan' : 'Start Scan'}}</ion-button
+                >
               </ion-col>
               <ion-col size="6">
-                <!-- prettier-ignore -->
-                <ion-button (click)="action?.stop();onModalDismiss();" color="dark" expand="full" >Cancel</ion-button >
+                <ion-button
+                  (click)="action?.stop();onModalDismiss();"
+                  color="dark"
+                  expand="full"
+                  >Cancel</ion-button
+                >
               </ion-col>
             </ion-row>
           </ion-grid>
-
         </ion-content>
-      </ng-template>
-    </ion-modal>
-
-    <!-- prettier-ignore -->
-    <ion-modal id="smallModal" (didDismiss)="newMemberDetails = null;" [isOpen]="!!newMemberDetails" #smallModal trigger="open-custom-dialog" >
-      <ng-template>
-        <div class="wrapper" *ngIf="newMemberDetails">
-          <ion-item>
-            <ion-avatar slot="start">
-              <!-- prettier-ignore -->
-              <img alt="Silhouette of a person's head" [src]="newMemberDetails?.photoURL" />
-            </ion-avatar>
-            <ion-label>
-              <h1>{{newMemberDetails?.displayName | titlecase}}</h1>
-              <h3>{{newMemberDetails?.email}}</h3>
-            </ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-select label="Select Role" [(ngModel)]="dataToEdit.roles" #roleSelect value="OWNER" label-placement="floating" [multiple]="true">
-              <ion-select-option value="ADMIN">ADMIN</ion-select-option>
-              <ion-select-option value="OWNER">OWNER</ion-select-option>
-              <ion-select-option value="TENANT">TENANT</ion-select-option>
-              <ion-select-option value="STAFF">STAFF</ion-select-option>
-            </ion-select>
-          </ion-item>
-          <ion-item>
-            <ion-label>
-              <!-- prettier-ignore -->
-              <p style="text-wrap: balance"> Are you sure! Do you want to add above user as {{dataToEdit.roles}} ? </p>
-            </ion-label>
-          </ion-item>
-          <ion-grid>
-            <ion-row>
-              <ion-col size="6">
-                <ion-button color="primary" (click)="yesAddMemberToApartment();" expand="full"> Yes </ion-button>
-              </ion-col>
-              <ion-col size="6">
-                <ion-button color="dark" (click)="closeConfirmModal();" expand="full"> No </ion-button>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </div>
       </ng-template>
     </ion-modal>
   </ion-content>
