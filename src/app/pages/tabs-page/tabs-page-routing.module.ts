@@ -59,7 +59,7 @@ const routes: Routes = [
               import("../dashboard/dashboard.module").then(
                 (m) => m.DashboardListModule
               ),
-          }
+          },
         ],
       },
       {
@@ -88,7 +88,19 @@ const routes: Routes = [
           {
             path: "",
             loadChildren: () =>
-              import("../apartments/page.module").then((m) => m.ApartmentsModule),
+              import("../apartments/page.module").then(
+                (m) => m.ApartmentsModule
+              ),
+          },
+        ],
+      },
+      {
+        path: "owners",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../owners/page.module").then((m) => m.OwnersModule),
           },
         ],
       },
@@ -112,6 +124,128 @@ const routes: Routes = [
           },
         ],
       },
+
+      {
+        path: "visitors",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../visitors/page.module").then((m) => m.VisitorsModule),
+          },
+        ],
+      },
+
+      {
+        path: "members",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../members/page.module").then((m) => m.MembersModule),
+          },
+        ],
+      },
+
+      {
+        path: "notices",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../notices/page.module").then((m) => m.NoticesModule),
+          },
+        ],
+      },
+
+      {
+        path: "rules",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../rules/page.module").then((m) => m.RulesModule),
+          },
+        ],
+      },
+
+      {
+        path: "vehicles",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../vehicles/page.module").then((m) => m.VehiclesModule),
+          },
+        ],
+      },
+
+      {
+        path: "tenants",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../tenants/page.module").then((m) => m.TenantsModule),
+          },
+        ],
+      },
+
+      {
+        path: "inventory",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../inventory/page.module").then(
+                (m) => m.InventorysModule
+              ),
+          },
+        ],
+      },
+      {
+        path: "notifications",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../notifications/page.module").then(
+                (m) => m.NotificationsModule
+              ),
+          },
+        ],
+      },
+      {
+        path: "staff",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../staff/page.module").then((m) => m.StaffsModule),
+          },
+        ],
+      },
+      {
+        path: "events",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../events/page.module").then((m) => m.EventsModule),
+          },
+        ],
+      },
+      {
+        path: "accounts",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../accounts/page.module").then((m) => m.AccountsModule),
+          },
+        ],
+      },
+
       {
         path: "",
         redirectTo: "/app/tabs/schedule",

@@ -1,0 +1,143 @@
+<ng-container *ngIf="route.params | async as params">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      <ion-button routerLink="/app/tabs/dashboard"> <ion-icon slot="icon-only" name="home"></ion-icon> </ion-button>
+      </ion-buttons>
+      <ion-title *ngIf="!params.id">Add Notice</ion-title>
+      <ion-title *ngIf="!!params.id">Update Notice</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content fullscreen="true">
+    <ng-container *ngIf="user$ | async as user">
+      <form #apartmentForm="ngForm">
+        <ion-list>
+          <ion-item>
+            <ion-input
+              label="Notice Name"
+              labelPlacement="floating"
+              [required]="true"
+              [ngModel]="dataToEdit['name']"
+              name="name"
+              placeholder="Enter Notice Name"
+            >
+          </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [required]="true"
+              label="Registration Number"
+              labelPlacement="floating"
+              [ngModel]="dataToEdit['registrationNumber']"
+              name="registrationNumber"
+              placeholder="Enter Registration Number"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [required]="true"
+              label="Address Line 1"
+              labelPlacement="floating"
+              [ngModel]="dataToEdit['addressLine1']"
+              name="addressLine1"
+              placeholder="Enter Address Line 1"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              label="Address Line 2"
+              labelPlacement="floating"
+              [ngModel]="dataToEdit['addressLine2']"
+              name="addressLine2"
+              placeholder="Enter Address Line 2"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [required]="true"
+              label="City"
+              [ngModel]="dataToEdit['city']"
+              name="city"
+              labelPlacement="floating"
+              placeholder="Enter City"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [required]="true"
+              label="District"
+              [ngModel]="dataToEdit['district']"
+              name="district"
+              labelPlacement="floating"
+              placeholder="Enter District"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [required]="true"
+              label="State"
+              [ngModel]="dataToEdit['state']"
+              name="state"
+              labelPlacement="floating"
+              placeholder="Enter State"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [required]="true"
+              label="Country"
+              [ngModel]="dataToEdit['country']"
+              name="country"
+              labelPlacement="floating"
+              placeholder="Enter Country"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [required]="true"
+              label="Pincode"
+              [ngModel]="dataToEdit['pincode']"
+              name="pincode"
+              [maskito]="pinCodeMask"
+              pattern="^[0-9]{6}?$"
+              [maskitoElement]="predicate"
+              labelPlacement="floating"
+              placeholder="Enter Pincode"
+            ></ion-input>
+          </ion-item>
+        </ion-list>
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="6" *ngIf="!params.id">
+              <ion-button
+                (click)="save(apartmentForm, user)"
+                [disabled]="apartmentForm.invalid"
+                expand="full"
+                >Add</ion-button
+              >
+            </ion-col>
+            <ion-col size="6" *ngIf="!!params.id">
+              <ion-button
+                (click)="update(apartmentForm, user, params.id)"
+                [disabled]="apartmentForm.invalid"
+                expand="full"
+                >Update</ion-button
+              >
+            </ion-col>
+            <ion-col size="6">
+              <ion-button expand="full" color="dark">
+                Cancel
+                <ion-back-button
+                  class="back-button-inside-button"
+                  defaultHref="/app/tabs/notices"
+                ></ion-back-button>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ng-container>
+  </ion-content>
+</ng-container>

@@ -3,6 +3,7 @@
     <ion-toolbar>
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
+      <ion-button routerLink="/app/tabs/dashboard"> <ion-icon slot="icon-only" name="home"></ion-icon> </ion-button>
       </ion-buttons>
       <ion-title *ngIf="!params.id">Add Wing</ion-title>
       <ion-title *ngIf="!!params.id">Update Wing</ion-title>
