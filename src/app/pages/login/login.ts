@@ -41,7 +41,7 @@ export class LoginPage {
 
     if (form.valid) {
       this.userData.login(this.login.username);
-      this.router.navigateByUrl("/app/tabs/schedule");
+      this.router.navigateByUrl("apartments");
     }
   }
 
@@ -57,7 +57,8 @@ export class LoginPage {
       this.loader.hide(id);
       console.log(result);
       this.userData.login(result.user.displayName);
-      this.router.navigateByUrl("/app/tabs/dashboard");
+      // this.router.navigateByUrl("/app/tabs/dashboard");
+      this.router.navigateByUrl("apartments");
     } catch (error) {
       console.log(error.code);
       console.log(error.message);

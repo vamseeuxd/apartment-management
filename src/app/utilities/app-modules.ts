@@ -9,7 +9,7 @@ export const AppModules = [
     title: "Dashboard",
   },
   {
-    route: "/app/tabs/apartments",
+    route: "../../../apartments",
     color: "medium",
     icon: "business-outline",
     id: "Apartments",

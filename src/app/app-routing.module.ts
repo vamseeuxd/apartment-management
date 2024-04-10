@@ -18,6 +18,12 @@ const routes: Routes = [
       import("./pages/account/account.module").then((m) => m.AccountModule),
   },
   {
+    path: "apartments",
+    ...canActivate(redirectUnauthorizedToLogin),
+    loadChildren: () =>
+      import("./pages/apartments/page.module").then((m) => m.ApartmentsModule),
+  },
+  {
     path: "support",
     ...canActivate(redirectUnauthorizedToLogin),
     loadChildren: () =>

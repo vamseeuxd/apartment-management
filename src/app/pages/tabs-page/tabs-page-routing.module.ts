@@ -83,18 +83,6 @@ const routes: Routes = [
         ],
       },
       {
-        path: "apartments",
-        children: [
-          {
-            path: "",
-            loadChildren: () =>
-              import("../apartments/page.module").then(
-                (m) => m.ApartmentsModule
-              ),
-          },
-        ],
-      },
-      {
         path: "owners",
         children: [
           {
@@ -248,7 +236,7 @@ const routes: Routes = [
 
       {
         path: "",
-        redirectTo: "/app/tabs/schedule",
+        redirectTo: "apartments",
         pathMatch: "full",
       },
     ],

@@ -11,7 +11,7 @@ export const checkTutorialGuard = () => {
     .pipe(
       tap(didTutorial => {
         if (didTutorial === true) {
-          router.navigate(['/app', 'tabs', 'schedule']);
+          router.navigate(['/app', 'tabs', 'apartments']);
         }
       }),
       map(didTutorial => !didTutorial)

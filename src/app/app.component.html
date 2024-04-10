@@ -13,11 +13,10 @@
                 detail="false"
               >
                 <ion-icon slot="start" [name]="module.icon"> </ion-icon>
-                <ion-label>{{module.title}}</ion-label>
+                <ion-label>{{ module.title }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
           </ng-container>
-          
 
           <ion-list-header> For Demo Only </ion-list-header>
           <ion-menu-toggle
@@ -76,7 +75,6 @@
             <ion-icon slot="start" name="moon-outline"></ion-icon>
             <ion-toggle [(ngModel)]="dark"> Dark Mode </ion-toggle>
           </ion-item>
-          
         </ion-list>
 
         <ion-list *ngIf="!loggedIn" lines="none">

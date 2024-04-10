@@ -78,7 +78,7 @@ export class AddOrUpdateApartmentsPage {
         await this.service.addApartment(apartmentForm.value, user.uid);
         this.loader.hide(id);
         apartmentForm.resetForm({});
-        this.router.navigate(["/app/tabs/apartments"]);
+        this.router.navigate(["apartments"]);
       } catch (error) {
         console.log(error.code);
         this.loader.hide(id);
@@ -92,7 +92,7 @@ export class AddOrUpdateApartmentsPage {
         await this.service.updateApartment(apartmentForm.value, docId, user.uid);
         this.loader.hide(id);
         apartmentForm.resetForm({});
-        this.router.navigate(["/app/tabs/apartments"]);
+        this.router.navigate(["apartments"]);
       } catch (error) {
         console.log(error.code);
         this.loader.hide(id);
