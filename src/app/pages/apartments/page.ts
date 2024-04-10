@@ -3,6 +3,7 @@ import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoaderService } from "../../services/loader/loader.service";
 import { ApartmentsService } from "./service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "page-apartments",
@@ -14,9 +15,16 @@ export class ApartmentsPage {
   constructor(
     private alertController: AlertController,
     public loader: LoaderService,
+    public route: Router,
     private service: ApartmentsService
   ) {
     this.apartments$ = this.service.apartments$;
+  }
+
+  seletApartment(apartmentId: string) {
+    this.service.seletedApartment.next(apartmentId);
+    // app/tabs/dashboard
+    this.route.navigate(["app", "tabs", "dashboard"]);
   }
 
   // prettier-ignore

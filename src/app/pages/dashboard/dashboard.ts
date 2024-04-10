@@ -1,5 +1,6 @@
 import { Component, HostListener } from "@angular/core";
 import { AppModules } from "../../utilities/app-modules";
+import { ApartmentsService } from "../apartments/service";
 
 @Component({
   selector: "page-dashboard",
@@ -13,7 +14,7 @@ export class DashboardPage {
   onResize(event) {
     this.titleWidth = window.innerWidth / 3 - 18;
   }
-  constructor() {
+  constructor(public service: ApartmentsService) {
     this.titleWidth = window.innerWidth / 3 - 18;
   }
 }

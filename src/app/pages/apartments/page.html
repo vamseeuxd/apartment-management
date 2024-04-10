@@ -16,7 +16,7 @@
         <ion-item-option color="warning" (click)="slidingItem.close();" routerLink="update/{{apartment.id}}" > &nbsp;&nbsp;Edit&nbsp;&nbsp; </ion-item-option>
         <ion-item-option color="danger" (click)="deleteItem(slidingItem,apartment.id);" > Delete </ion-item-option>
       </ion-item-options>
-      <ion-item>
+      <ion-item (click)="seletApartment(apartment.id)">
         <ion-label style="padding-left: 10px; border-left: 2px solid #3bc7c4">
           <h3>{{apartment.name|titlecase}}</h3>
           <p style="text-wrap: balance" [innerHTML]="getAddressString(apartment) | titlecase"

@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { checkTutorialGuard } from "./providers/check-tutorial.guard";
 import { canActivate, redirectUnauthorizedTo } from "@angular/fire/auth-guard";
+import { ApartmentsService } from "./pages/apartments/service";
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(["login"]);
 
@@ -41,7 +42,8 @@ const routes: Routes = [
   },
   {
     path: "app",
-    ...canActivate(redirectUnauthorizedToLogin),
+    canActivate: [...canActivate(redirectUnauthorizedToLogin).canActivate, ApartmentsService],
+    data: canActivate(redirectUnauthorizedToLogin).data,
     loadChildren: () =>
       import("./pages/tabs-page/tabs-page.module").then((m) => m.TabsModule),
   },

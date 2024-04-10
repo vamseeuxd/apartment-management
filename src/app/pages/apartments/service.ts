@@ -13,21 +13,52 @@ import {
   serverTimestamp,
   updateDoc,
 } from "@angular/fire/firestore";
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from "@angular/router";
 import { ToastController } from "@ionic/angular";
-import { Observable, lastValueFrom } from "rxjs";
+import { BehaviorSubject, Observable, Subject, map, tap } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class ApartmentsService {
+export class ApartmentsService implements CanActivate {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ):
+    | boolean
+    | UrlTree
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree> {
+    return this.seletedApartment$.pipe(
+      map((seletedApartment) => !!seletedApartment),
+      tap((x) => {
+        if (!x) {
+          this.route.navigate(["/apartments"]);
+        }
+      })
+    );
+  }
   toastController: ToastController = inject(ToastController);
   firestore: Firestore = inject(Firestore);
   apartmentsCollection = collection(this.firestore, "apartments");
-  apartmentsCollectionWithQuery = query(this.apartmentsCollection, orderBy("name", "asc"));
+  apartmentsCollectionWithQuery = query(
+    this.apartmentsCollection,
+    orderBy("name", "asc")
+  );
   // prettier-ignore
   apartments$: Observable<any[]> = collectionData(this.apartmentsCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
   auth: Auth = inject(Auth);
   user$ = user(this.auth);
+  seletedApartment: BehaviorSubject<string> = new BehaviorSubject("");
+  seletedApartment$ = this.seletedApartment.asObservable();
+
+  constructor(public route: Router) {}
 
   async addApartment(apartment, userUid: string) {
     try {

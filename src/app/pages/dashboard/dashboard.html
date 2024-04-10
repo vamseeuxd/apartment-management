@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content fullscreen="true">
+  <pre *ngIf="service.seletedApartment$ | async as seletedApartment">seletedApartment : {{seletedApartment}}</pre>
   <div class="dashboard-grid">
     <div
       class="ion-activatable dashboard-grid-item"
