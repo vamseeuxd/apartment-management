@@ -1,11 +1,20 @@
-import { Observable, combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, combineLatest, of } from "rxjs";
+import {
+  groupBy,
+  map,
+  mergeMap,
+  reduce,
+  switchMap,
+  toArray,
+} from "rxjs/operators";
 import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoaderService } from "../../services/loader/loader.service";
-import { FlatsService, IFlat } from "./service";
+import { FlatsService } from "./service";
 import { ApartmentsService } from "../apartments/service";
-import { IWing, WingsService } from "../wings/service";
+import { WingsService } from "../wings/service";
+import { IFlat } from "../../interfaces/IFlat";
+import { IWing } from "../../interfaces/IWing";
 
 @Component({
   selector: "page-flats",
@@ -14,41 +23,66 @@ import { IWing, WingsService } from "../wings/service";
 })
 export class FlatsPage {
   flats$: Observable<IFlat[]>;
-  apartments$: Observable<any[]>;
-  wings$: Observable<IWing[]>;
-  apartmentsWithFlats$: Observable<any[]>;
+  flatsByFloors$: Observable<any>;
+
   constructor(
     private alertController: AlertController,
     public loader: LoaderService,
     private service: FlatsService,
-    private apartmentService: ApartmentsService,
-    private wingsService: WingsService
+    public apartmentService: ApartmentsService,
+    public wingsService: WingsService
   ) {
     this.flats$ = this.service.flats$;
-    this.apartments$ = this.apartmentService.apartments$;
-    this.wings$ = this.wingsService.wings$;
-    this.apartmentsWithFlats$ = combineLatest([
-      this.apartments$,
-      this.flats$,
-      this.wings$,
-    ]).pipe(
-      map(([apartments, flats, wings]) => {
-        const returnValue = [];
-        apartments.forEach((apartment) => {
-          const groupedApartment = {
-            ...apartment,
-            wings: wings
-              .filter((wing) => apartment.id == wing.apartment)
-              .map((wing) => {
-                wing.flats = flats.filter((flat) => wing.id == flat.wing)
-                return wing;
-              }),
-          };
-          returnValue.push(groupedApartment);
+    this.flatsByFloors$ = this.flats$.pipe(
+      map((masterFlats) => {
+        const groupedByWings: any = {};
+        const wings: any[] = [];
+        masterFlats.forEach((flat) => {
+          if (!groupedByWings[flat.wing]) {
+            groupedByWings[flat.wing] = [];
+          }
+          groupedByWings[flat.wing].push(flat);
         });
-        return returnValue;
+        Object.entries(groupedByWings).forEach(async ([wingId, flats]) => {
+          const wing = await wingsService.getWing(wingId);
+          wings.push({
+            wing: { ...wing.data(), id: wing.id },
+            floors: this.groupFlatsByFloors(flats),
+          });
+        });
+        return wings;
       })
+      /* switchMap((flats) => {
+        const groupedArray: any = {};
+        flats.forEach((flat) => {
+          if (!groupedArray[flat.floor]) {
+            groupedArray[flat.floor] = [];
+          }
+          groupedArray[flat.floor].push(flat);
+        });
+        return of(
+          Object.entries(groupedArray).map(([floor, flats]) => ({
+            floor: `Floor-${floor}`,
+            flats,
+          }))
+        );
+      }), */
     );
+  }
+
+  groupFlatsByFloors(flats): any[] {
+    // { floor: string; flats: IFlat[] }[]
+    const floorsGroup: any = {};
+    flats.forEach((flat) => {
+      if (!floorsGroup[flat.floor]) {
+        floorsGroup[flat.floor] = [];
+      }
+      floorsGroup[flat.floor].push(flat);
+    });
+    return Object.entries(floorsGroup).map(([floor, flats]) => ({
+      name: `Floor-${floor}`,
+      flats,
+    }));
   }
 
   // prettier-ignore

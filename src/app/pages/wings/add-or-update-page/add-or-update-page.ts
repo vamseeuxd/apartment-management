@@ -4,9 +4,10 @@ import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LoaderService } from "../../../services/loader/loader.service";
 import { Auth, User, user } from "@angular/fire/auth";
-import { IWing, WingsService } from "../service";
+import { WingsService } from "../service";
 import { ApartmentsService } from "../../apartments/service";
 import { IonInput } from "@ionic/angular";
+import { IWing } from "../../../interfaces/IWing";
 
 @Component({
   selector: "add-or-update-page-wings",
@@ -27,6 +28,8 @@ export class AddOrUpdateWingsPage {
       nanoseconds: 0,
       seconds: 0,
     },
+    lastUpdatedOn: undefined,
+    lastUpdatedBy: ""
   };
   apartments$: Observable<any[]>;
 

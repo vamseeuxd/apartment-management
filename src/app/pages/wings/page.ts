@@ -3,8 +3,9 @@ import { map } from "rxjs/operators";
 import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoaderService } from "../../services/loader/loader.service";
-import { IWing, WingsService } from "./service";
+import { WingsService } from "./service";
 import { ApartmentsService } from "../apartments/service";
+import { IWing } from "../../interfaces/IWing";
 
 @Component({
   selector: "page-wings",

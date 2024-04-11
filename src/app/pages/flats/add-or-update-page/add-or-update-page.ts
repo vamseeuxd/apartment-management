@@ -4,10 +4,11 @@ import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LoaderService } from "../../../services/loader/loader.service";
 import { Auth, User, user } from "@angular/fire/auth";
-import { FlatsService, IFlat } from "../service";
+import { FlatsService } from "../service";
 import { ApartmentsService } from "../../apartments/service";
 import { WingsService } from "../../wings/service";
 import { IonInput } from "@ionic/angular";
+import { IFlat } from "../../../interfaces/IFlat";
 
 @Component({
   selector: "add-or-update-page-flats",
@@ -28,6 +29,9 @@ export class AddOrUpdateFlatsPage {
       nanoseconds: 0,
       seconds: 0,
     },
+    lastUpdatedBy: "",
+    lastUpdatedOn: undefined,
+    id: ""
   };
   apartments$: Observable<any[]>;
   wings: any[] = [];

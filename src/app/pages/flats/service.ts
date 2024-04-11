@@ -15,17 +15,7 @@ import {
 } from "@angular/fire/firestore";
 import { ToastController } from "@ionic/angular";
 import { Observable } from "rxjs";
-import { IFirestoreTime } from "../../utilities/firestoreTime";
 
-export interface IFlat {
-  name: string;
-  description: string;
-  apartment: string;
-  floor: number;
-  wing: string;
-  createdBy: string;
-  createdOn: IFirestoreTime;
-}
 
 @Injectable({
   providedIn: "root",
