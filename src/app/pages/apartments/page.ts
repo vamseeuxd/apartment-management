@@ -4,6 +4,7 @@ import { AlertController } from "@ionic/angular";
 import { LoaderService } from "../../services/loader/loader.service";
 import { ApartmentsService } from "./service";
 import { Router } from "@angular/router";
+import { IApartment } from "../../interfaces/IApartment";
 
 @Component({
   selector: "page-apartments",
@@ -11,7 +12,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./page.scss"],
 })
 export class ApartmentsPage {
-  apartments$: Observable<any[]>;
+  apartments$: Observable<IApartment[]>;
   constructor(
     private alertController: AlertController,
     public loader: LoaderService,
@@ -21,8 +22,8 @@ export class ApartmentsPage {
     this.apartments$ = this.service.apartments$;
   }
 
-  seletApartment(apartmentId: string) {
-    this.service.seletedApartment.next(apartmentId);
+  seletApartment(apartment: IApartment) {
+    this.service.seletedApartment.next(apartment);
     // app/tabs/dashboard
     this.route.navigate(["app", "tabs", "dashboard"]);
   }
@@ -51,7 +52,7 @@ export class ApartmentsPage {
     });
     await alert.present();
   }
-  getAddressString(apartment: any) {
+  getAddressString(apartment: IApartment) {
     const {
       addressLine1,
       addressLine2,

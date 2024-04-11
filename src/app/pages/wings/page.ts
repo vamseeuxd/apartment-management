@@ -3,7 +3,7 @@ import { map } from "rxjs/operators";
 import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoaderService } from "../../services/loader/loader.service";
-import { WingsService } from "./service";
+import { IWing, WingsService } from "./service";
 import { ApartmentsService } from "../apartments/service";
 
 @Component({
@@ -12,33 +12,14 @@ import { ApartmentsService } from "../apartments/service";
   styleUrls: ["./page.scss"],
 })
 export class WingsPage {
-  wings$: Observable<any[]>;
-  apartments$: Observable<any[]>;
-  apartmentsWithWings$: Observable<any[]>;
+  wings$: Observable<IWing[]>;
   constructor(
     private alertController: AlertController,
     public loader: LoaderService,
     private service: WingsService,
-    private apartmentService: ApartmentsService
+    public apartmentService: ApartmentsService
   ) {
     this.wings$ = this.service.wings$;
-    this.apartments$ = this.apartmentService.apartments$;
-    this.apartmentsWithWings$ = combineLatest([
-      this.apartments$,
-      this.wings$,
-    ]).pipe(
-      map(([apartments, wings]) => {
-        const returnValue = [];
-        apartments.forEach((apartment) => {
-          const groupedApartment = {
-            ...apartment,
-            wings: wings.filter((wing) => apartment.id == wing.apartment),
-          };
-          returnValue.push(groupedApartment);
-        });
-        return returnValue;
-      })
-    );
   }
 
   // prettier-ignore

@@ -22,6 +22,7 @@ import {
 } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { BehaviorSubject, Observable, Subject, map, tap } from "rxjs";
+import { IApartment } from "../../interfaces/IApartment";
 
 @Injectable({
   providedIn: "root",
@@ -52,10 +53,10 @@ export class ApartmentsService implements CanActivate {
     orderBy("name", "asc")
   );
   // prettier-ignore
-  apartments$: Observable<any[]> = collectionData(this.apartmentsCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
+  apartments$: Observable<IApartment[]> = collectionData(this.apartmentsCollectionWithQuery, { idField: "id" }) as Observable<IApartment[]>;
   auth: Auth = inject(Auth);
   user$ = user(this.auth);
-  seletedApartment: BehaviorSubject<string> = new BehaviorSubject("");
+  seletedApartment: BehaviorSubject<IApartment> = new BehaviorSubject(null);
   seletedApartment$ = this.seletedApartment.asObservable();
 
   constructor(public route: Router) {}

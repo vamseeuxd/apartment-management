@@ -16,9 +16,10 @@ import {
   where,
 } from "@angular/fire/firestore";
 import { ToastController } from "@ionic/angular";
-import { Observable } from "rxjs";
+import { Observable, of, switchMap } from "rxjs";
 import { IFirestoreTime } from "../../utilities/firestoreTime";
 import { IFlat } from "../flats/service";
+import { ApartmentsService } from "../apartments/service";
 
 export interface IWing {
   id: string;
@@ -38,16 +39,29 @@ export class WingsService {
   toastController: ToastController = inject(ToastController);
   firestore: Firestore = inject(Firestore);
   wingsCollection = collection(this.firestore, "wings");
-  wingsCollectionWithQuery = query(
-    this.wingsCollection,
-    orderBy("name", "asc")
-  );
   // prettier-ignore
-  wings$: Observable<any[]> = collectionData(this.wingsCollectionWithQuery, { idField: "id" }) as Observable<any[]>;
+  wings$: Observable<IWing[]>;
   auth: Auth = inject(Auth);
   user$ = user(this.auth);
 
-  constructor() {}
+  constructor(public apartmentService: ApartmentsService) {
+    this.wings$ = this.apartmentService.seletedApartment$.pipe(
+      switchMap((aparment) => {
+        if (aparment && aparment.id) {
+          const wingsQuery = query(
+            this.wingsCollection,
+            where("apartment", "==", aparment.id),
+            orderBy("name", "asc")
+          );
+          return collectionData(wingsQuery, { idField: "id" }) as Observable<
+            IWing[]
+          >;
+        } else {
+          return of([]);
+        }
+      })
+    );
+  }
 
   async addWing(wing, userUid: string) {
     try {

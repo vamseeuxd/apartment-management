@@ -1,14 +1,13 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar *ngIf="service.seletedApartment$ | async as seletedApartment">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Dashboard</ion-title>
+    <ion-title>Dashboard for {{seletedApartment.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen="true">
-  <pre *ngIf="service.seletedApartment$ | async as seletedApartment">seletedApartment : {{seletedApartment}}</pre>
   <div class="dashboard-grid">
     <div
       class="ion-activatable dashboard-grid-item"
